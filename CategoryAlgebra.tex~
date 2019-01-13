@@ -1,0 +1,2012 @@
+%\documentclass[aps,twocolumn,secnumarabic,graphics,flotfix,graphicx,
+%url,bm,tightenlines,nobibnotes,nobalancelastpage,amsmath,amssymb,
+%nofootinbib]{article}
+\documentclass[aps,twocolumn,secnumarabic,nobalancelastpage,amsmath,amssymb,
+amsthm,nofootinbib,parskip=full]{revtex4}
+
+% standard graphics specifications
+% alternative graphics specifications
+% helps with long table options
+% for on-line citations
+% special 'bold-math' package
+
+\usepackage{utf8}{inputenc}
+%\usepackage[bottom]{footmisc}
+\usepackage{graphics}      % standard graphics specifications
+\usepackage{graphicx}      % alternative graphics specifications
+\usepackage{longtable}     % helps with long table options
+\usepackage{url}           % for on-line citations
+\usepackage{bm}            % special 'bold-math' package
+%\usepackage{unicode-math}
+\usepackage{mathrsfs}
+%\usepackage{mathabx}
+%\setmathfont{XITS Math}
+%\setmathfont[version=setB,StylisticSet=1]{XITS Math}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{pgf, tikz}
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+\usepackage{calrsfs}
+\usepackage{stringstrings}
+\usepackage{xstring}
+
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+%\DeclareMathAlphabet{\eurocal}{OMS}{zplm}{m}{n}
+\usepackage{calligra}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\usepackage[mathscr]{euscript}
+\let\euscr\mathscr \let\mathscr\relax% just so we can load this and rsfs
+\usepackage[scr]{rsfso}
+
+\usetikzlibrary{arrows, positioning, automata, calc}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proof}{Proof}[theorem]
+\newtheorem{axiom}{Axiom}
+
+\numberwithin{equation}{section}
+
+%%\theoremstype{definition}
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem*{remark}{Remark}
+
+%\setlength{\parskip}{\baselineskip}
+%\setlength{\parskip}{4em}
+
+\tikzset{every loop/.style={min distance=12mm,looseness=10}}
+\tikzset{place/.style={circle,thick,minimum size=8mm}}
+\tikzset{
+modal/.style={>=stealth’,shorten >=1pt,shorten <=1pt,auto,node distance=1.5cm,
+semithick},
+world/.style={circle,draw,minimum size=0.5cm,fill=gray!15},
+point/.style={circle,draw,inner sep=0.5mm,fill=black},
+reflexive above/.style={->,loop,looseness=7,in=120,out=60},
+reflexive below/.style={->,loop,looseness=7,in=240,out=300},
+reflexive left/.style={->,loop,looseness=7,in=150,out=210},
+reflexive right/.style={->,loop,looseness=7,in=30,out=330}
+}
+
+\newcommand*{\xslant}[2][70]{%
+  \begingroup
+    \sbox0{#2}%
+    \pgfmathsetlengthmacro\wdslant{\the\wd0 + cos(#1)*\the\wd0}%
+    \leavevmode
+    \hbox to \wdslant{\hss
+      \tikz[
+        baseline=(X.base),
+        inner sep=0pt,
+        transform canvas={xslant=cos(#1)},
+      ] \node (X) {\usebox0};%
+      \hss
+      \vrule width 0pt height\ht0 depth\dp0 %
+    }%
+  \endgroup
+}
+
+\makeatletter
+\newcommand*{\xslantmath}{}
+\def\xslantmath#1#{%
+  \@xslantmath{#1}%
+}
+\newcommand*{\@xslantmath}[2]{%
+  % #1: optional argument for \xslant including brackets
+  % #2: math symbol
+  \ensuremath{%
+    \mathpalette{\@@xslantmath{#1}}{#2}%
+  }%
+}
+\newcommand*{\@@xslantmath}[3]{%
+  % #1: optional argument for \xslant including brackets
+  % #2: math style
+  % #3: math symbol
+  \xslant#1{$#2#3\m@th$}%
+}
+\makeatother
+
+\newcommand{\padtxt}[1]{\hspace*{1em}\parsecat{#1}\hspace*{1em}}
+
+\newcommand{\abk}[1]{\xslantmath{\mathfrak{#1}}}
+\newcommand{\subp}[1]{\xslantmath{\mathscr{#1}}}
+\newcommand{\obk}[1]{\mathpzc{#1}}
+%\newcommand{\cat}[1]{\mathbf{\mathpzc{#1}}}
+%\newcommand{\cat}[1]{\pazocal{#1}}
+\newcommand{\cat}[1]{\pazocal{#1}}
+\newcommand{\arrid}[1]{\obk{id}_{\obk{#1}}}
+\newcommand{\arr}[1]{{\large \abk{a}}_{\obk{#1}}}
+\newcommand{\arrn}[2]{{\large \abk{a}}^{#2}_{\obk{#1}}}
+\newcommand{\ccobj}[1]{\cat{#1}_{\subp{O}}}
+\newcommand{\ccarr}[1]{\cat{#1}_{\subp{A}}}
+\newcommand{\catarr}[1]{\parsecat{#1}_{\subp{A}}}
+\newcommand{\catobj}[1]{\parsecat{#1}_{\subp{O}}}
+\newcommand{\wraparr}[1]{{#1}_{\subp{A}}}
+\newcommand{\wrapobj}[1]{{#1}_{\subp{O}}}
+\newcommand{\catfull}[1]{\cat{#1}(\ccobj{#1},\ccarr{#1})}
+\newcommand{\oper}[1]{\mathbf{#1}\,}
+\newcommand{\catN}[1]{\mathbf{\large #1}}
+\newcommand{\arrdom}[1]{\oper{dom}\arr{#1}}
+\newcommand{\arrcod}[1]{\oper{cod}\arr{#1}}
+\newcommand{\fst}[1]{\oper{fst}\,#1}
+\newcommand{\snd}[1]{\oper{snd}\,#1}
+\newcommand{\chom}[1]{\parsecat{Hom}\obk{(#1)}}
+\newcommand{\homobj}[1]{\wrapobj{\chom{#1}}}
+\newcommand{\homarr}[1]{\wraparr{\chom{#1}}}
+\newcommand{\proj}[3]{\xslantmath{\mathbf{#1}}^{#3}(\parsecat{#2})}
+\newcommand{\projg}[3]{\xslantmath{\mathbf{#1}}^{#3}(\mathsf{#2})}
+\newcommand{\ccpair}[1]{\xslantmath{\mathbf{P}}(\parsecat{#1})}
+\newcommand{\ccpairg}[1]{\xslantmath{\mathbf{P}}(\mathsf{#1})}
+\newcommand{\cpair}[2]{(\obk{#1},\obk{#2})}
+\newcommand{\ccrel}[2]{\cat{#1}_{\obk{#2}}}
+\newcommand{\csub}[2]{#1\lessdot #2}
+\newcommand{\carr}[1]{\parsecat{#1}^{\rightarrow}}
+\newcommand{\carrg}[1]{\mathsf{#1}^{\rightarrow}}
+\newcommand{\carrobj}[1]{\wrapobj{\carr{#1}}}
+\newcommand{\carrarr}[1]{\wraparr{\carr{#1}}}
+\newcommand{\funct}[1]{{\xslantmath{\pazocal{F}}}_{\obk{#1}}}
+\newcommand{\functV}[2]{\funct{#1}(\obk{#2})}
+\newcommand{\functdom}[1]{\oper{dom}\funct{#1}}
+\newcommand{\functcod}[1]{\oper{cod}\funct{#1}}
+\newcommand{\expab}[2]{\obk{#2}^{\obk{#1}}}
+\newcommand{\expxab}[2]{\expab{#1}{#2}\times\obk{#1}}
+\newcommand{\mapfab}[3]{{#1}:\,{#2}\longrightarrow {#3}}
+\newcommand{\mapaob}[3]{{#1}\xrightarrow{\;{#2}\;}{#3}}
+
+\newcommand{\allcat}{\mathbf{\mathpzc{CAT}}}
+\newcommand{\smallcat}{\parsecat{Cat}}
+\newcommand{\setcat}{\parsecat{Set}}
+\newcommand{\forgetful}[1]{|#1|}
+\newcommand{\ffunct}{\funct{U}}
+
+\newcommand{\graph}[1]{\mathsf{#1}}
+\newcommand{\graphcat}[1]{\parsecat{C}(\graph{#1})}
+\newcommand{\graphclass}[1]{\mathcalligra{F}\,(\graph{#1})}
+
+\newcommand{\evalxab}[2]{\mapaob{\expxab{#1}{#2}}{\oper{eval}}{\obk{#2}}}
+
+\newcommand{\di}[1]{\boldsymbol #1}
+\newcommand{\dI}{\boldsymbol \imath}
+
+\newcommand{\pset}[1]{{\raisebox{.15\baselineskip}{\Large\ensuremath{\wp}}}(#1)}
+\newcommand{\scard}[1]{\kappa(#1)}
+
+\newcommand{\numchars}[1]{\noindent The string #1 has \StrLen{#1} characters. }
+
+\makeatletter
+\def\instring#1#2{TT\fi\begingroup
+  \edef\x{\endgroup\noexpand\in@{#1}{#2}}\x\ifin@}
+%
+\def\isuppercase#1{%
+  \ensuremath{%
+  \instring{#1}{AÂBCÇDEFGĞHIİÎJKLMNOÖÔPRSŞTUÜÛVYZ}%
+  }
+}%
+\makeatother
+
+\newcommand{\checkcat}[1]{
+\StrBefore[1]{#1}{/}[\Topcat]
+\StrBehind[1]{#1}{/}[\Botcat]
+\StrLen{\Topcat}[\toplen]
+\StrLen{\Botcat}[\botlen]
+\IfEq{\toplen}{0}{\mathbf{\mathpzc{#1}}}{(\parseonecat{\Topcat}/\parseonecat{\Botcat})}
+}
+
+\newcommand{\UpperCats}{ABCDEFGHIJKLMNOPQRSTUVWXYZ}
+
+\newcommand{\parsecat}[1]{%
+    \StrLen{#1}[\slen]
+    \ifcase\slen
+      #1
+    \or\parseonecat{#1}
+    \else
+      \checkcat{#1}
+    \fi
+}
+
+\newcommand{\parseonecat}[1]{
+  \IfInteger{#1}{\catN{#1}}
+    { \IfSubStr{\UpperCats}{#1}{\pazocal{#1}}{\obk{#1}} }
+}
+
+%\newcommand{\catcaseset}[1]{
+%\if\isuppercase{#1}\cat{#1}\else\obk{#1}\fi
+%}
+
+\begin{document}
+\title{Algebra in Category Theory}
+\author         {Wolfgang Kraske}
+\email        {wolfkden@gmail.com}
+\homepage     {http://www.oviumzone.com}
+\affiliation  {OVium Studies in Physics}
+\date{\today}
+
+\begin{abstract}
+  $\pazocal{P}$
+  
+  $\mathcal{P}$
+  
+  $\mathfrak{P}$
+  
+  $\mathscr{P}$
+  
+  $\mathsf{P}$
+  
+  $\mathcalligra{P}$
+  
+  $\mathbf\euscr{P}$
+  
+  $\wp$
+  
+%Val: $\IfStrEqCase{d}{{a}{AA}{b}{BB}{c}{CC}}[other]$
+
+%\IfSubStr{abcd}{a}{Yes}{No}
+
+%\catcaseset{C}
+
+%\catcaseset{o}
+  
+%\if\isuppercase{A}YES\else NO\fi
+
+%\if\isuppercase{a}YES\else NO\fi
+
+%\newcommand{\Datum}{04.12.2011}
+
+\newcommand{\Datcat}{1/C}
+\newcommand{\Datcatt}{C/o}
+
+$\StrBefore[1]{\Datcatt}{/}[\testcat]$
+
+%$\checkcat{\Datcat}$
+
+%$\cat{\Datcat}$
+
+%$\cat{\Datcatt}$
+
+%$\cat{Cat}$
+
+%\StrBehind[1]{\Datcatt}{/}[\tpcat]
+%\StrBefore[1]{\Datcatt}{/}[\tpcatt]
+%\StrBehind[1]{\Datcat}{/}[\Bmcat]
+%\StrBefore[1]{\Datcat}{/}[\Bmcatt]
+
+%\Datcatt
+
+%\StrLen{\tpcat}[\tpcatlen]
+
+%behind: \tpcat \tpcatlen
+
+%before: \tpcatt \StrLen{\tpcatt}
+
+%Datain: \Datcat
+
+%\StrLen{\Bmcat}[\botlen]
+
+%behind: \Bmcat \botlen
+
+%$\parsecat{\Bmcat}$
+
+%\StrLen{\Bmcatt}[\toplen]
+
+%before: \Bmcatt  \toplen
+
+%$\parsecat{\Bmcatt}$
+
+%$\IfEq{\toplen}{0}{\mathpzc{\Datcat}}{(\parsecat{\Bmcatt}/\parsecat{\Bmcat})}$
+
+%\StrBehind[2]{\Datum}{.}[\Jahr]
+%\StrBetween[1,2]{\Datum}{.}{.}[\Monat]
+%\StrBefore[1]{\Datum}{.}[\Tag]
+
+%Jahr: \Jahr
+
+%\Monat
+
+%\Tag
+
+%\Datum
+
+%\ifnumcomp{\Jahr}{=}{2011}{Jahr eq 2011}{Jahr neq 2011}
+
+  As a foundation of functional programming, category theory is
+  an indispensible catalyst for the reliable 
+  implementation, execution and analysis of computer algorithms.
+  Category theory provides an essential framemork for algorithms
+  that support critical or casual activities in contemporary civilization.
+  Efficient lambda algorithms now empower
+  popular and traditional programming languages;
+  developed from the algebra and concepts of category theory.
+  Category theory provides essential models and 
+  programming idioms based on fixed point theory, Lambek's Lemma,
+  to develop recursive algorithms and reifying algebraic structure.
+  Many models and idiomatic concepts flourish.
+  The structural caveat of Cartiesian closed category regularly
+  dictates the design and implementation of programming languages.
+  The expression of Yoneda's Lemma in category theory
+  facilitates new algorithmic
+  representation of problems in physics and real number systems.
+  Computer analysis increasingly embraces abstract topics in topology,
+  geometry and number theory.
+  Topos theory now underpins algorithms for intuitive logic and topology;
+  eliminating the need for rigidly inefficient, awkward
+  and limited alternatives by outdated approaches.
+\end{abstract}
+
+\maketitle
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.0}
+
+\section{Introduction}
+%$\parsecat{0}$\par
+%$\parsecat{1}$\par
+%$\parsecat{C}$\par
+%$\parsecat{Cat}$\par
+
+Category theory emerged from the welspring of algebraic topology
+in the later 1940's, quickly evolving therafter.
+In topology category theory eliminated the tedium of point set
+analysis for cleaner yet more abstract development and proofs.
+The introduction of topos theory by Grothendieck,
+\cite{grothendieck1957}, with Mac Lane's interpretation in
+category theory extended a program of concise analysis to
+encompase topology as well as intuitionistic logic.
+In the backdrop of decades prior to Mac Lane's 1947 introduction
+of category theory, the underpinnings of logic were
+shaken by Kurt G\"{o}del and particle spin was discovered in quantum
+mechanics, both concepts are now assimilated into category theory.
+G\"{o}del theorem and quantum spin exposed the inescapable
+reality of fixed point phenomenon in logic and topology.
+Category theory provided new tools to isolate fixed ponts
+and develop areas in logic and topolgy where behavior
+is predictable.
+The originators of the category theory,
+Eilenberg and Mac Lane,
+developed an approach to distill
+and analyze abstract concepts from the once independent fields
+of topology and algebra. The approach of category theory
+to distill concepts and methodology from many fields became
+a disapline affecting new fields such as formal language.
+The eventuality of these accomplishments propelled
+category theory into an independent
+field of pure mathematics.
+Coincidently the field of computer science developed,
+in brevity from the achievements of Church, Turing and Von Neumann,
+as special topic in algebraic topology and as a practical
+application for electronic calculating machines.
+The ability of category theory to embrace concepts
+such as lambda calculus and algebra portended a propitious
+future in computer science and mathematics.
+
+\section{Basic Theory}
+
+Category theory is developed from basic definitions or axioms.
+Definitions conform more closely with the casual spirit
+of category theory than the self inflicted fragility of
+set theory strictures. Mathematical
+definition and consistent derivations establish the foundation
+herein. Establishment of the undefined is also a useful classification.
+Many algebra, computer science and
+even category theory texts introduce readers to the
+formalities of set theory or assume a strict reference
+prior to the development of category theory.
+Although category theory derives relevance since the
+mid 20\textsuperscript{th} century only recent
+requirements have enlisted greater adherents.
+In actuality set theory and category theory conveniently
+develop in confluence with one another to construct
+topological, logical and Kripke systems.
+Proofs and developments with category theory are powerful
+abstractions which alternately lend to criticism
+that the approach is vague and not intuitive.
+
+Category theory embraces and abstracts definition
+of the concept collection with the flexibility to adopt the strictures of
+various mathematical disaplines including computer science.
+Collection assumes the broad definition of proper classes from
+Von Neuman-Bernays-G\"{o}del, NGB set theory,
+but also admits the abstraction of a collection having a distinct
+identity with unspecified properties. In complement,
+Mac Lane, \cite{maclane1998}, introduced the
+the concept of meta-categories prior to penetrating set
+and more specific category definitions. Reflexively, category
+theory admits meta concepts in complement with more specific
+concomitant definitions. 
+
+\begin{definition}{Collection}\label{def:collection},
+  everything is a collection, the following
+  are specific definitions:
+  \begin{itemize}
+  \item\textbf{(Property)} a characteristic of a collection
+  \item\textbf{(Arrow)} a directed association from a domain
+    to a referent codomain, relative to an explicit or implicit property.
+    Arrows are defined relative to a domain and codomain
+    otherwise arrows are undefined.
+    \begin{itemize}
+    \item\textbf{(Domain)} the binding for an arrow
+    \item\textbf{(Codomain)} the referent of an arrow
+    \item\textbf{(Membership, $\in$)} An arrow, $\in$, the domain of
+      membership is a member to the referent collection
+    \item\textbf{(Object)} the member of a referent collection
+    \item\textbf{(Subcollection, $\subset$)} A subcollection
+      arrow, $\subset$,
+      directs from a subcollection to a referent collection,
+      a subcollection consists only of members
+      that are members of the referent collection
+    \item\textbf{(equal, $=$)} Any collection is a
+      self referent subcollection,
+      the identity arrow of any object
+    \end{itemize}
+  \end{itemize}
+\end{definition}
+
+The concept of an arrow supports a variety of
+idiomatic constructs, namely the alogorithm.
+The most basic is recursion
+most elementarily when the domain and codomain of an arrow
+are the same collection. For an simple algorithm
+consider the membership arrow, $\in$, with
+an initial object, the trivial object 
+defined as the empty collection.
+The empty collection, $\varnothing$, although
+nothing is a singular concept usefull to initiate
+an algorithm based on the membership arrow, $\in$.
+Each iteration of the algorithm
+generates a new collection, although the shared properties
+of each iteration define a class of collections,
+hence a comprehensive collection.
+Certainly, $\varnothing$, as an initial object
+is always a member of other collections.
+The arrow is designated, $\arr{succ}$.
+Recursive application of, $\arr{succ}$, generates
+the ordinals and inductive resoning from an
+arrow with an initial condition of, $\varnothing$.
+Algorithmically the concept of ordinals are defined
+and assigned isomorphiclly to a collection of symbols,
+$\mathbb{N}$, or to arbitrary objects to form $n-tuple$.
+An algorithm similarly develeoped in NGB set theory.
+Sequentially each ordinal is succeeded
+by the arrow, $\arr{succ}$. The arrow $\arr{val}$
+is defined if ordinal $m$ is succeeded by ordinal $n$.
+
+\begin{equation}\label{eq:ordinal}
+  \begin{array}{lll}
+  0=\arrn{succ}{0}() &=& \varnothing \\[3pt]
+  1=\arr{succ}() &=& \{\varnothing\} \\[3pt]
+  n=\arrn{succ}{n}() &=& \{\varnothing,\,\arrn{succ}{n-1}()\} \\[3pt]
+  n=\arrn{succ}{p+q}() &=& \arrn{succ}{p}(\arrn{succ}{q}()) \\[3pt]
+  \arr{val_m}(0) &=& \left\{\begin{array}{ll}
+                  0 &\quad m=0 \\[3pt]
+                  undefined &\quad otherwise
+                \end{array} \\[3pt]
+  \arr{val_m}(n) &=& \left\{\begin{array}{ll}
+                  m & n=m \\[3pt]
+                  \arr{val_m}(0) & n=0 \\[3pt]
+                  \arr{val_m}(n-1) & \quad
+                \end{array}
+\end{array}
+\end{equation}
+
+Definition of the oridnals is a basis for
+the $n-tuple$ ordered collection
+of arbitrary and not necessarily distinct
+objects, $(\obk{o}_1,\cdots,\,\obk{o}_n)$.
+
+\begin{equation}\label{eq:tuple}
+  \begin{array}{lll}
+    t_0&=&\varnothing \\[3pt]
+    t_n&=&\{t_{n-1},\{n,\obk{o}_n\}\} \\[3pt]
+  \pi_m(t_1) &=& \left\{\begin{array}{ll}
+                  \obk{o}_1 & m=1 \\[3pt]
+                  undefined & otherwise
+                \end{array} \\[3pt]
+  \pi_m(t_n) &=& \left\{\begin{array}{ll}
+                  \obk{o}_m & m=n \\[3pt]
+                  \pi_m(t_{n-1}) & \quad
+                \end{array}
+\end{array}
+\end{equation}
+
+\begin{definition}{$n-tuple$}\label{def:tuple},
+  $(\cdots)$, is a collection of objects with an arity property,
+  $\oper{ar}$, designation of the number, $n\in\mathbb{N}$,
+  not necessarily distinct objects.
+  A collection of arrows discriminate objects,
+  such that, $\pi_i$, discriminates the i\textsuperscript{th}
+  object in the $n-tuple$ if $\arr{val_i}(n)=i$.
+  The trivial or nullary tuple, $()$, consists of no objects.
+  An $n-tuple$ is an object.
+  \begin{equation*}
+    \begin{array}{ll}
+      \quad\bullet\quad&\oper{ar}(\obk{o}_1\cdots\obk{o}_n)=n\in\mathbb{N}
+                         \text{,}\quad\oper{ar}()=0 \\
+      \quad\bullet\quad&\{\pi_1,\cdots,\pi_n\}\quad
+      \text{the collection of arrows} \\
+      \quad&\quad\text{discriminating ordered}
+             \quad n-tuple\quad\text{objects} \\
+    \quad\bullet\quad&\obk{o}_i=\pi_i(\obk{o}_1\cdots\obk{o}_n)
+        \quad\text{where}\quad\arr{var_i}(n)=i
+    \end{array}
+  \end{equation*}
+  Pair is a $2-tuple$, with specific arrows, 
+  $\oper{fst}=\pi_1$ and $\oper{snd}=\pi_2$: 
+  \begin{equation*}
+    \begin{array}{lllll}
+    \quad\bullet\quad&\obk{a}&=&\oper{fst}\cpair{a}{b}
+    \quad&\text{The first member of the pair} \\[3pt]
+    \quad\bullet\quad&\obk{b}&=&\oper{snd}\cpair{a}{b}
+    \quad&\text{The second member of the pair}
+    \end{array}
+  \end{equation*}
+  Operators are arrows from a domain tuple to a codomain object.
+  Each operator has an arity propery that must match the arity
+  of the domain tuple to assign a codomain object.
+  Several operator arities are extensively applied,
+  given general operators, $\oper{c}$, $\oper{u}$, $\oper{b}$,
+  and objects, $\obk{o}$, $\obk{r}$, $\obk{s}$, $\obk{t}$:
+  \begin{equation*}
+    \begin{array}{ll}
+      \quad\bullet\quad&\mathbf{(Nullary)}\quad\oper{c}=\obk{o},
+                         \;\oper{ar}(\oper{c})=0\text{,} \\[3pt]
+                  \quad&\text{an arrow that maps the nullary} \\[3pt]
+                  \quad&\text{trivial tuple to a singular object,} \\[3pt]
+                  \quad&\text{a constant mapping} \\[3pt]
+      \quad\bullet\quad&\mathbf{(Unary)}\quad\oper{u}(\obk{r})=\obk{o},
+                         \;\oper{ar}(\oper{u})=1\text{,} \\[3pt]
+                  \quad&\text{an arrow that maps a unary tuple} \\[3pt]
+      \quad&\text{to a singular object,} \\[3pt]
+      \quad&\text{shorthand notation is :}\quad\obk{r}^{\oper{u}}=\obk{o} \\[3pt]
+      \quad\bullet\quad&\mathbf{(Binary)}\quad\oper{b}\cpair{s}{t}=\obk{o},
+                         \;\oper{ar}(\oper{b})=2\text{,} \\[3pt]
+                  \quad&\text{an arrow that maps a pair, binary} \\[3pt]
+                  \quad&\text{tuple, to a singular object,} \\[3pt]
+                  \quad&\text{shorthand notation is:}
+                                \;\obk{s}\,\oper{b}\obk{t}=\obk{o}
+    \end{array}
+  \end{equation*}
+  
+\end{definition}
+
+The $n-tuple$ is a convenient construct for category theory developments,
+in particular the arrow composition operation.
+
+A collection can be identified by qualifiable properties of members
+without the quantifiable membership relevant to set theory.
+This approach supports contingencies where the discrimination
+or enumeration of collection members may not be realizable or
+interesting for analysis or representation.
+Conundra of quantum mechanics are repleat with examples,
+such as the individuation of collection members
+permenantly alters the properties of members and the collection.
+Explicit property names, such as membership,
+are used in the text with an implicit assumption of arrow.
+
+In general a category consists of a pair of collections,
+a collection of objects and a collection of arrows.
+Arrows are a powerful construct, mediating the structure of the
+object collection and supporting property definitions. Alternate 
+developments use the term morphism rather than arrow.
+This text uses the arrow terminology to conform with
+the functional programming languages such as Haskell.
+An arrow is directed within the category from an object,
+the domain, to an object, the codomain.
+The domain and codomain objects may be the same
+object or distinct objects, equivalently a pair.
+Each object in a category has a unique identity arrow.
+
+\begin{definition}{Category}\label{def:category},
+  $\parsecat{C}$, is a pair of distinct collections
+  identifed by properties, $\oper{obk}$
+  and $\oper{arr}$. $\oper{obk}$ refers to the
+  discriminating german word, objekt, relative to the prosaic english
+  term, object:
+  \begin{itemize}
+    \item $\catobj{C}=\oper{obk}\parsecat{C}$, object collection
+    \item $\catarr{C}=\oper{arr}\parsecat{C}$, arrow collection 
+  \end{itemize}
+\end{definition}
+
+\begin{definition}{Composition Algebra}\label{def:composition},
+  each arrow, $\arr{r}\in\catarr{C}$, of a collection, $\parsecat{C}$,
+  is directed association from a
+  domain object to a codomain object of $\catobj{C}$.
+  The domain and codomain objects are a referent pair of the  arrow,
+  $\arr{r}$; designated by properties,
+  $\oper{dom}$ and $\oper{cod}$, respectively:
+  \begin{itemize}
+    \item\textbf{(Domain)}, $\arrdom{r}\in\catobj{C}$, domain object
+    \item\textbf{(Codomain)}, $\arrcod{r}\in\catobj{C}$, codomain object
+    \item\textbf{(Map Notation)}, $\arr{r}:\,\arrdom{r}\rightarrow\arrcod{r}$ \\
+      $\qquad$ or $\quad\arrdom{r}\xrightarrow{\;\obk{r}\;}\arrcod{r}$
+    \item\textbf{(Identity)}, All objects, $\obk{o}\in\catobj{C}$,
+      have an identity arrow, $\arrid{o}\in\catarr{C}$, where
+      $\obk{o}=\oper{dom}\arrid{o}=\oper{cod}\arrid{o}$
+    \item\textbf{(Composition Algebra)},\\ given arrows,
+      $\arr{r}$,$\arr{s}$,$\arr{t}\in\catarr{C}$, where\\
+       $\arrcod{r}=\arrdom{s}$ and $\arrcod{s}=\arrdom{t}$
+      \begin{itemize}
+      \item\textbf{(Binary operator, $\circ$)}
+        $\arr{s}\circ\arr{r}=\arr{s\circ r}$,\\
+        $\qquad\arrdom{r}\xrightarrow{\;\obk{s}\circ\obk{r}\;}\arrcod{s}$
+      \item\textbf{(Associative)}
+        $(\arr{t}\circ\arr{s})\circ\arr{r}=\arr{t}\circ(\arr{s}\circ\arr{r})$
+      \item\textbf{(Identity)} $\arrid{o}\in\catarr{C}\quad\forall\;
+        o\in\catobj{C}$
+      \begin{itemize}
+        \item\textbf{(Idempotency)} $\arrid{o}\circ\arrid{o}=\arrid{o}$
+        \item\textbf{(Composition Identity)} $\forall\;\arr{r}\in\catarr{C}$ \\
+        $\arr{r}=\arr{r}\circ\arrid{\arrdom{r}}=\arrid{\arrcod{r}}\circ\arr{r}$
+      \end{itemize}
+      \end{itemize}
+  \end{itemize}  
+\end{definition}
+
+\begin{figure}[section]
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (A) {$u$};
+        \node[] (B) [right of=A] {$v$};
+        \node[] (C) [below of=B,right of=D] {$w$};
+        \node[] (D) [below of=A] {$x$};
+        
+        \path[->] (B) edge [] node[below right, pos=.78]
+                                {$\arr{h\circ g}$} (D);
+        \path[->] (A) edge node {$\arr{f}$} (B);
+        \path[->] (B) edge node {$\arr{g}$} (C);
+        \path[->] (C) edge node {$\arr{h}$} (D);
+        \path[->] (A) edge node[right,pos=.7] {$\arr{g\circ f}$} (C);
+        \path[->] (A) edge node[left] {$\arr{h\circ g\circ f}$} (D);
+        \path[->] (C) edge [reflexive below]
+             node[anchor=center,midway,below] {$\arrid{\text{w}}$} (C);        
+        \path[->] (B) edge [reflexive above]
+             node[anchor=center,midway,above] {$\arrid{\text{v}}$} (B);        
+        \path[->] (A) edge [reflexive above]
+             node[anchor=center,midway,above] {$\arrid{\text{u}}$} (A);        
+        \path[->] (D) edge [reflexive below]
+             node[anchor=center,midway,below] {$\arrid{\text{x}}$} (D);
+ %       \draw[red, dashed] (1, 2) -- (1, -2);
+      \end{tikzpicture}
+      \caption {Arrow identity, composition and assosiative law
+        \begin{itemize}
+          \item$u=\arrdom{f}$
+          \item$v=\arrdom{g}=\arrcod{f}$
+          \item$w=\arrdom{h}=\arrcod{g}$
+          \item$x=\arrcod{h}$
+          \end{itemize}
+          Associativity of the binary operator $\circ$
+          is diagramatically proven:
+          $\arr{h\circ g\circ f}=\arr{h}\circ\arr{g\circ f}
+          =\arr{h\circ g}\circ\arr{f}$
+        }\label{fig:arrowalgebra}
+\end{figure}
+
+Arrow algebra, fig. \ref{fig:arrowalgebra},
+with identity, composition and associative properties,
+is graphically presented. The associativity of
+composition is diagrammatically proven
+without complex definitions.
+Arrows are a discriminating feature of categories.
+The internal structure of a category is mediated by arrows.
+Implicit properties of a category are exposed through
+analysis of arrows.
+Qualitative classification and study of a category
+with arrows complement the traditional quantitative
+approach of set theory. For instance,
+topological characteristics are qualified by arrow abstractions
+while eliminating the tedium of point set topology.
+In computer programming, arrows facilitate the
+object oriented representation of
+properties and the existential identity of objects,
+$o=\arrid{o}(\catobj{C})$ if $\obk{o}\in\catobj{C}$,
+otherwise undefined. The identity arrow is easily
+generalized to search algorithms that identify
+subcategories relative to a particular property.
+
+Subsequently, a variety of specialized properties
+may be attributed to arrows though analysis
+with associated arrow compositions, such as 
+monomorphism, epimorphism and isomorphism.
+Such analyses complement underlying
+set theory structure with requiring.
+
+\begin{definition}{Monomorphism, $\oper{mono}$}\label{prop:monomorphism},
+  $\arr{f}\in\catarr{C}$, of category $\parsecat{C}$,
+  is a monomorphism, $\oper{monic}$, \\
+  for any $\arr{g}$,$\arr{h}\in\catarr{C}$, 
+  $\obk{a}=\arrdom{g}=\arrdom{h}$ \\
+  and $\quad\arrcod{g}=\arrcod{h}=\arrdom{f}$ \\
+  $\qquad\Longrightarrow\arr{f\circ g}=
+  \arr{f\circ h}\Rightarrow\,\arr{g}=\arr{h}$
+\end{definition}
+
+\begin{center}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 2cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (a) {$\obk{a}$};
+        \node[] (d) [right of=a] {$\arrdom{f}$};
+        \node[] (c) [right of=d] {$\arrcod{f}$};
+
+        \path[->] ([yshift=1ex]a.east) edge node[above]
+                  {$\obk{g}$} ([yshift=1ex]d.west);
+                  \path[->] ([yshift=-1ex]a.east) edge node[below]
+                  {$\obk{h}$} ([yshift=-1ex]d.west);
+        \path[->] (d) edge node {$\obk{f}$} (c);
+      \end{tikzpicture}
+\end{center}
+
+\begin{definition}{Epimorphism, $\oper{epi}$}\label{prop:epimorphism},
+  $\arr{f}\in\catarr{C}$, of category $\cat{C}$,
+  is a epimorphism, $\oper{epic}$,
+  for any $\arr{g}$,$\arr{h}\in\catarr{C}$ \\
+  $\obk{b}=\arrcod{g}=\arrcod{h}$ \\
+  and $\quad\arrdom{g}=\arrdom{h}=\arrcod{f}$ \\
+  $\qquad\Longrightarrow\arr{g\circ f}=
+  \arr{h\circ f}\Rightarrow\,\arr{g}=\arr{h}$
+\end{definition}
+
+\begin{center}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 2cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (d) {$\arrdom{f}$};
+        \node[] (c) [right of=d] {$\arrcod{f}$};
+        \node[] (b) [right of=c] {$\obk{b}$};
+
+        \path[->] (d) edge node {$\obk{f}$} (c);
+        \path[->] ([yshift=1ex]c.east) edge node[above]
+                  {$\obk{g}$} ([yshift=1ex]b.west);
+        \path[->] ([yshift=-1ex]c.east) edge node[below]
+                  {$\obk{h}$} ([yshift=-1ex]b.west);
+\label{dig:epimorphism}
+\end{tikzpicture}
+\end{center}
+
+\begin{definition}{Isomorphism, $\oper{iso}$} is a
+  reflexive property between arrows $\arr{r}$,  $\arr{r^{-1}}=\arr{r}^{-1}$:
+  \begin{itemize}
+    \item$\arrdom{r}=\arrcod{r^{-1}}$ and $\arrdom{r^{-1}}=\arrcod{r}$
+    \item$\arr{r}\circ\arr{r^{-1}}=\arrid{\arrdom{r}}$
+    \item$\arr{r^{-1}}\circ\arr{r}=\arrid{\arrcod{r}}$
+  \end{itemize}
+\end{definition}
+
+\begin{center}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (d) {$\arrdom{r}$};
+        \node[] (c) [right of=d] {$\arrcod{r}$};
+
+        \path[->] ([yshift=1ex]d.east) edge node[above]
+                  {$\arr{r}$} ([yshift=1ex]c.west);
+        \path[<-] ([yshift=-1ex]d.east) edge node[below]
+                  {$\arr{r^{-1}}$} ([yshift=-1ex]c.west);
+      \end{tikzpicture}
+\end{center}
+
+An isomorphism is both a
+monomorphism and an epimorphism as well as a an
+equivalence relation berween the domain and codomain.
+
+A pair of set objects associated with both monic and epic arrows
+are isomorphic. General object pairs assiciated by monic
+and epic arrows are not necessarily isomorphic however.
+In particular category objects may also be categories,
+in such cases a more expressive mapping with
+arrow properties is needed.
+A functor is an arrow from a domain category
+to a codomain categegory
+as well as a homomorphism that maps properties
+of the arrow composition algebra from a domain
+category to a codomain category.
+More broadly, there exists a category, $\allcat$,
+consisting a collection of categories, $\catobj{CAT}$, and a
+collection of functors, $\catarr{Cat}$. Every category,
+$\parsecat{C}\in\smallcat$, has an identity functor $\arrid{C}$.
+
+\begin{definition}{Functor class}\label{def:functor},
+  $\mathcalligra{F}$, is a collection of functors.
+  Each functor, $\funct{F}\in\mathcalligra{F}$, is an arrow,
+  def. \ref{def:composition}, with composition, assosiativity
+  and identity properties from a domain category, $\functdom{F}$,
+  to a codomain category, $\functcod{F}$:
+  \begin{itemize}
+    \item\textbf{(Domain)} $\functdom{F}$
+    \item\textbf{(Codomain)} $\functcod{F}$
+    \item\textbf{(Mapping)} $\functdom{F}\xrightarrow{\;\obk{F}\;}\functcod{F}$
+    \end{itemize}
+  \end{definition}
+\begin{definition}{Composition Homomorphism}\label{def:arrowhomomorphism},
+  additionally a functor, $\funct{F}\in\mathcalligra{F}$, has homomorphic
+  properties that translate the compositional properties
+  of the internal domain collection to the codomain
+  collection. A mapping than translates algebraic properties
+  from a domain to a codomain is a homomorphism.
+  $\forall$ $\obk{a}$, $\obk{b}\in\wrapobj{(\functdom{F})}$ and
+  $\arr{g}$, $\arr{f}\in\ccarr{(\functdom{F})}$:
+  \begin{itemize}
+  \item\textbf{(Domain)} $\functdom{F}$ functor domain category
+  \item\textbf{(Codomain)} $\functcod{F}$ functor codomain category
+  \item\textbf{(Composition Homomorphism)} \\
+  \begin{equation*}
+  \begin{array}{rr}
+    \quad & \funct{F}:\,\functdom{F}\longrightarrow\functcod{F} \\
+    \text{or}\quad & \functdom{F}\xrightarrow{\;\mathbf{F}\;}\functcod{F}
+   \end{array}
+  \end{equation*}
+  \begin{equation*}
+ \begin{array}{lrrl}
+  \text{-} & \functV{F}{a\xrightarrow{\;f\;}b} &=&
+    \functV{F}{a}\xrightarrow{\;\functV{F}{f}\;}\functV{F}{b} \\
+  \text{-} & \functV{F}{\arrid{a}} &=& \arrid{\functV{F}{a}} \\
+  \text{-} & \functV{F}{\arr{\obk{g}\circ\obk{f}}} &=&
+    \arr{\functV{F}{g}}\circ\arr{\functV{F}{f}}
+    =\arr{\functV{F}{g}\circ\functV{F}{f}}
+ \end{array}
+ \end{equation*}
+  \end{itemize}
+\end{definition}
+
+\subsection{Universal Mapping}
+
+A universal mapping is a transformation on global properties or
+symmetries of discrete category collections.
+In particular universal mappings act on a
+category objects of a large category
+$\allcat$, defined by an encompasing characteristic.
+In particular all categories,
+%$\parsecat{C}\in\wrapobj{\allcat}$
+have an identity functor,
+%$\funct{id_{\parsecat{C}}}\in\wraparr{\allcat}$.
+
+A directed property of an arrow from domain
+to codomain is universal mapping.
+The opposite transformation of a category 
+unary operation transposing arrow domain and codomain, essentially
+reversing the direction of arrows.
+The opposite transoform has a dual property
+since composition of the opposite transform is an identity transform.
+
+\begin{definition}{Dual Category, $\parsecat{C}^{op}$}\label{def:opposite},
+  of category \parsecat{C}
+  \label{def:cdual}\\
+  \begin{itemize}
+  \item\textbf{(Object Dual)}
+    $\ccobj{C}^{op}=\{\obk{o}^{op}\mid\obk{o}\in\ccobj{C}\}$
+  \item\textbf{(Arrow Dual)}
+    \begin{equation*}
+      \begin{array}{rr}
+       \catarr{C}^{op}=\{\arr{r}^{op}\mid & \arrdom{r}^{op}=\arrcod{r}\quad \\
+          \quad & \text{and}\;\arrcod{r}^{op}=\arrdom{r}\quad \\
+          \quad & \forall\,\arr{r}\in\catarr{C}\;\,\} \\
+      \end{array}
+    \end{equation*}
+%  \item\textbf{(Identity)}$\parsecat{C}={\parsecat{C}^{op}}^{op}$
+  \end{itemize}
+\end{definition}
+
+A shorthand notation, $*$, for the dual of a category, $\parsecat{C}$,
+is $\parsecat{C}^*=\parsecat{C}^{op}$.
+
+A more complex unary transform is the slice category which
+associates arrows with objects in a category. The slice
+category and any derivatives require an object to be
+discriminated from the category.
+
+  \begin{equation*}
+  \begin{array}{lllll}
+  \quad\bullet & \catobj{C/c}&=&\{ \arr{f}\mid\ &
+       \obk{c}=\arrcod{f},\,\arr{f}\in\catarr{C}\} \\
+  \quad\bullet & \catarr{C/c}&=&\{ \arr{h}\mid  &
+     \arr{g_1},\,\arr{g_2}\in\catobj{C/c}, \\
+    \quad & \; & \; & \quad & \text{where}\quad\arrdom{h}=\arrdom{g_1} \\
+    \quad & \; & \; & \quad & \text{and}\quad\arrcod{h}=\arrdom{g_2}, \\
+    \quad & \; & \; & \quad & \qquad\arr{g_1}=\arr{g_2}\circ\arr{h} \\
+    \quad & \; & \; & \quad &
+              \text{where}\quad\arr{g_1},\arr{g_2},\arr{h}\in\catarr{C} \}
+  \end{array}
+  \end{equation*}
+
+  Adjusting the slice functor, $\parsecat{C/c}$, yields a terminal functor
+  $\parsecat{T}\parsecat{C/c}$.
+  
+  \begin{equation*}
+  \begin{array}{lllll}
+    \quad\bullet & \wrapobj{\parsecat{T}\parsecat{C/c}}&=&
+                   \{ \arrdom{f}&\mid\arr{f}\in\catarr{C}\} \\
+    \quad\bullet & \wraparr{\parsecat{T}\parsecat{C/c}}&=&\{ \arr{h}&\mid\
+                                     \arr{h}\in\wrapobj{\parsecat{C/c}} \\
+    \quad & \; & \; & \quad &
+                   \quad\text{or}\quad\arr{h}\in\wraparr{\parsecat{C/c}}\}
+  \end{array}
+  \end{equation*}
+
+  The terminal functor filters all objects from $\catobj{C}$ that are not the
+  domain of an arrow $\arr{f}\in\ccarr{C}$ with codomian, $\obk{c}=\arrcod{f}$.
+  The terminal functor transforms the object, $\obk{c}$, to a terminal object
+  in the category, $\patsecat{T}\parsecat{C/c}$.
+
+\begin{definition}{Terminal Object, $\catN{1}$}\label{def:terminal},
+  of a category, $\parsecat{C}$,
+  is a codomain object of at least one arrow with domain
+  from every category object
+  \begin{equation*}\begin{array}{l}
+    \forall\;\obk{o}\in\catobj{C}\quad\exists\quad \arr{f}\in\catarr{C} \\
+    \text{such that}\quad\catN{1}=\arrcod{f}\;\text{and}\quad\obk{o}=\arrdom{f}
+                   \end{array}
+  \end{equation*}
+\end{definition}
+
+The dual of the slice category is the coslice category,
+$\parsecat{c/C}=\parsecat{C/c}^{op}$:
+
+  \begin{equation*}
+  \begin{array}{lllll}
+  \quad\bullet & \catobj{c/C}&=&\{ \arr{f}\mid\ &
+       \obk{c}=\arrdom{f},\,\arr{f}\in\catarr{C}\} \\
+  \quad\bullet & \catarr{c/C}&=&\{ \arr{h}\mid  &
+     \arr{g_1},\,\arr{g_2}\in\catobj{c/C}, \\
+    \quad & \; & \; & \quad & \text{where}\quad\arrdom{h}=\arrcod{g_1} \\
+    \quad & \; & \; & \quad & \text{and}\quad\arrcod{h}=\arrcod{g_2}, \\
+    \quad & \; & \; & \quad & \qquad\arr{h}\circ\arr{g_1}=\arr{g_2} \\
+    \quad & \; & \; & \quad &
+              \text{where}\quad\arr{g_1},\arr{g_2},\arr{h}\in\catarr{C} \}
+  \end{array}
+  \end{equation*}
+  
+  Adjusting the coslice functor, $\parsecat{c/C}$, yields a initial functor
+  $\parsecat{I}\parsecat{c/C}$.
+  
+  \begin{equation*}
+  \begin{array}{lllll}
+    \quad\bullet & \wrapobj{\parsecat{I}\parsecat{c/C}}&=&\{
+                            \arrcod{f}&\mid\arr{f}\in\catarr{C}\} \\
+    \quad\bullet & \wraparr{\parsecat{I}\parsecat{c/C}}&=&\{ \arr{h}&\mid\
+                                          \arr{h}\in\catobj{c/C} \\
+    \quad & \; & \; & \quad & \quad\text{or}
+                              \quad\arr{h}\in\catarr{c/C}\}
+  \end{array}
+  \end{equation*}
+
+  The initial functor filters all objects from $\catobj{C}$ that are not the
+  codomain of an arrow $\arr{f}\in\catarr{C}$ with domian, $\obk{c}=\arrdom{f}$.
+  The initial functor transforms the object, $\obk{c}$, to an initial object
+  in the category, $\parsecat{I}\parsecat{c/C}$.
+
+\begin{definition}{Initial Object, $\catN{0}$}\label{def:initial},
+  is a domain object of at least one arrow with codomain
+  to every object in the category
+  \begin{equation*}\begin{array}{l}
+    \forall\;\obk{o}\in\catobj{C}\quad\exists\quad \arr{f}\in\catarr{C} \\
+    \text{such that}\quad\catN{0}=\arrdom{f}\;\text{and}\quad\obk{o}=\arrcod{f}
+                   \end{array}
+  \end{equation*}
+\end{definition}
+
+Categories structured with duplicate or multiple
+constituent categories inspire other idioms of
+construction. To begin consider a category,
+$\parsecat{Y}$, consisting of category objects,
+$\parsecat{W}$, each characterized by functors,
+$\funct{G_W}$, and $\funct{H_W}$ that map to categories,
+$\parsecat{A}$ and $\parsecat{B}$ respectively. 
+The collection of $3-tuples$, $(\parsecat{W},\,\funct{G_W},\,\funct{H_W})$
+defines a catetegory $\parsecat{Y}$ with object collection:
+
+\begin{equation*}
+  \begin{array}{rl}
+    \catobj{Y}=\{\parsecat{W}\,\mid &
+               \funct{G_W},\,\funct{H_W}\in\mathcalligra{F}
+                               \quad\text{where} \\
+    \quad & \parsecat{A}=
+            \funct{G_W}(\parsecat{W})\quad\text{and}\quad\parsecat{B}=
+            \funct{H_W}(\parsecat{W})\}
+  \end{array}
+\end{equation*}
+
+A universal construct based on the
+collection of $3-tuples$, $(\parsecat{W},\,\funct{G_W},\,\funct{H_W})$
+implies the existence of a functor $\funct{m_{WX}}$ to commute
+functors $\funct{G_W}$ and $\funct{H_W}$ with
+$\funct{G_X}$ and $\funct{H_X}$ for objects
+$\parsecat{W}$ and $\parsecat{X}\in\parsecat{Y}$ respectively.
+The collection of functors, $\funct{m_{WX}}$, constitute
+the arrow collection of $\parsecat{Y}$.
+
+\begin{equation*}
+  \begin{array}{rl}
+    \catarr{Y}=\{\funct{m_{WX}}\,\mid &
+                          \funct{m_{WX}}(\parsecat{W})=\parsecat{X}\;
+                          \forall\;\parsecat{W},\,\parsecat{X}\in\catobj{Y}\}
+  \end{array}
+\end{equation*}
+
+\begin{center}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \draw [thin,gray,dashed] (0,-1.7)
+        ellipse (.8cm and 2.1cm) node[text=gray]
+                    at (.76,-.16) {$\parsecat{Y}$};
+        \node[] (W) {$\parsecat{W}$};
+        \node[] (P) [below of=W] {$\parsecat{X}$};
+        \node[] (A) [below left of=P] {$\parsecat{A}$};
+        \node[] (B) [below right of=P] {$\parsecat{B}$};
+        
+        \path[->,dashed] (W) edge
+        node[xshift=-1.5em,yshift=-2em,fill=white]
+                                         {$\funct{m_{WX}}$} (P);
+        \path[->] (W) edge node[above left] {$\funct{G_W}$} (A);
+        \path[->] (W) edge node[above right] {$\funct{H_W}$} (B);
+        \path[->] (P) edge node[below right] {$\funct{G_X}$} (A);
+        \path[->] (P) edge node[below left] {$\funct{H_X}$} (B);
+    \end{tikzpicture}
+\end{center}
+
+Commuting diagram with arrow composition:
+
+\begin{center}
+  $\funct{m_{WX}}=(\funct{G_W},\funct{H_W})$, \\
+$\funct{G_W}=\funct{G_X}\circ\funct{m_{WX}}\quad$ and
+  $\quad\funct{H_W}=\funct{H_X}\circ\funct{m_{WX}}$ \\
+  $\forall\quad\parsecat{W}\in\catobj{Y}$
+\end{center}
+
+
+The symmetry of universal construct for $\parsecat{Y}$ implies
+the existence of a terminal object.
+Denote the terminal object of $\parsecat{Y}$ as $\parsecat{A}\times\parsecat{B}$.
+The terminal object, $\parsecat{A}\times\parsecat{B}$, is a unique
+composition of categories, $\parsecat{A}$ and $\parsecat{B}$,
+with unique projection functors, $\funct{\pi_1}$ and $\funct{\pi_2}$.
+
+\begin{center}
+  $\parsecat{A}=\funct{\pi_1}(\parsecat{A}\times\parsecat{B})\quad$ and
+  $\quad\parsecat{B}=\funct{\pi_2}(\parsecat{A}\times\parsecat{B})$
+\end{center}
+
+Each functor, $\funct{m_W}\in\catarr{Y}$, maps
+from domain $\parsecat{W}\in\parsecat{Y}$ to codomain $\parsecat{A}\times\parsecat{B}\in\parsecat{Y}$.
+
+\begin{figure}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \draw [thin,gray,dashed] (0,-1.7) ellipse (.8cm and 2.1cm)
+                    node[text=gray] at (.76,-.16) {$\parsecat{Y}$};
+        \node[] (W) {$\parsecat{W}$};
+        \node[] (P) [below of=W] {$\parsecat{A}\times\parsecat{B}$};
+        \node[] (A) [below left of=P] {$\parsecat{A}$};
+        \node[] (B) [below right of=P] {$\parsecat{B}$};
+        
+        \path[->,dashed] (W) edge
+                  node[xshift=-1.4em,yshift=-1.6em,fill=white]
+                                            {$\funct{m_W}$} (P);
+        \path[->] (W) edge node[above left] {$\funct{G_W}$} (A);
+        \path[->] (W) edge node[above right] {$\funct{H_W}$} (B);
+        \path[->] (P) edge node[below right] {$\funct{\pi_1}$} (A);
+        \path[->] (P) edge node[below left] {$\funct{\pi_2}$} (B);
+      \end{tikzpicture}
+      \caption{dashed arrow denotes the inference of a terminal object,
+        $\parsecat{A}\times\parsecat{B}$, from category, $\parsecat{Y}$ with objects $\parsecat{W}$
+        and arrows $\funct{m_W}=(\funct{G_W},\funct{H_W})$ with $\functdom{m_w}=\car{W}$
+        and $\functcod{m_w}=\parsecat{A}\times\parsecat{B}$}}.
+\end{figure}
+
+Internal to the product category, objects are constructed with
+the object pairs:
+
+\begin{definition}\label{def:pair}{Pair}, $(\obk{a},\obk{b})$,
+  $\obk{a}$, $\obk{b}$ are objects, $\pi_1$. $\pi_2$, are arrows:
+\begin{equation*}
+    \obk{a}=\funct{\pi_1}\,(\obk{a},\obk{b})\quad\text{and}
+    \quad\obk{b}=\funct{\pi_2}\,(\obk{a},\obk{b}).
+\end{equation*}
+
+From functional programming the functional designations,
+$funct{\pi_1}$ and $funct{\pi_2}$,
+are alternately replaced by, $\oper{fst}$ and $\oper{snd}$ acting on pair.
+
+\begin{equation*}
+  \obk{a}=\oper{fst}\,(\obk{a},\obk{b})\quad\text{and}
+  \quad\obk{b}=\oper{snd}\,(\obk{a},\obk{b})
+\end{equation*}
+
+Applying projection functors to the commuting
+arrow collection of, $\\catarr{Y}$:
+
+\begin{center}
+  $\funct{m_W}=(\funct{G}_W},\funct{H_W})$, \\
+  $\funct{G_W}=\funct{\pi_1}\circ\funct{m_W}\quad$ and
+  $\quad\funct{H_W}=\funct{\pi_2}\circ\funct{m_W}$ \\
+  $\forall\quad\parsecat{W}\in\catobj{Y}$
+\end{center}
+\end{definition}
+
+Completing the pairwise category construction:
+
+\begin{definition}\label{def:product}
+Category $\parsecat{A}\times\parsecat{B}$
+\begin{itemize}
+  \item$\wrapobj{(\parsecat{A}\times\parsecat{B})}=\{(\obk{a},\obk{b})\mid\,\obk{a}\in\catobj{A}\quad\text{and}\quad\obk{b}\in\catobj{B}\}$
+  \item$\wraparr{(\parsecat{A}\times\parsecat{B})}=\{(\arr{f},\arr{h})\mid\,
+    \arr{f}\in\catarr{A}\;\text{and}\;\arr{h}\in\catarr{B}\}$
+  \begin{itemize}
+  \item\textbf{(Domain)} $\arrdom{(f,h)}=(\arrdom{f},\arrdom{g})$
+  \item\textbf{(Codomain)} $\arrcod{(f,h)}=(\arrcod{f},\arrcod{g})$
+  \item\textbf{(Composition)} \\
+    $(\arr{f},\arr{h})\circ(\arr{f^\prime},
+    \arr{h^\prime})=(\arr{f\circ f^\prime},\arr{h\circ h^\prime})$
+  \item$\arrid{(\obk{a},\obk{b})}=(\arrid{a},\arrid{b})$ $\forall\,(\obk{a},\obk{b})\in\catobj{(A\times B)}\quad$ \\
+  where $\arrid{a}\in\catarr{A}\quad\text{and}\quad\arrid{b}\in\catarr{B}$
+  \end{itemize}
+\end{itemize}
+\end{definition}
+
+The parwise construction of objects and arrows between
+constituent categories of the product. In particular
+the product of the zero category with any category
+is the zero category:
+
+\begin{equation*}
+  \catN{0}\times\parsecat{C}=\parsecat{C}\times\catN{0}=\catN{0}
+\end{equation*}
+
+The dual of product, $\times$, is coproduct, $+$.
+
+The coproduct, $\parsecat{A}+\parsecat{B}$, is the initial
+object of $\parsecat{Y}^{op}$.
+
+The dual of the projection functors of the product is the
+injection functors, $\obk{i_1}$ and $\obk{i_2}$ of the coproduct.
+The dual of the terminal is the initial limit object of,
+$\parsecat{Y}^{op}$ is $\parsecat{A}+\parsecat{B}$. 
+
+\begin{figure}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \draw [thin,gray,dashed] (0,1.7) ellipse (.8cm and 2.1cm)
+                    node[text=gray] at (.8,0) {$\parsecat{Y}$};
+        \node[] (W) {$\parsecat{W}$};
+        \node[] (P) [above of=W] {$\parsecat{A}+\parsecat{B}$};
+        \node[] (A) [above left of=P] {$\parsecat{A}$};
+        \node[] (B) [above right of=P] {$\parsecat{B}$};
+        
+        \path[<-,dashed] (W) edge
+              node[xshift=1.3em,yshift=1em,fill=white]
+                                              {$\funct{m_W}$} (P);
+        \path[<-] (W) edge node[below left] {$\funct{G_W}$} (A);
+        \path[<-] (W) edge node[below right] {$\funct{H_W}$} (B);
+        \path[<-] (P) edge node[above right] {$\funct{i_1}$} (A);
+        \path[<-] (P) edge node[above left] {$\funct{i_2}$} (B);
+    \end{tikzpicture}
+      \caption{dashed arrow denotes the inference of an initial object,
+        $\parsecat{A}\+\parsecat{B}$, from category, $\parsecat{Y}$ with objects $\parsecat{W}$
+        and arrows $\funct{m_W}=[\funct{G_W},\funct{H_W}]$ with 
+        $\functdom{m_w}=\parsecat{A}+\parsecat{B}$ and $\functcod{m_w}=\car{W}$.}
+\end{figure}
+
+Coproduct acts to combine constituent categories however
+unlike product there is no construction of arrows between
+objects of constituent categories. The net affect of
+the coproduct of the zero, $\catN{0}$, category
+and any other category is the latter category:
+
+\begin{equation*}
+  \catN{0}+\parsecat{C}=\parsecat{C}+\catN{0}=\parsecat{C}
+\end{equation*}
+
+Pair construction, def. \ref{def:pair}, derived from
+category product, def. \ref{def:product}, provides
+a basis to construct other interesting categories.
+One such category is the arrow category. The initial
+construct for the arrow category is the pair collection
+constructed from category arrows, an essential collection index:
+
+\begin{definition}{Arrow collection indices}\label{def:arrowpairs}
+\begin{equation*}
+  \ccpair{C}=\{(\arrdom{f},\arrcod{f})\mid
+  \arr{f}\in\catarr{C}\}\subset\catobj{(C\times C)}
+\end{equation*}
+\end{definition}
+
+Each pair, $\cpair{a}{b}$, in, $\ccpair{C}$, selects a collection of arrows,
+$\carrobj{C}\cpair{a}{b}$, the complete collection being, $\carrobj{C}$:
+
+\begin{definition}{Arrow Category, Objects}
+\begin{equation*}
+  \begin{array}{rl}
+    \carrobj{C}\cpair{a}{b}=\{\arr{f}\mid&\arr{f}\in\catarr{C}\quad\text{and} \\
+    \quad&\cpair{a}{b}=(\arrdom{F},\arrcod{f})\}
+  \end{array}
+\end{equation*}
+\end{definition}
+
+The objects of $\carrobj{C}$ are indexed by the objects of $\ccpair{C}$:
+
+\begin{equation*}
+\carrobj{C}\cpair{a}{b}\in\carrobj{C}\Longleftrightarrow\cpair{a}{b}\in\ccpair{C}\end{equation*}
+
+Each object, $\carrobj{C}\cpair{a}{b}$, is a collection of arrows
+sharing the domain $\obk{a}$ and codomain $\obk{b}$.
+
+More specifically each $\carrobj{C}\cpair{a}{b}\in\carrobj{C}$ and
+$\carrobj{C}\cpair{a}{b}\subset\catarr{C}$.
+
+An arrow collection, $\carrarr{C}$, corresponding to the object collection,
+$\carrobj{C}$, is directly constructed from the same object collection,
+$\carrobj{C}$:
+
+\begin{definition}{Arrow Category}\label{def:arrowcategory}, Arrows
+\begin{align*}
+  \carrarr{C}=\{\arr{\cpair{f}{g}}\mid
+  \arrdom{\cpair{f}{g}},\,\arrcod{\cpair{f}{g}}\in\ccpair{C}\quad \\
+  \text{and}\quad\arr{\cpair{f}{g}}\in\catarr{C}\times\catarr{C} \}
+\end{align*}
+Expanding components of the definition:
+\begin{align*}
+  \arr{(f,g)}=(\arr{f},\,\arr{g}), \\
+  \arrdom{(f,g)}=(\arrdom{f},\arrdom{g}), \\
+  \arrcod{(f,g)}=(\arrcod{f},\arrcod{g})
+\end{align*}
+\end{definition}
+
+\begin{figure}\label{fig:arrowcategory}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \draw [thin,gray,dashed] (1.5,0) ellipse (1.8cm and .6cm)
+                    node[text=gray] at (1.5,.2) {$\arrdom{\cpair{f}{g}}$};
+        \draw [thin,gray,dashed] (1.5,-3) ellipse (1.8cm and .6cm)
+                    node[text=gray] at (1.5,-3.2) {$\arrcod{\cpair{f}{g}}$};
+        \node[] (A) {$a$};
+        \node[] (B) [right of=A] {$b$};
+        \node[] (D) [below of=A] {$a^{\prime}$};
+        \node[] (C) [below of=B] {$b^{\prime}$};
+        
+        \path[->] (A) edge node[below] {$\carrobj{C}\cpair{a}{b}$} (B);
+        \path[->] (A) edge node[left] {$\arr{f}$} (D);
+        \path[->] (B) edge node {$\arr{g}$} (C);
+        \path[->] (D) edge node[above]
+                      {$\carrobj{C}\cpair{a^{\prime}}{b^{\prime}}$} (C);
+        \draw[dashed,->] (1.5, -.8) -- (1.5, -2.2)
+                      node[midway,right] {$\arr{\cpair{f}{g}}$};
+    \end{tikzpicture}
+      \caption {$\carr{C}$, Arrow map 
+        \begin{itemize}
+          \item$\cpair{a}{b}=\arrdom{\cpair{f}{g}}$
+          \item$\cpair{a^{\prime}}{b^{\prime}}=\arrcod{\cpair{f}{g}}$
+          \item$\carrobj{C}\cpair{a}{b}\xrightarrow{\;\arr{\cpair{f}{g}}\;}
+          \carrobj{C}\cpair{a^{\prime}}{b^{\prime}}$
+        \end{itemize}
+        }
+\end{figure}
+
+Collections of arrows in $\carr{C}$ are indexed by the collection,
+\begin{equation}\label{eq:arrowarrowindex}
+  \begin{array}{rl}
+  \proj{P}{C}{2}=\{&\cpair{\arrdom{\cpair{f}{g}}}{\arrcod{\cpair{f}{g}}}\mid \\
+  \quad & \;\,\arrdom{\cpair{f}{g}},\arrcod{\cpair{f}{g}}\in\ccpair{C} \\
+    \quad & \qquad\qquad\text{and}\quad
+            \arr{\cpair{f}{g}}\in\catarr{C}\times\catarr{C} \} \\
+    \quad & \qquad\qquad\qquad\subset\ccpair{C}\times\ccpair{C}
+  \end{array}
+\end{equation}
+
+$\carr{C}$, further supports the definition of a subcategory:
+
+\begin{definition}{Subcategory}\label{def:subcategory},
+  $\parsecat{D}$, of a category, $\parsecat{C}$, denote $\csub{D}{C}$,
+  has the following properties:
+  \begin{itemize}
+    \item\textbf{(Subcollection)} $\catobj{D}\subset\catobj{C}$ 
+    \item\textbf{(Arrow)} $\carrobj{D}\cpair{a}{b}\subset\carrobj{C}\cpair{a}{b}$ \\
+      for all $\cpair{a}{b}\in\ccpair{D}$
+  \end{itemize}  
+\end{definition}
+
+Collections with set properties admit
+aspects of analysis that are impossible for
+general collections. The Yoneda lemma of category
+theory provides an approach to analyze
+aspects of abstract categories with
+categories that embrace the limits and regiarity
+of sets. In particular, The Yoneda lemma
+determines the accessibility of abstact
+catetegories to algorithmic analysis.
+
+\section{Sets}
+
+Category theory collections can be applied
+at an abstract or meta-level, as in prior sections.
+Meta-analysis is useful for developing algorithms
+and analysis agnostic to the internal details of objects.
+Admiting set theory structure into category theory
+penetrates the meta nature of category theory
+to develop more detailed analysis that incorporates
+object and arrow internals.
+
+Forging a journey into set theory imbues a
+category collection with greater formalism.
+As a collection admits the behavior of a proper class,
+familiar to Von Neumann-Bernays-G\"{o}del set theory,
+then the discreat behavior of concrete sets from
+Zermelo-Frankel set theory.
+In a broader sense the proper class is specified
+by collective properties of constituent members without
+distinction of specific elements. Continuing to sets
+requires that the members of the collection are
+enumerable or associated with a cardinal size, in fact
+sets can be distinguished from one another strictly by
+distinct members. The size of a set is a cardinality
+assigned to a set with unitary operator, $\kappa$,
+hence the cardinality of a set, $S$, is $\scard{S}$.
+
+Several texts provide a preamble to develop
+set operations. Notation and peripherial concepts
+not detailed herein are found in
+Hungerford's algebra text, \cite{hungerford1974}.
+For instance topics relied on in the text are,
+\cite{hungerford1974}, cartesian product,
+$A^{n+1}=A^n\times A$, $n\in\mathbb{N}$
+and set theory.
+Axioms of choice and order, \cite{hungerford1974},
+combined with the Cantor's development of
+cardinal bases, form the real number set,
+$\mathbb{R}$. The set theory development in
+the text of Barr and Wells, \cite{barrwells1990}, provides
+useful development of category theory
+from principles of set theory and graphs.
+Some of the Other areas
+of adherance are model theory, \cite{hodges1993},
+and category theory, \cite{awodey2010}.
+Certainly the study of mathematics embraces several
+language theories, \cite{hodges1993},
+or disaplines. In particular
+the theory of algebra associates well with
+category theory, \cite{awodey2010}. A relationship that
+is facilitated in the text.
+
+\subsection{Categories as Sets}
+
+A breif introduction of sets permits the definition of categories of
+sets
+
+\begin{definition}{Set Category, $\setcat$}\label{def:setcategory}, \\
+  The objects of a set category, $\parsecat{C}\in\catobj{Set}$, are sets
+\begin{equation*}
+  \parsecat{C}=|\parsecat{C}|\Longrightarrow
+  \catobj{C}=\{\obk{o}\mid\obk{o}=|\obk{o}|\quad\forall\;\obk{o}\in\catobj{C} \}
+\end{equation*}
+\end{definition}
+
+The arrow collection, $\catarr{C}$, of a set category, $\parsecat{C}$,
+are functions as defined in set theory.
+
+The forgetful functor is a mapping that ignores the
+abstract aparatus of category objects and arrows to
+render concrete sets as objects and
+functions over sets as arrows, $\setcat$.
+
+\begin{definition}{Forgetful Functor, $\ffunct$}\label{def:forgetful}, \\
+\begin{equation*}
+  \ffunct\,:\,\smallcat\rightarrow\setcat
+\end{equation*}
+\end{definition}
+
+A common shorthand for the forgetful functor are enclosing vertical bars
+on categories and collections:
+
+\begin{equation*}
+  \ffunct:\,\parsecat{C}\rightarrow\forgetful{C}
+\end{equation*}
+
+This shortband forgetful functor notion, $|\dots|$,
+is intuitive for classical set cardinality notation.
+Cardinality is a discriminating propeety of
+sets from general collections.
+
+The restriction of an arrow to a set establishes
+corresponding monic and epic propeties
+for functions as injective and surjective respectively.
+Likewise isomorhism to bijection.
+
+Resticting the $\setcat$ category further defines
+the small category in literature, \cite{awodey2010}.
+
+\begin{definition}{Small Category Collection,
+    $\smallcat$}\label{def:smallcat} \\
+  A small category, $\parsecat{C}\in\smallcat$, consists
+  of an object collection, $\catobj{C}$, and an arrow collection,
+  $\catarr{C}$, are sets.
+\end{definition}
+
+The distinct concept of sets relative to a general collection
+provides a greater definition to category classes such as, $\smallcat$.
+Previously the category $\smallcat$ was loosly defined as a category
+of categories, now $\smallcat$ is precicely defined as the category
+of all small categories.
+
+\subsection{Counting with Categories}
+
+The category, $\smallcat$, contains discrete categories with counting
+characteristics. Exploring these characteristics with the forgetful
+functor aligns parallels with ordinals. The study of ordinals demonstrates
+the greater conceptual representation of categories over sets.
+Demonstrating the forgetful functor as a map on the trivial or zero
+category, $\catN{0}$, to the empty set, $\varnothing$.
+
+\begin{equation*}
+  \ffunct:\,\catN{0}\rightarrow\varnothing
+\end{equation*}
+
+The category $\catN{0}$ is the category with no objects
+and the set $\varnothing$ is the set with no elements.
+
+The trivial category, $\catN{0}$, is unique in the lack of properties,
+an ideal candidate as an initial object, \ref{def:initial}, in a category.
+
+In conformace with the dual axiom of category theory there must
+be a terminal object, \ref{def:terminal}.
+
+The terminal object has no arrows to other objects other
+than itself, therefore it contains only one element, a model
+singleton set with cardinality of $1$.
+
+Hence the simplest category derived from, $\catN{0}$, is $\catN{1}$.
+
+Consider the category, $\catN{1}$, singularly containing the object,
+$\catN{0}$, with the null set inclusion arrow, $\oper{succ}=\{\}$.
+Mapping, $\catN{1}$ with the forgetful functor yields:
+
+\begin{equation*}
+  \ffunct:\,\catN{1}\rightarrow\{\varnothing\}
+\end{equation*}
+
+The category, $\catN{2}$, of 2 objects with one initial and one terminal
+object, including 2 identity arrows and one unique arrow, $\arr{!}$,
+from $\catN{0}$ to $\catN{1}$.
+
+\begin{center}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (0) {$\catN{0}$};
+        \node[] (1) [right of=0] {$\catN{1}$};
+
+        \path[->] (0) edge node[above]
+                  {$\parsecat{!}=\oper{succ}=\{\}$} (1);
+        \path[->] (0) edge [reflexive left] node[anchor=center,midway,left] {$\arrid{0}$} (0);        
+        \path[->] (1) edge [reflexive right] node[anchor=center,midway,right] {$\arrid{1}$} (1);        
+      \end{tikzpicture}
+\end{center}
+
+Applying coproduct to the, $\catN{1}$, composes the category,
+$\catN{1}+\catN{1}$:
+
+\begin{center}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (0) {$\catN{1}$};
+        \node[] (1) [right of=0] {$\catN{1}$};
+
+        \path[->] (0) edge [reflexive left] node[anchor=center,midway,left] {$\arrid{1}$} (0);
+        \path[->] (1) edge [reflexive right] node[anchor=center,midway,right] {$\arrid{1}$} (1);
+      \end{tikzpicture}
+\end{center}
+
+A simple extension of the category, $\catN{2}$, to the category,
+$\parsecat{N}$, generates the set of ordinals, $\mathbb{N}$.
+
+\begin{equation*}
+  \ffunct:\,\parsecat{N}\rightarrow\mathbb{N},
+\end{equation*}
+
+\begin{center}
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (1) {$\catN{1}$};
+        \node[] (N) [right of=0] {$\parsecat{N}$};
+
+        \path[->] (1) edge node[above] {$\cat{0}$} (N);
+        \path[->] (1) edge [reflexive left]
+                      node[anchor=center,midway,left] {$\arrid{0}$} (1);        
+        \path[->] (N) edge [reflexive right]
+                      node[anchor=center,midway,right] {$\at{succ}$} (N);        
+      \end{tikzpicture}
+\end{center}
+
+The, $\obk{succ}$, function maps the
+next ordinal in sequence. The constant
+function, $\obk{0}$ is used to map constants for an algebra.
+Constant functions define identities and other invariants
+of algebras.
+
+\subsection{Antinomies}
+
+Antinomies is a term expounded by Zermelo to clasify
+contradictions of set theory and logic originally discovered
+by Cantor and Russell.
+
+Cantor extended the na\"{i}ve concept of a finite sets to
+determine a countable set of exceptional cardinalities
+bounded below by that of natural numbers, $\aleph_0=\scard{\mathbb{N}}$
+and real numbers, $\mathfrak{c}=2^{\aleph_0}=\scard{\mathbb{R}}$.
+
+\begin{equation}
+  \beth_0=\aleph_0\,\,\text{and}\,\,\,\beth_{n+1}=2^{\beth_n}
+\end{equation}
+
+In measure theory, Cantor's discovery that set
+cardinalities subordinate to the real line have trivial measure
+was soon negotiated by Hausdorff's discovery of fractional dimensions
+to measure the recursive geometries of Cantor sets with limit integrals,
+a precursor to the visual titilations of
+Mandelbrot sets and fractals in computer graphics.
+
+Essential to Cantor's sequence of cardinalities is the power set:
+
+\begin{equation}\label{eq:pset}
+  \pset{S}=\{U\mid\,U\subset S\}
+\end{equation}
+
+Fundamental to the proof of Cantor's eponymous sequence of cardinalities
+is the imposibility of a function to map a set surjectively onto its power set:
+
+\begin{theorem}{Cantor}\label{th:cantor}, a function,
+  $f:\,S\rightarrow\pset{S}$,
+  is not surjective. Henceforth:
+  \begin{center}
+    $f(S)\neq\pset{S}$
+  \end{center}
+\end{theorem}
+
+\begin{proof},
+  define a set, \\
+  \begin{center}
+  $A=\{x\in S\mid x\notin f(x)\}\in\pset{S}$.
+  \end{center}
+  If $S=\varnothing$ then $f(S)\neq\pset{S}$, \\
+  $\Rightarrow\,S\neq\varnothing$ and
+  $\varnothing\in f(S)$ otherwise $f(S)\neq\pset{S}$. \\
+  Hence $\exists\,a\in A$ and $f(a)=\varnothing$, \\
+  but, $\nexists\,b\in S$ such that $f(b)=A$, \\
+  therefore $A\notin f(S)$ and $f(S)\neq\pset{S}$ $\square$
+\end{proof}
+
+For any set, $S$, the cardinality is denoted as $\scard{S}$.
+From theorem, \ref{th:cantor}, a strict inequality of cardinality
+is implied:
+
+\begin{equation}\label{eq:cantor}
+  \scard{S}<\scard{\pset{S}}=2^{\scard{S}}
+\end{equation}
+
+The foundation of set theory established cardinalities and a basis
+to advance measure theory with $\sigma-algebra$ and posets.
+An assult of contradiction however maintained a threat to the symbiotic
+establishment of set theory and logic as a foundation of
+mathematics. Essentially a fundamental contradiction of terms
+exists on the premise of a universal set of all sets.
+Cantor's theorem formalized one contradiction since each power
+set is not contained within its basis set ad infinitum without
+completion. The logician Frege
+subsequently volleyed a solution that quickly received dismissal
+from the mathemetician and philosopher, Bertrand Russell,
+\cite{russell1902}. Essentially, Russell, \cite{russell1902},
+posed a contradiction from axiom for a set to be a member of itself:
+
+\begin{equation}\label{eq:russel}
+  R_A=\{x\in A: x\notin x\}
+\end{equation}
+
+Extending $R_A$ to the universal set established the seminal contradiction.
+Hilbert stated in his famous 20\textsuperscript{th}
+century address that a foundation of mathematics in in
+logic and set theory would be discovered.
+Russell waxed philosophically
+on the matter with the expectation that his distinguished protog\`{e},
+Witgenstein, would prevail on the conundrum.
+Ultimately in 1933, Kurt G\"{o}del,
+proved the mutual exclusivity of completness and consistency in
+logic for any axiomatized language, hence the imposibility of a solution.
+
+The alternate approach embraces a strategey to
+axiomatizes set theory to avoiding rather than confront
+the paradoxes pursued by Cantor and Russell.
+Zermelo extablished the most general theoretical approach
+whereas Mac Lane established the most practical approach
+conforming to the formation of topos theory. Mac Lane
+developed category theory with a motive to navigate
+solutions around ambiguities based on underying axioms.
+The use of classes by Zermelo is an approach to initiate
+discussion of collections by properties. classes with
+cardinality properties would be sets otherwise
+these could be broad universes. Category theory
+easily admits the class abstraction which was
+adopted in computer programming with
+fuctional programming and more broadly
+contested as an abstraction
+for object oriented programning.
+
+\subsection{Graphs}
+
+Category objects and arrows elicit intuitive
+similarities with directed graph nodes and paths.
+Graphs although replete with abstract characteristics
+have quantifiable geometric properties
+that are locally sets.
+Mac Lane, \cite{maclane1998}, exploited the idea of
+graphs as metacategories to introduce category theory.
+Alternately, a graph need not have path loops for
+a single node whereas all category objects have
+an identity arrow.
+For convenience a graph is defined with
+with equivalent category terminology
+such as arrow for path and object for node.
+
+\begin{definition}{Graph}\label{def:graph}, $\graph{G}$,
+  is a graph, consists of a collection of objects,
+  $\wrapobj{\graph{G}}$, and a collection of arrows,
+  $\wraparr{\graph{G}}$, such that each arrow
+  has a domain and codomain in, $\wrapobj{\graph{G}}$.
+  The object and arrow collections are sets:
+  $\wrapobj{\graph{G}}=\forgetful{\wrapobj{\graph{G}}}$ and
+  $\wraparr{\graph{G}}=\forgetful{\wraparr{\graph{G}}}$
+\end{definition}
+
+The comparison of the definition of graph versus category
+introduces the definition of a functoin class, $\graphclass{G}$,
+from a graph, $\graph{G}$, into the category $\graphcat{G}\in\smallcat$.
+
+\begin{definition}{Graph Category}\label{def:graphcat}, $\graphcat{G}$,
+  is a category of categories. Each category, $\parsecat{C}\in\graphcat{G}$,
+  has a function, $\funct{f}\in\graphclass{G}$,
+  from $\graph{G}$ into into $\parsecat{C}$:
+\begin{equation*}  
+\mapaob{\graph{G}}{\obk{f}}{\graphcat{G}}
+\end{equation*}
+\begin{equation*}  
+  \graphcat{G}=\{\parsecat{C}\mid\mapaob{\graph{G}}{f}{\parsecat{C}}\;
+  \forall\funct{f}\in\graphclass{G})
+\end{equation*}
+\end{definition}
+
+The functional mapping of graphs into categories
+supports the analysis of categories as local graphs.
+The arrow category provides a basis to understanding
+a class of categories that are locally graphs.
+
+The $\setcat$ and $\smallcat$ categories
+locally support graph properties.
+The arrow $\carr{C}$ functor expresses
+a transformation from general categories
+to categories that are locally graphs.
+however a broader category definition
+is one with local set characteristics
+only in aspects of interest relative
+to cardinalities of
+isomorphic graph structures, object
+or arrow subcollections.
+
+Inferrentially locally small implies that
+the $\parsecat{Hom}$ objects are sets of arrows.
+
+As the graph of a locally small category, $\parsecat{C}$,
+the nodes of the graph are the object collection, $\catobj{C}$,
+and the graph edges between relevent nodes, $\cpair{a}{b}\in\ccpair{C}$,
+are represented by the collection, $\homobj{C}\cpair{a}{b}$.
+Arrows between edge collections with domain/codomain pairs of
+$\homobj{C}$ exist in $\homarr{C}$.
+
+A category, $\parsecat{G}$, that is a graph must be locally small with
+a small object collection as well. This defines a graph
+category, $\parsecat{Graph}$. Functors of graphs are members
+of the arrow collection of the graph arrow category.
+
+\begin{definition} The category of graphs, $\parsecat{Graph}$,
+  consists of categories, $\parsecat{G}\in\parsecat{Graph}$,
+  where $\parsecat{G}$ is locally small and, $\catobj{G}$ is
+  also small. $\homarr{Graph}$ consists of
+  functors that are graph homomorphisms.
+\end{definition}
+
+The locally small category, $\parsecat{C}$, is a graph which
+consists of combinatoric collections of subgraphs.
+Functor transformations between subgraphs are constructed from
+arrows of the collection, $\homarr{C}$.
+
+\subsection{Relations}
+
+Specific arrows narrowly define relations
+applied throughout categories
+$\oper{dom}$, $\oper{cod}$, $\oper{obk}$
+and $\oper{arr}$.
+Functions specify arrow behavior between domain and codomain sets.
+
+This section defines the concept of a relation as a
+subclass of category arrows with similar properties.
+More specifically, a relation is a subcollection of arrows
+in a category.
+
+\begin{definition}{Relation}, $\parsecat{R}$\label{def:relation},
+  \begin{itemize}
+  \item\textbf{(Subcategory)} $\csub{\ccrel{C}{R}}{\parsecat{C}}$
+  \item\textbf{(Singleton)} $1=\scard{\homobj{\ccrel{C}{R}}\cpair{a}{b}}$ \\
+    $\forall\quad\cpair{a}{b}\in\ccpair{\ccrel{C}{R}}$
+  \end{itemize}
+\end{definition}
+
+The pairs collection is essential in mediating, def. \ref{def:arrowpairs},
+relational definitions. A relation arrow acts on pairs of objects
+denoted by binary notation.
+
+Relations are useful subcategory, $\ccrel{C}{R}$, of a category,
+$\parsecat{C}$, with a collection of arrows that
+convey a singular set of properties between pairs of
+category objects, $\ccpair{\ccrel{C}{R}}$.
+As arrows, relations also have composition properties. 
+As a class of arrows, relations convey transitive properties
+through composition:
+
+\begin{definition}{Relation properties}\label{def:transitive}\\
+  Relation, $R$ over a category $\parsecat{C}$: $\csub{\ccrel{C}{R}}{\parsecat{C}}$ \\
+\begin{itemize}
+\item\textbf{(Notation)}
+  $\obk{aRb}\Longleftrightarrow\cpair{a}{b}\in\ccpair{\ccrel{C}{R}}$
+\item\textbf{(Transitive)} $\obk{aRb},\,\obk{bRc}\Longrightarrow$
+  $\obk{aRc}$
+\end{itemize}
+\end{definition}
+
+Equivalence is a stronger propety on relations,
+acting as a partition on category, $\parsecat{C}$, objects, $\catobj{C}$.
+Denote an equivalence relation as $\sim$:
+
+\begin{definition}\label{def:equivalence}
+  Equivalence relation $\sim$, \csub{\ccrel{C}{\sim}}{\parsecat{C}}$ \\
+\begin{itemize}
+\item\textbf{(Reflexive)} $\obk{a}\sim\obk{a}\quad\forall\:a\in\catobj{C}$
+\item\textbf{(Symmetric)}
+  $\obk{a}\sim\obk{b}\Longleftrightarrow\obk{b}\sim\obk{a}$
+\end{itemize}
+\end{definition}
+
+Obviously the zero category has no arrows or relations of elements.
+As a partition the
+equivalence relation on substantial categories implies cosets
+or equivalence classes in the object collection, $\catobj{C}$
+of a category $\parsecat{C}$.
+The coset, $[a]\in \parsecat{C}/\sim$ denotes a partition with the
+object $\parsecat{a}\in\parsecat{C}$.
+
+Members of the object collection $\carrobj{C}$ are a partition
+of the arrow collection, $\catarr{C}$ for all categories, $\parsecat{C}\in\smallcat$.
+
+A concept that was
+used to define product and coproduct from as terminal arrow from
+an equivalence class of commuting arrows.
+
+\subsection{Set Arrows}
+
+This sections focuses on collective properties
+of arrows in $\setcat$. The most basic property
+is prorder:
+
+\begin{definition}{Preorder}\label{def:preorder},
+\begin{itemize}
+\item\textbf{(Relation)} preorder, \csub{\ccrel{C}{\leq}}{\parsecat{C}}$ \\
+\item\textbf{(Transitive)} if $a\leq b$ and $b\leq c$ then $a\leq c$
+\item\textbf{(Symmetric)} if $a\leq b$ and $b\leq a$ then $a=b$
+\end{itemize}
+\end{definition}
+
+Every pair of objects in $\catobj{(Set\times Set)}$ 
+have only one preorder arrow.
+
+ preorders are set inclusion, $\subseteq$ 
+
+Set composition was used in the previous section to
+define the ordinals similarly the concept of set composition
+and pair class defines involutive the Cartesian product mapping of
+the pair class. Caresian product maps a pair of set domains to a codomain of
+pairs. Each element of the codomain is a pair of constituent
+elements from the domain pair.
+
+\begin{definition}{Cartesian Product},denoted by the
+  operator $\times$, maps  set of pairs 
+  from sets A and B:
+  \begin{equation}
+    \times:\,\mathfrak{P}\rightarrow\mathfrak{P}
+  \end{equation}
+  \begin{equation}
+    A\times B=\{(a,b)\mid a\in A\,\,\text{and}\,\,b\in B\}
+  \end{equation}
+\end{definition}
+
+
+Basic set operations of intersection and union provide
+str. A loose introduction
+to algebra is demonstrated with these operations. In
+particular a $\sigma-algebra$.
+
+The simplest relation on sets is that of subset.
+Set product operations to build complex set
+structure for discovery an representation of
+broader relations between sets and elements.
+
+Derivation of the ordinals,$\mathbb{N}$,
+introduced an order property for elements of sets.
+Cartesian product requires an an order dependent binary construction
+on two arbitrary input sets, $A$ and $B$. Cartesian product
+on on pairs of input sets defines a codomain,
+$\mathfrak{P}$, of ordered pairs.
+Unlike intersection and union operations, the cartesian product
+operation is not commutative:
+
+\begin{equation}
+    \textbf{(Noncommutativity)}\quad A\times B\neq B\times A
+\end{equation}
+
+  A cartesian product on a collection of $n$ sets
+  \begin{equation}
+    A={A_1,...,A_n}
+  \end{equation}
+  is a set of $n-tuples$, for convienience an index set of
+  natural numbers, $\mathbb{N}$, is used, $[n]\in\{1...n\}$:
+  \begin{equation}
+    \prod^\times_{i\in[n]}A_i=\{(a_1,...,a_n)\mid a_i\in A_i\,,i\in[n]\}
+  \end{equation}
+Mapping of a cartesian product defines a class of binary functions:
+
+\begin{equation}
+  f:\,A\times B\rightarrow C
+\end{equation}
+
+This defines a codomain, $C$, of $f$ for $A\times B$:
+
+\begin{equation}
+  C\supset {f(a,b)\mid\forall a\in A\,,b\in B\}
+\end{equation}
+
+Projection operations on the set,
+$\mathfrak{P}$, discriminates the ordered constituents of a pair:
+
+$\forall (a,b)\in\mathfrak{P}$
+\begin{align}
+  fst\,(a,b)=a\label{eq:fst}\\
+  snd\,(a,b)=b\label{eq:snd}
+\end{align}
+
+Although Cartesian product is not commumtative it does
+
+$\forall (a_1a_2,...,a_n)\in\mathfrak{T}_n$, $n>0$
+\begin{align}
+  head\,(a_1,a_2,...,a_n)=a_1\label{eq:head}\\
+  tail\,(a_1,a_2,...a_n)=(a_2,...,a_n)\label{eq:tail}
+\end{align}
+
+
+
+The composition of the function $succ:\,\mathbb{N}\rightarrow\mathbb{N}$
+defines the binary function of integral addition
+$+:\,\mathbb{N}\times\mathbb{N}\rightarrow\mathbb{N}$
+
+\begin{align}
+  \textbf{(Composition:$\circ$)}\quad succ\circ succ^n=succ^n\circ succ\label{eq:comp}\\
+  \textbf{(Addition)}\quad succ^k\circ succ^l\,0=k+l\label{eq:add}
+\end{align}
+
+The function,  $succ$, introduces concepts of recursion
+and order.
+
+
+\subsection{Graphs}
+
+
+
+\section{Category Basics}
+
+\section{Appendix}
+
+\bibliography{sample-paper}
+
+\bibliographystyle{prsty}
+\begin{thebibliography}{99}
+\bibitem{cartan1966}Cartan,\'{E}., ``The Theory of Spinors'', Hermann, [1966]
+\bibitem{cartan1913}Cartan,\'{E}., ``Les Groupes Projectifs qui ne laissent
+  invariante aucune multiplicit\'{e} plane'', Bull. Soc. Math. France, [1913]
+\bibitem{grothendieck1957}Grothendieck,A., ``Sur quelques points d`Alg\`{e}bra Homologique'', T\^{o}hoku Math. J., 9, pp. 119-221, [1957]
+\bibitem{brauerweyl1937}Brauer,R. and Weyl,H., ``Spinors in n Dimensions'', Am. J. Math., 57, pp. 425-449, [1937]
+\bibitem{russell1902}Russell,B., Letter to Frege,In Heijenoort 1967, pp. 124-125, [1902]
+\bibitem{russell1903}Russell,B., ``The Principles of Mathematics'', Cambridge Univ. Press, Cambridge, Vol. I, [1903]
+\bibitem{pauli1927}Pauli,W., ``Zur Quantenmechanik des Magnetischen Elektrons'', Z. Phys., 43, pp. 601-623, [1927]
+\bibitem{zermelo1908}Zermelo,E., ``Untersuchungen \"{U}ber die Grundlagen der Mengeniehre``, Math. Ann., 65, pp. 261-281, [1908]
+\bibitem{schafer2008}Schafer,R.D., ``An Introduction to Nonassociative Algebras'', Project Gutenberg(Public Domain USA). Internet, [2008]
+\bibitem{dirac1928}Dirac,P.A.M., ``The Quantum Theory of the Electron'', Proc. R. Soc. \(London\), [1928]
+\bibitem{birkoff1935}Birkoff,G.D., ``On the Structure of Abstract Algebras'', Proc. Cambridge P. Soc. 31, pp. 433-454, [1935]
+\bibitem{jipsenrose1992}Jipsen,P.,Rose,H.``Varieties of Lattices'', Springer-Verlag,Berlin-Heidelberg, [1992]
+\bibitem{hodges1993}Hodges,W., ``Model Theory'', Cambridge Univ. Press, Cambridge, [1993]
+\bibitem{awodey2010}Awodey,S., ``Category Theory'', Oxford Univ. Press, Oxford, [2010]
+\bibitem{barrwells1990}Barr,M.,Wells,.C, ``Category Theory for Computing Science'', Prentice Hall, [1990], pdf version online [1998]
+\bibitem{lang2002}Lang,S., ``Algebra'', Springer-Verlag, NY, [2002]
+\bibitem{maclane1986}Mac Lane,S., ``Mathematics Form and Function'', Springer-Verlag, NY, [1986]
+\bibitem{maclane1998}Mac Lane,S., ``Category Theory for the Working Mathemetician'', Second Edition, Springer-Verlag, NY, [1998]
+\bibitem{bourbaki1989}Bourbaki,N., ``Algebra I'', Springer-Verlag, Berlin Heidelberg, [1989]
+\bibitem{bourbaki22003}Bourbaki,N., ``Algebra II'', Springer-Verlag, Berlin Heidelberg, [2003]
+\bibitem{hungerford1974}Hungerford,T.W., ``Algebra'', Springer-Verlag, NY, [1974]
+\bibitem{burris1981}Burris,S.,Sankappanavar,H.P., ``A Course in Universal Algebra'', Springer-Verlag, NY, [1981]
+\bibitem{rotman1998}Rotman,J., ``Galois Theory'', Springer-Verlag, NY, [1998]
+\bibitem{fultonharris2004}Fulton,W., Harris,J., ``Representation Theory: A First Course'', Springer-Verlag, NY, [2004]
+\bibitem{humphreys1972}Humphreys,J., ``Introduction to Lie Algebras and Representation Theory'', Springer-Verlag, NY, [1972]
+\bibitem{brouwer1911}Brouwer,L.E.J., ``\"Uber Abbildung von Mannigfaltigkeiten'', Math. Ann., 71, pp. 97-115, [1911]
+\bibitem{birkhoff1913}Birkhoff,G.D., ``Proof of Poincar\'e's Geometric Theorem'', Trans. Amer. Math. Soc., 14, pp. 14-22, [1913]
+\bibitem{birkhoff1925}Birkhoff,G.D., ``An Extension of Poincar\'e's Last Geometric Theorem'', Acta Math., 47, pp. 297-311, [1925]
+\bibitem{poincare1912}Poincar\'e,H., ``Sur un Theor\`eme de G\'eom\'etrie'', Rend. Circ. Mat. Palermo, 33, pp. 375-407, [1912]
+\bibitem{brownnwumann977}Brown,H.,NeumannD., ``Proof of the Poincar\'e-Birkhoff Fixed-Point Theorem'', Michigan Math. J., 24, pp. 21-31, [1977]
+
+\end{thebibliography}
+
+\end{document}

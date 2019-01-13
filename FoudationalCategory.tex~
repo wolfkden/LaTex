@@ -1,0 +1,1369 @@
+%\documentclass[aps,twocolumn,secnumarabic,graphics,flotfix,graphicx,
+%url,bm,tightenlines,nobibnotes,nobalancelastpage,amsmath,amssymb,
+%nofootinbib]{article}
+\documentclass[aps,twocolumn,secnumarabic,nobalancelastpage,amsmath,amssymb,
+amsthm,nofootinbib,parskip=full]{revtex4}
+
+% standard graphics specifications
+% alternative graphics specifications
+% helps with long table options
+% for on-line citations
+% special 'bold-math' package
+
+\usepackage{utf8}{inputenc}
+%\usepackage[bottom]{footmisc}
+\usepackage{titlesec}
+\usepackage{mathtools}
+\usepackage{graphics}      % standard graphics specifications
+\usepackage{graphicx}      % alternative graphics specifications
+\usepackage{longtable}     % helps with long table options
+\usepackage{url}           % for on-line citations
+\usepackage{bm}            % special 'bold-math' package
+%\usepackage{unicode-math}
+\usepackage{stmaryrd}
+\usepackage{mathrsfs}
+%\usepackage{mathabx}
+%\setmathfont{XITS Math}
+%\setmathfont[version=setB,StylisticSet=1]{XITS Math}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{pgf, tikz, tikz-cd}
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+\usepackage{calrsfs}
+\usepackage{stringstrings}
+\usepackage{xstring}
+
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+%\DeclareMathAlphabet{\eurocal}{OMS}{zplm}{m}{n}
+\usepackage{calligra}
+\usepackage[T1]{fontenc}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[1.2]callig15}{}
+\DeclareMathAlphabet{\classscr}{T1}{calligra}{m}{n}
+\usepackage[mathscr]{euscript}
+\let\euscr\mathscr \let\mathscr\relax% just so we can load this and rsfs
+\usepackage[scr]{rsfso}
+\usepackage{relsize}
+
+\usetikzlibrary{matrix,arrows, decorations,
+  positioning, automata, calc, fit, shapes.geometric}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proof}{Proof}[theorem]
+\newtheorem{axiom}{Axiom}
+
+\numberwithin{equation}{section}
+
+%%\theoremstype{definition}
+\newtheorem{definition}{Definition}[section]
+%\newtheorem*{remark}{Remark}
+
+%\setlength{\parskip}{\baselineskip}
+%\setlength{\parskip}{4em}
+
+\tikzset{every loop/.style={min distance=12mm,looseness=10}}
+\tikzset{place/.style={circle,thick,minimum size=8mm}}
+\tikzset{
+modal/.style={>=stealth’,shorten >=1pt,shorten <=1pt,auto,node distance=1.5cm,
+semithick},
+world/.style={circle,draw,minimum size=0.5cm,fill=gray!15},
+point/.style={circle,draw,inner sep=0.5mm,fill=black},
+reflexive above/.style={->,loop,looseness=7,in=120,out=60},
+reflexive below/.style={->,loop,looseness=7,in=240,out=300},
+reflexive left/.style={->,loop,looseness=7,in=150,out=210},
+reflexive right/.style={->,loop,looseness=7,in=30,out=330}
+}
+
+\newcommand*{\xslant}[2][70]{%
+  \begingroup
+    \sbox0{#2}%
+    \pgfmathsetlengthmacro\wdslant{\the\wd0 + cos(#1)*\the\wd0}%
+    \leavevmode
+    \hbox to \wdslant{\hss
+      \tikz[
+        baseline=(X.base),
+        inner sep=0pt,
+        transform canvas={xslant=cos(#1)},
+      ] \node (X) {\usebox0};%
+      \hss
+      \vrule width 0pt height\ht0 depth\dp0 %
+    }%
+  \endgroup
+}
+
+\makeatletter
+\newcommand*{\xslantmath}{}
+\def\xslantmath#1#{%
+  \@xslantmath{#1}%
+}
+\newcommand*{\@xslantmath}[2]{%
+  % #1: optional argument for \xslant including brackets
+  % #2: math symbol
+  \ensuremath{%
+    \mathpalette{\@@xslantmath{#1}}{#2}%
+  }%
+}
+\newcommand*{\@@xslantmath}[3]{%
+  % #1: optional argument for \xslant including brackets
+  % #2: math style
+  % #3: math symbol
+  \xslant#1{$#2#3\m@th$}%
+}
+\makeatother
+
+\newcommand{\nlessdot}{\mathrlap{\lessdot}\;|\;\,}
+
+\newcommand{\gtrplus}{\mathrlap
+  {\textbf{\raisebox{1.15pt}{\hspace{2.6pt}\scalebox{.4}{+}}}}>}
+\newcommand{\padtxt}[1]{\hspace*{1em}\parsecat{#1}\hspace*{1em}}
+
+\newcommand{\abk}[1]{\xslantmath{\mathfrak{#1}}}
+%\newcommand{\subp}[1]{\xslantmath{\mathscr{#1}}}
+\newcommand{\subp}[1]{\mathbf{#1}}
+\newcommand{\obk}[1]{\mathpzc{#1}}
+\newcommand{\diag}[1]{\mathbf{\mathsf{#1}}}
+\newcommand{\diagobj}[1]{\diag{#1}_0}
+\newcommand{\diagarr}[1]{\diag{#1}_1}
+\newcommand{\diagdom}[1]{\oper{dom}\diag{#1}}
+\newcommand{\diagcod}[1]{\oper{cod}\diag{#1}}
+%\newcommand{\cat}[1]{\pazocal{#1}}
+\newcommand{\cat}[1]{\pazocal{#1}}
+\newcommand{\iarr}[1]{{\large \abk{i}}_{\obk{#1}}}
+\newcommand{\tarr}[1]{{\large \abk{t}}_{\obk{#1}}}
+\newcommand{\earr}[1]{{\large \abk{e}}_{\obk{#1}}}
+\newcommand{\earrid}[1]{\oper{id}_{\obk{#1}}}
+\newcommand{\earrdom}[1]{\oper{dom}\earr{#1}}
+\newcommand{\earrcod}[1]{\oper{cod}\earr{#1}}
+\newcommand{\arr}[1]{{\large \abk{a}}_{\obk{#1}}}
+\newcommand{\arrid}[1]{\oper{id}_{\obk{#1}}}
+\newcommand{\arrdom}[1]{\oper{dom}\arr{#1}}
+\newcommand{\arrcod}[1]{\oper{cod}\arr{#1}}
+\newcommand{\arrrel}[1]{\oper{rel}\arr{#1}}
+\newcommand{\oarr}[2]{{\large \abk{a}}_{{\subp{#1},\obk{#2}}}}
+\newcommand{\oarrid}[2]{\oper{id}_{\subp{#1},\obk{#2}}}
+\newcommand{\oarrdom}[2]{\oper{dom}\oarr{#1}{#2}}
+\newcommand{\oarrcod}[2]{\oper{cod}\oarr{#1}{#2}}
+\newcommand{\oarrrel}[2]{\oper{rel}\oarr{#1}{#2}}
+\newcommand{\arrn}[2]{{\large \abk{a}}^{#2}_{\obk{#1}}}
+\newcommand{\ccid}[1]{\cat{#1}_{\oper{id}}}
+\newcommand{\ccobj}[1]{\cat{#1}_{\subp{0}}}
+\newcommand{\ccarr}[1]{\cat{#1}_{\subp{1}}}
+\newcommand{\occarr}[2]{\cat{#2}_{\subp{#1}}}
+\newcommand{\ocatarr}[2]{\parsecat{#2}_{\subp{#1}}}
+\newcommand{\catarr}[1]{\parsecat{#1}_{\subp{1}}}
+\newcommand{\catobj}[1]{\parsecat{#1}_{\subp{0}}}
+\newcommand{\owraparr}[2]{(#2)_{\subp{#1}}}
+\newcommand{\wrpcobj}[1]{#1_{,\subp{0}}}
+\newcommand{\wrpcarr}[1]{#1_{,\subp{1}}}
+\newcommand{\owrparr}[2]{{#2}_{\subp{#1}}}
+\newcommand{\wrparr}[1]{#1_{\subp{1}}}
+\newcommand{\wrpobj}[1]{#1_{\subp{0}}}
+\newcommand{\wraparr}[1]{(#1)_{\subp{1}}}
+\newcommand{\wrapobj}[1]{(#1)_{\subp{0}}}
+\newcommand{\catfull}[1]{\cat{#1}(\ccobj{#1},\ccarr{#1})}
+\newcommand{\oper}[1]{\mathbf{#1}\,}
+\newcommand{\catN}[1]{\mathbf{\large #1}}
+\newcommand{\initcat}{\catN{0}}
+\newcommand{\termcat}{\catN{1}}
+\newcommand{\singleton}[1]{\catN{1}_{#1}}
+\newcommand{\singletoncat}[1]{\singleton{\parsecat{#1}}}
+\newcommand{\fst}[1]{\oper{fst}\,#1}
+\newcommand{\snd}[1]{\oper{snd}\,#1}
+\newcommand{\adj}[2]{#1\dashv #2}
+\newcommand{\adjcat}[2]{\pazocal{#1}\dashv\pazocal{#2}}
+\newcommand{\adjfunct}[2]{\funct{#1}\dashv\funct{#2}}
+\newcommand{\adjnat}[2]{\nfunct{#1}\dashv\nfunct{#2}}
+\newcommand{\adjcom}[2]
+{\funct{#2}\circ\funct{#1}\dashv\funct{#1}\circ\funct{#2}}
+\newcommand{\adjtpl}[3]{(\parsecat{#1},\,\funct{#2},\,\nfunct{#3})}
+\newcommand{\adjdbl}[2]{(\funct{#2},\,\nfunct{#3})}
+\newcommand{\montpl}[3]{\mathsf{T}(\funct{#1},\,\nfunct{#2},\,\nfunct{#3})}
+
+\newcommand{\efarr}[3]{\oarr{#1}{\epair{#2}{#3}}}
+\newcommand{\ofarr}[3]{\oarr{#1}{\ffpair{#2}{#3}}}
+\newcommand{\ofarrid}[3]{\langle\arrid{{#1}^*},\,\arrid{#2}\rangle}
+\newcommand{\ofarrdom}[3]{\oper{dom}\ofarr{#1}{#2}{#3}}
+\newcommand{\ofarrcod}[3]{\oper{cod}\ofarr{#1}{#2}{#3}}
+\newcommand{\farr}[2]{\arr{\fpair{#1}{#2}}}
+\newcommand{\farrid}[2]{\langle\arrid{#1},\,\arrid{#2}\rangle}
+\newcommand{\farrdom}[2]{\oper{dom}\farr{#1}{#2}}
+\newcommand{\farrcod}[2]{\oper{cod}\farr{#1}{#2}}
+\newcommand{\ffarrdom}[2]{\oper{dom}_{\obk{1}}\farr{#1}{#2}}
+\newcommand{\ffarrcod}[2]{\oper{cod}_{\obk{1}}\farr{#1}{#2}}
+\newcommand{\arrpidom}[1]{\nprojdown{1}{\oper{dom}}\arr{#1}}
+\newcommand{\arrpicod}[1]{\nprojdown{1}{\oper{cod}}\arr{#1}}
+\newcommand{\arrpidomn}[2]{\nprojdown{#1}{\oper{dom}}\arr{#2}}
+\newcommand{\farrpicodn}[3]{\nprojdown{#1}{\oper{cod}}\oarr{#2}{#3}}
+\newcommand{\farrpidomn}[3]{\nprojdown{#1}{\oper{dom}}\oarr{#2}{#3}}
+\newcommand{\arrpicodn}[2]{\nprojdown{#1}{\oper{cod}}\arr{#2}}
+\newcommand{\farrpidomn}[2]{\arrpidom{\oarr{#1}{#2}}}
+\newcommand{\farrpicodn}[2]{\arrpicod{\oarr{#1}{#2}}}
+\newcommand{\farrpidom}[2]{\arrpidom{\fpair{#1}{#2}}}
+\newcommand{\farrpicod}[2]{\arrpicod{\fpair{#1}{#2}}}
+\newcommand{\arrpifst}[2]{\nprojfst{1}{\farr{#1}{#2}}}
+\newcommand{\arrpisnd}[2]{\nprojsnd{1}{\farr{#1}{#2}}}
+\newcommand{\oarrpiop}[3]{\nprojdown{#1}{\oper{#2}}\,#3}
+\newcommand{\arrpiop}[2]{\oarrpiop{1}{#1}{#2}}
+
+\newcommand{\largenat}{\mathpzc{NAT}}
+\newcommand{\wrpcat}[1]{#1_{\functscr{O}}}
+\newcommand{\wrpfunct}[1]{#1_{\functscr{F}}}
+\newcommand{\wrpnat}[1]{#1_{\functscr{N}}}
+\newcommand{\largenatcat}{\wrpcat{\largenat}}
+\newcommand{\largenatfunct}{\wrpfunct{\largenat}}
+\newcommand{\largenatnat}{\wrpnat{\largenat}}
+\newcommand{\cnat}[2]{\largenat\cpr{#1}{#2}}
+\newcommand{\cfnat}[2]{\largenat\fpair{#1}{#2}}
+\newcommand{\natfunct}[2]{\wrpfunct{\cnat{#1}{#2}}}
+\newcommand{\natnat}[2]{\wrpnat{\cnat{#1}{#2}}}
+\newcommand{\nfunctscr}{\functscr{N}}
+\newcommand{\nfunct}[1]{\nfunctscr_{\obk{#1}}}
+\newcommand{\nfunctdom}[1]{\oper{dom}\,\nfunct{\obk{#1}}}
+\newcommand{\nfunctcod}[1]{\oper{cod}\,\nfunct{\obk{#1}}}
+\newcommand{\nfunctobj}[1]{\nfunctscr_{obk{#1},\subp{2}}}
+\newcommand{\nfunctarr}[1]{\nfunctscr_{\obk{#1},\subp{3}}}
+
+\newcommand{\cone}[2]{\mathpzc{CONE}\cpr{#1}{#2}}
+\newcommand{\conefunct}[2]{{\mathpzc{CONE}\wrpfunct{\cpr{#1}{#2}}}}
+\newcommand{\conenat}[2]{{\mathpzc{CONE}\wrpnat{\cpr{#1}{#2}}}}
+\newcommand{\cocone}[2]{\mathpzc{COCO}\cpr{#1}{#2}}
+\newcommand{\coconefunct}[2]{{\mathpzc{COCO}\wrpfunct{\cpr{#1}{#2}}}}
+\newcommand{\coconenat}[2]{{\mathpzc{COCO}\wrpnat{\cpr{#1}{#2}}}}
+
+\newcommand{\functbag}[1]{\llbracket #1\rrbracket}
+
+%{{\raisebox{.1\baselineskip}{\ensuremath{\digamma}}}}
+%{\mathrlap{\lessdot}\;|\;\,}
+\newcommand{\oprojection}[2]{\xslantmath{\mathsf{P}}_
+  {\!\!\overset{#2}{#1}}}
+\newcommand{\nprojection}[1]{\xslantmath{\mathsf{P}}_
+  {\!\!\shortdownarrow\!\raisebox{.3\baselineskip}{\scalebox{.5}{#1}}}}
+\newcommand{\nprojdown}[2]{\nprojection{#1}_{,\obk{#2}}}
+\newcommand{\nprojfst}[2]{\oprojection{\shortleftarrow}{#1}\,#2}
+\newcommand{\nprojsnd}[2]{\oprojection{\shortrightarrow}{#1}\,#2}
+\newcommand{\simplex}[1]{\scalebox{1}[1.4]{\ensuremath{\rhd}}_{\catN{#1}}}
+\newcommand{\simplexfunct}[1]{\wrpfunct{\simplex{#1}_{,}}}
+\newcommand{\simplexcat}[1]{\wrpcat{\simplex{#1}_{,}}}
+\newcommand{\simplexcat}[1]{\wrpcat{\simplex{#1}_{,}}}
+\newcommand{\simplexnn}{\scalebox{1}[1.4]{\ensuremath{\rhd}}_{\mathbb{N}}}
+
+\newcommand{\snat}{\mathpzc{Nat}}
+\newcommand{\smallnat}[2]{\snat\cpr{#1}{#2}}
+\newcommand{\smallnatobj}{\wrpcat{\smallnat}}
+\newcommand{\smallnatnat}{\wrpnat{\smallnat}}
+\newcommand{\smallnatfunct}{\wrpfunct{\smallnat}}
+\newcommand{\snatfunct}[2]{\wrpfunct{\smallnat{#1}{#2}}}
+\newcommand{\snatnat}[2]{\wrpnat{\smallnat{#1}{#2}}}
+\newcommand{\snfunct}[1]{\nfunctscr_{\obk{#1}}}
+\newcommand{\snfunctdom}[1]{\oper{dom}\,\nfunctscr_{\obk{#1}}}
+\newcommand{\snfunctcod}[1]{\oper{cod}\,\nfunctscr_{\obk{#1}}}
+\newcommand{\snfunctobj}[1]{\nfunctscr_{\obk{#1},\subp{2}}}
+\newcommand{\snfunctarr}[1]{\nfunctscr_{\obk{#1},\subp{3}}}
+
+\newcommand{\homfunct}[2]{\left[\parsecat{#1},\,\parsecat{#2}\right]}
+\newcommand{\chom}[1]{\left|\carr{#1}\right|}
+\newcommand{\homobj}[1]{\wrpobj{\chom{#1}}}
+\newcommand{\homarr}[1]{\wrparr{\chom{#1}}}
+\newcommand{\projg}[3]{\xslantmath{\mathbf{#1}}^{#3}(\mathsf{#2})}
+\newcommand{\ccpairn}[2]{\nprojection{#1}(\parsecat{#2})}
+\newcommand{\ccpair}[1]{\nprojection{1}(\parsecat{#1})}
+\newcommand{\ccpairg}[1]{\nprojection{1}(\mathsf{#1})}
+\newcommand{\apair}[2]{\langle\arr{#1},\,\arr{#2}\rangle}
+\newcommand{\epair}[2]{\langle|\obk{#1},\,\obk{#2}|\rangle}
+\newcommand{\ffpair}[2]{\langle\!\langle\obk{#1},\,\obk{#2}\rangle\!\rangle}
+\newcommand{\fpair}[2]{\langle\obk{#1},\,\obk{#2}\rangle}
+\newcommand{\fopair}[2]{\langle #1,\,#2\rangle}
+\newcommand{\pair}[2]{(#1,\,#2)}
+\newcommand{\cpair}[2]{(\obk{#1},\,\obk{#2})}
+\newcommand{\cpr}[2]{(\pazocal{#1},\,\pazocal{#2})}
+\newcommand{\ctpair}[4]{(\pair{#1}{#2},\,\pair{#3}{#4})}
+\newcommand{\ccrel}[2]{\parsecat{#1}_{\obk{#2}}}
+\newcommand{\csub}[2]{#1\lessdot #2}
+\newcommand{\carrn}[2]{\parsecat{#1}_{\overset{#2}{\rightarrow}}}
+\newcommand{\carrnobj}[2]{\wrapobj{\carrn{#1}{#2}}}
+\newcommand{\carrnarr}[2]{\wraparr{\carrn{#1}{#2}}}
+\newcommand{\carr}[1]{\parsecat{#1}_{\rightarrow}}
+\newcommand{\carrobj}[1]{\carr{#1}_{\subp{,\,0}}}
+\newcommand{\carrarr}[1]{\carr{#1}_{\subp{,\,1}}}
+\newcommand{\functscr}[1]{\small\xslantmath{\pazocal{#1}}}
+
+\newcommand{\bfunct}[1]{\functscr{F}_{\parsecat{#1}}} % behavior
+\newcommand{\bfunctobj}[1]{\functscr{F}_{\parsecat{#1},\subp{0}}} % behavior
+\newcommand{\bfunctarr}[1]{\functscr{F}_{\parsecat{#1},\subp{1}}} % behavior
+
+\newcommand{\funct}[1]{\functscr{F}_{\obk{#1}}}
+\newcommand{\functobj}[1]{\funct{#1}_{,\subp{1}}}
+\newcommand{\functarr}[1]{\funct{#1}_{,\subp{2}}}
+\newcommand{\functV}[2]{\funct{#1}(#2)}
+\newcommand{\functid}[1]{\oper{id}_{\parsecat{#1}}}
+\newcommand{\functdom}[1]{\oper{dom}\funct{#1}}
+\newcommand{\functcod}[1]{\oper{cod}\funct{#1}}
+
+\newcommand{\ofunct}[1]{\functscr{F}_{#1}}
+\newcommand{\ofunctobj}[1]{\functscr{F}_{#1,\subp{1}}}
+\newcommand{\ofunctarr}[1]{\functscr{F}_{#1,\subp{2}}}
+\newcommand{\ofunctV}[2]{\ofunct{#1}(#2)}
+\newcommand{\ofunctid}[1]{\oper{id}_{#1}}
+\newcommand{\ofunctdom}[1]{\oper{dom}\ofunct{#1}}
+\newcommand{\ofunctcod}[1]{\oper{cod}\ofunct{#1}}
+
+\newcommand{\umpclass}{\mathcal{F}}
+\newcommand{\umpclassp}[1]{{\umpclass}_{\parsecat{#1}}}
+\newcommand{\umpclasspc}[2]{\umpclassp{#1}(\parsecat{#2})}
+\newcommand{\umpall}{\umpclassp{\forall}}
+\newcommand{\umpallc}[1]{\umpall(\parsecat{#1})}
+\newcommand{\umpconst}[1]{\umpall_{\parsecat{#1}}}
+\newcommand{\umpconstc}[2]{\umpconst{#1}(\parsecat{#2})}
+\newcommand{\umpcat}{\mathcal{C}}
+\newcommand{\umpcatp}[1]{\umpcat_{\parsecat{#1}}}
+\newcommand{\umpdomp}[1]{\oper{dom}\,\umpclassp{#1}}
+\newcommand{\umpcodp}[1]{\oper{cod}\,\umpclassp{#1}}
+\newcommand{\expab}[2]{\obk{#1}^{\obk{#2}}}
+\newcommand{\expxab}[2]{\expab{#2}{#1}\times\obk{#1}}
+\newcommand{\mapfab}[3]{{#1}:\,{#2}\longrightarrow {#3}}
+\newcommand{\mapaob}[3]{{#1}\xrightarrow{\;{#2}\;}{#3}}
+
+\newcommand{\homcat}{\parsecat{Hom}}
+\newcommand{\quivercat}[1]{\parsecat{Quiv}(\parsecat{#1})}
+\newcommand{\largepo}{\mathbf{\mathpzc{PO}}}
+\newcommand{\largeeq}{\mathbf{\mathpzc{EQUIV}}}
+\newcommand{\smalleq}{\mathbf{\mathpzc{Equiv}}}
+\newcommand{\poset}{\mathbf{\mathpzc{Poset}}}
+\newcommand{\largegrf}{\mathbf{\mathpzc{GRF}}}
+\newcommand{\smallgrf}{\mathbf{\mathpzc{Grf}}}
+\newcommand{\functcat}{\mathbf{\mathpzc{FUN}}}
+\newcommand{\functcatcat}{\mathbf{\mathpzc{FUN}}_{\functscr{C}}}
+\newcommand{\functcatfunct}{\mathbf{\mathpzc{FUN}}_{\functscr{F}}}
+\newcommand{\smallfunctcat}{\mathbf{\mathpzc{Fun}}}
+\newcommand{\smallfunctcatcat}{\smallfunctcat_{\functscr{C}}}
+\newcommand{\smallfunctcatfunct}{\smallfunctcat_{\functscr{F}}}
+\newcommand{\functcatp}[1]{\functcat_{\parsecat{#1}}}
+\newcommand{\functcatcatp}[1]{\functcat_{\parsecat{#1},\functscr{C}}}
+\newcommand{\functcatfunctp}[1]{\functcat_{\parsecat{#1},\functscr{F}}}
+\newcommand{\wrpcat}[1]{{#1}_{\functscr{C}}}
+\newcommand{\wrpfunct}[1]{{#1}_{\functscr{F}}}
+\newcommand{\wrpnat}[1]{{#1}_{\functscr{N}}}
+\newcommand{\largecat}{\mathbf{\mathpzc{CAT}}}
+\newcommand{\largecatobj}{\wrpobj{\largecat}}
+\newcommand{\largecatarr}{\wrparr{\largecat}}
+\newcommand{\smallcat}{\parsecat{Cat}}
+\newcommand{\smallcatobj}{\wrpobj{\smallcat}}
+\newcommand{\smallcatarr}{\wrparr{\smallcat}}
+\newcommand{\expcat}{\mathpzc{Exp}}
+\newcommand{\setcat}{\mathpzc{Set}}
+\newcommand{\smallsetcat}{\parsecat{set}}
+\newcommand{\fincat}{\parsecat{Fin}}
+\newcommand{\forgetful}[1]{|#1|}
+\newcommand{\forgetgrf}[1]{\functscr{U}(#1)}
+\newcommand{\rffunct}{\functscr{U}^{\Circlearrowright}}
+\newcommand{\rforgetgrf}[1]{\rffunct(#1)}
+\newcommand{\ffunct}{\funct{U}}
+\newcommand{\subcat}[1]{\mathpzc{Sub}\parsecat{#1}}
+
+\newcommand{\rquiver}[1]{\parsecat{Q}^{\Circlearrowright}(\mathsf{#1})}
+\newcommand{\wquiver}[1]{\parsecat{Q}(\mathsf{#1})}
+\newcommand{\nwquiver}[2]{\parsecat{Q}^{#1}(\mathsf{#2})}
+\newcommand{\quiver}[1]{\Gamma(\mathsf{#1})}
+\newcommand{\graph}[1]{\mathsf{#1}}
+\newcommand{\graphv}[1]{\mathsf{#1}_{\mathbf{v}}}
+\newcommand{\graphe}[1]{\mathsf{#1}_{\mathbf{e}}}
+\newcommand{\graphfree}[1]{\parsecat{C}(\graph{#1})}
+\newcommand{\graphclass}[1]{{\mathcal{F}}\,(\graph{#1})}
+
+\newcommand{\evalxab}[2]{\mapaob{\expxab{#1}{#2}}{\oper{eval}}{\obk{#2}}}
+
+\newcommand{\di}[1]{\boldsymbol #1}
+\newcommand{\dI}{\boldsymbol \imath}
+
+\newcommand{\freefunct}{{\raisebox{.1\baselineskip}{\ensuremath{\digamma}}}}
+\newcommand{\freeset}[1]{\freefunct(#1)}
+\newcommand{\pset}[1]{{\raisebox{.15\baselineskip}{\Large\ensuremath{\wp}}}(#1)}
+\newcommand{\scard}[1]{\kappa(#1)}
+
+\newcommand{\numchars}[1]{\noindent The string #1 has \StrLen{#1} characters. }
+
+%\newcommand{\hmult}{\scalebox{.4}{\bigtriangledown}}
+\newcommand{\cohopfmult}{\scalebox{.6}[1]{\ensuremath{\Delta}}}
+\newcommand{\hopfmult}{\raisebox{\depth}{\scalebox{.6}[-1]{\ensuremath{\Delta}}}}
+
+\makeatletter
+\def\instring#1#2{TT\fi\begingroup
+  \edef\x{\endgroup\noexpand\in@{#1}{#2}}\x\ifin@}
+%
+\def\isuppercase#1{%
+  \ensuremath{%
+  \instring{#1}{AÂBCÇDEFGĞHIİÎJKLMNOÖÔPRSŞTUÜÛVYZ}%
+  }
+}%
+\makeatother
+
+\newcommand{\checkcat}[1]{
+\StrBefore[1]{#1}{/}[\Topcat]
+\StrBehind[1]{#1}{/}[\Botcat]
+\StrLen{\Topcat}[\toplen]
+\StrLen{\Botcat}[\botlen]
+\IfEq{\toplen}{0}{\mathbf{\mathpzc{#1}}}{(\parseonecat{\Topcat}/\parseonecat{\Botcat})}
+}
+
+\newcommand{\UpperCats}{ABCDEFGHIJKLMNOPQRSTUVWXYZ}
+
+\newcommand{\parsecat}[1]{%
+    \StrLen{#1}[\slen]
+    \ifcase\slen
+      #1
+    \or\parseonecat{#1}
+    \else
+      \checkcat{#1}
+    \fi
+}
+
+\newcommand{\parseonecat}[1]{
+  \IfInteger{#1}{\catN{#1}}
+    { \IfSubStr{\UpperCats}{#1}{\pazocal{#1}}{\obk{#1}} }
+}
+
+%\newcommand{\catcaseset}[1]{
+%\if\isuppercase{#1}\cat{#1}\else\obk{#1}\fi
+%}
+
+\def\CircleArrowleft{\ensuremath{%
+  \reflectbox{\rotatebox[origin=c]{180}{$\circlearrowleft$}}}}
+\def\CircleArrowright{\ensuremath{%
+  \reflectbox{\rotatebox[origin=c]{180}{$\circlearrowright$}}}}
+\def\Circlearrowleft{\ensuremath{%
+  \rotatebox[origin=c]{100}{$\circlearrowleft$}}}
+\def\Circlearrowright{\ensuremath{%
+  \rotatebox[origin=c]{150}{$\circlearrowright$}}}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\tikzset{
+commutative diagrams/.cd,
+%row sep=3cm,
+%column sep=3cm,
+%matrix scale/.style={/tikz/matrix xscale=3,/tikz/matrix yscale=3},
+%matrix scale=2,
+arrow style=tikz,
+diagrams={>=latex}
+}
+\tikzset{res/.style={ellipse,draw,minimum height=0.1cm,minimum width=0.1cm}}
+
+\begin{document}
+\title{Algebra in Category Theory}
+\author         {Wolfgang Kraske}
+\email        {wolfkden@gmail.com}
+\homepage     {http://www.oviumzone.com}
+\affiliation  {OVium Studies in Physics}
+\date{\today}
+
+\begin{abstract}
+  Category theory establishes a framework for functional programming,
+  serving as a methodology for the reliable development of effective algorithms.
+  Category theory aligned with algebraic topology conceits the practical
+  reification of general mathematical concepts and artificial intelligence
+  algorithms. A repertoire for algorithm development progresses from
+  contemporary functional to eventual quantum entanglment.
+  Category theory provides an essential framemork for use case implementation
+  of critical or casual activities in contemporary civilization.
+  As practical consequence, efficient lambda and combinatorial algorithms,
+  originally conceptualized by Alonzo Church and Haskell Curry, respectively,
+  now empower popular and traditional application;
+  derived from the concepts of algebra and category theory.
+  Category theory provides essential models and 
+  programming idioms established from fixed point theory, Lambek's Theorem,
+  to inspire algebraically structured algorithm implementations.
+  A confluence of emergent models and idiomatic concepts flourish.
+  The fixed point affect upon the paradoxes of game theory and
+  quantum phenomenon surrender to propitious applications. 
+  The structural caveat of Cartesian closed category 
+  dictates the design and implementation of programming languages.
+  The expression of Yoneda's Lemma in category theory
+  facilitates new algorithmic
+  reification of problems in physics and algebraic systems.
+  Computer analysis increasingly embraces abstract topics in topology,
+  geometry and number theory.
+  Topos theory now underpins algorithms for intuitive logic and topology;
+  eliminating the need for rigidly inefficient and maladroit
+  alternatives by outdated set theoretical approaches.
+\end{abstract}
+
+\maketitle
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.0}
+
+\section{Introduction}
+Category theory emerged as a schematic representation of
+algebraic topology in the late 1940's, quickly progressing
+to other fields of mathematics therafter.
+In topology category theory resigned the tedium of point set analysis to
+cleaner limit/cone-colimit/cocone proposition and proof.
+The introduction of topos theory by Grothendieck,
+\cite{grothendieck1957}, complemented Mac Lane's interpretation of
+category theory, extending a program of cohesive analysis to
+encompase topology as well as intuitionistic logic.
+In the backdrop of Mac Lane's 1947 introduction
+of category theory, Kurt G\"{o}del's incompleteness theorem overturned
+Hilbrert's second problem; abolishing the conjecture of an absolute
+logical foundation to mathematics.
+The existence of quantum spin further cut the continuous manifold
+hypothesis of the phase space of mathematical physics.
+Both concepts assimilate jointly into category theory.
+G\"{o}del theorem and quantum spin both share the synoptic
+reality of fixed point phenomenon in logic and topology.
+In summary, Lawvere, \cite{lawvere1997}, established a common
+fixed point idiom within category theory to systematically model set theory 
+paradoxes; from Russell, G\"{o}del incompleteness, Cantor cardinalities,
+Turing halting, Tarski truth and periphrially the conundrum of quantum spin.
+The progenitors, Eilenberg and Mac Lane, developed a categorical proposition to
+distill and analyze abstract concepts from the once independent fields
+of topology and algebra. The capacity of category theory
+to distill concepts and methodology from many fields 
+elevated a discipline affecting new fields such as formal language.
+The eventuality of these accomplishments propelled
+category theory into an independent field of pure mathematics.
+Coincidently the field of computer science developed,
+underscored by the achievements of Church, Turing and Von Neumann,
+as special topic in algebraic topology and as a practical
+application for electronic calculating machines.
+The ability of category theory to embrace concepts
+such as lambda calculus and algebra portend a propitious
+future and ongoing fulfillment in computer science and mathematics.
+The more recent development of homotopy type theory fully embraces
+category theory to combine aspects of algebraic topology, homology and
+lambda calculus.
+
+\section{Basic Theory}\label{sec:basictheory}
+
+The predecessor of category theory, set theory,
+pursues the deriviation of mathematics with an ardent belief in logic. 
+The belief in logic as an inviolable substance pervades the pursuit of
+mathematics and even human justice since at least the time of Plato.
+At the dawn of the 20\textsuperscript{th} century 
+pure logic consumed methods of syntactical proposition and semantic proof
+to unify the language of mathematics as derived from ordinal and cardinal sets. 
+Extensions of set theory with the lambda calculus of Alonzo Church
+and the combinatory logic of Haskell Curry extended the breadth of
+tools available although limited by the Kleen-Rosser paradox.
+A succession of paradoxes confounded the logical closure of set theory.
+The logical contradictions established by Kurt G\"{o}del's completeness theorems
+eventually established limits to logical development of mathematics and
+a diagnosis of the paradoxes of Cantor, Russell, Tarski etc.
+Lawvere later equivalated the paradoxes of set theory as a
+common fixed point idiom.
+Despite the futility of set theory to overcome the boundaries of logic
+capable disaplines developed to navigate paradoxical limits while
+extending the foundations for many significant mathematical fields.
+
+Category theory emerged as the bounding firmament of set theory coalesced.
+Relative to the ancient studies of logical arithmetic and geometry,
+set theory approached mathematics with the logic of the former while category
+theory convenes the later with the concept of arrow.
+Category theory formalized a schematic representation for the
+emergence of algebraic topology and the eventual development of
+homological type theory, in complement to the tools of Alozo Church and
+Haskell Curry.
+
+The structural development of 
+Category theory complements the quantitative 
+tools of set theory with an emphasis on meta abstraction and
+conceptual framework.
+The proposition of an arrow mediates the abstraction and framework of
+category theory; a metaphore to the edge of a graph. In this sense
+an arrow is an entity that explicitely or implcitely assumes a relation,
+to a meta environment within an encompasing category.
+Teleological conundra and complexities are implicitly partitioned and
+abstracted from areas of specific interest for construction and analysis.
+
+The propositional development of category theory progresses
+through iterations, each iteration designates a context.
+The method of context iteration navigates logical paradoxes 
+to develop a robust and practical theory.
+Collection and arrow propositons engender the development of category theory.
+Incremental collection and arrow propositions develop through a
+succession of contexts.
+From the initial context, the arrow introduces the application of algorithms
+to develop proof of proposition, type structure and transformation.
+Likewise context levels extend the foundational collection model
+to higher order transformation behavior, i.e.
+categories, functors and natural transforms.
+The context approach synoptically develops logic, language and categories,
+incrementally exposing the intuitive concepts of a collection and
+arrow without absolute assumptions.
+Succeeding contexts navigate the edemic conceit inherited from the
+historical era proceeding from Plato; anthopomorphism of intuitive axiom as
+universal nature or divine guidance.
+
+Proofs of propositions, programs of a type, and mappings between structures.  These three aspects give rise to three sects of worship: Logic, which gives primacy to proofs and propositions; Languages, which gives primacy to programs and types; Categories, which gives primacy to mappings and structures.  The central dogma of computational trinitarianism holds that Logic, Languages, and Categories
+
+Quipper Language
+
+Collection serves the concept of a category theory entity.
+Ultimately a category specializes the concept of a collection with
+arrow constructs.
+By fiat the arrow initially exposes a specific relation with the
+concept of a traditional ordered pair.
+As distinct associations the components of the pair may be the same
+or different collections.
+The distinctive behavior of an arrow associates a mapping from the first
+collection, a domain to the second collection, a codomain.
+The actual association of an arrow from domain to codomain attributes as a
+relation.
+Operators are special arrows, employed to expose aspects of a domain
+collection.
+The operators, $\oper{dom}$ and $\oper{cod}$, designate domain and codomain
+respectively. The traditional operators, $\oper{fst}$ and $\oper{snd}$,
+used in the Haskell programming language are reserved for other designations.
+The behavior of an arrow beyond domain and codomain is ascribed by
+the properties of relation.
+A special relation, the membership arrow, $\in$, relates
+a domain collection as a constituent of a codomain collection.
+The subcollection arrow, $\lessdot$, implies
+that a domain collection consists only of members contained in the codomain
+collection.
+Membership and subcollection arrows ascribe to different relations.
+The trivial collection is the empty collection, $\varnothing$,
+consists of no members. The trivial collection is a subcollection
+of all collections.
+An object refers to a domain collection that is a
+member of a codomain collection. In general the relation of
+an arrow is a behavior that attributes a collection with properties.
+In general an arrow is an object that ascribes a minimal set of attributes;
+domain, codomain and relation.
+
+Category theory organizes into a paradigm of context levels.
+The foundation context level 
+defines collection and essential arrows such as membership and subcollection.
+Above the foundation context is the order context releative to an order of
+arrows.
+
+Philosophical discourse on the human congnition of the physical universe
+lays witness to a storied history.
+The reification of the physical initially manifests
+in pure mathematics with the eventuality of computational algorithms.
+The human passion of reason animates the reification process of
+physics and mathematics in defiance of Cartesian duality.
+Evolution of reason from an Aquinian eschatological form of divine substance
+toward a logical construct of computation remains an constant pursuit.
+Plato's theory of forms idealized human cognition of pure concept
+extended with the practice of dialogue to embrace the
+social congnition of the ethereal.
+Aristotle's hylomorphic approach emphasizes the empirical dialectic
+while maintaining a similar teleological maxim.
+
+The philosophy of science and mathematics dictates the process of
+concept construction and analysis.
+Concepts endure as epistomological models and theories through
+empirical validation and rational deduction.
+Scientific observation confirms hypothesis while
+deductive reasoning upholds mathematical construct as theory.
+Various deductive methodologies infer basic concepts from observation
+and hypotheses to engender a complement of progress in science and mathematics.
+In contrast, na\"{i}ve reliance on intuition as absolute concept undermines
+scientific underpinings and confounds mathematics with paradox.
+As witness, the haunting forms of Plato
+indict human nature with intuitive albeit inspiring belief.
+Intuition condemns ambiguity to many fundamental definitions and axioms.
+Ideally the practice of hypothesis and observation shape intuition and concept.
+Ultimately, categorical construct evolves to reify dynamic observation
+and hypothesis of the real world to establish a
+dialectic for accurate epistemology.
+Analysis and construct relative to assumptions direct the establishment of a
+framework for deductive reasoning and category theory.
+
+Computational algorithms mathematically process episodes of
+assumption with a reasoning model; an epitome for the
+recurrent scientific protocol of hypothesis/observation.
+Deductive reasoning employs a context of conjugates
+to construct complex assumptions from simple inputs.
+A context essentially consists of a vocabulary of
+fundamental conjugates and assumptions.
+Abductive reasoning alternately employs a similar context to
+equivalate an input with semantically similar complex assumptions.
+Abductuve reasoning supports the scientific develoment of
+complex hypotheses from observation.
+The guidance of algorithm implementation within a context establishes the
+boundary constraints and reperetoire for deductive reasoning.
+Context consists of a construct of complex assumptions
+in conformance with various reasoning models.
+The pursuit of universal constructs determine
+arithmetic, fields of mathematics or models of physical reality.
+Hilbertian axiometrics represents an extreme set model of logical analysis
+and construction of prior truths.
+Historically the second problem in mathematics,
+as stated by David Hilbert in 1900,
+prognosticated that a logical algorithm with fundamental assumptions would
+prove a consistent arithmetic during the 20\textsuperscript{th} century.
+Kurt G\"{o}del ultimately proved the mutual exclusion of both
+consistency and completeness for any logical construct over axioms,
+including arithmetic.
+As such G\"{o}del's Theorem imposes boundaries,
+often cited as paradoxes, on mathematical construct and analysis.
+In corollary, the computational halting problem states the imposibility of 
+determining convergence for all algorithms acting on possible input assumptions.
+Herin the applicaton of reasoning and structure are applied to navigate
+paradoxes in algorithm development.
+All reasoning models rely on formal assumptions, possibly axioms,
+to structure graphs that uphold a reasoning calculus. 
+Formal assumptions establish a contextual foundation to mediate assertions
+tested by deductive calculus.
+
+The primitive assumption of order engenders the definition of sequent.
+Sequent girds the construct of complex assumptions from priors.
+Sequent alludes to a declensional variation of sequence.
+The symbol, $\vdash$, denotes a sequent as follows:
+
+\begin{definition}{Sequent}\label{def:sequent},
+  denoted with symbol, $\vdash$, relates an
+  antecedent, $\obk{a}$, to the consequent, $\obk{c}$.
+\begin{equation*}
+\obk{a}\vdash\obk{c}
+\end{equation*}
+A cedent refers either an antecedent or consequent mutually
+associated by a sequent
+  \begin{equation*}
+  \begin{array}{rll}
+   Antecedent&-&\text{an assumption} \\[3pt]
+   Consequent&-&\text{an assumption dependent on antecedent}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+A context imposes conditional constraint on the sequent relation.
+Minimally context consists of the conditional relation of order
+from antecedent to subsequent assumptions.
+Sequent further defines a nontrival collection of cedents
+discriminated by order as antecedent and consequent.
+In context a sequent is a specialized collection.
+
+Sequent acts as a construct relating
+a antecedent to consequent as a complex assumption.
+As definition prevails a complex assumption forms a graph of
+constituent assumptions.
+
+The elementary declaration of fundamental assumptions begin with
+a sequent endowed with an context with existential relation.
+A fundamental existential consequent has no antecedent.
+Essentially an existential sequent is declares a
+consequent from a nothing antecedent.
+
+\begin{definition}{Existential Sequent, $\exists$}
+  \label{def:existentialdeclare},
+  determines a consequent with the nothing antecedent.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\exists&\obk{a} \\[3pt]
+   \exists&\quad&\text{Existential sequent}\\[3pt]
+   &\quad&\text{nothing antecedent} \\[3pt]
+   \obk{a}&\quad&\text{existentially declared assumption, } \\[3pt]
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Existential declaration supports the definition of atomic assumptions
+with a dependency on the nothing assumption.
+Alternately, complex consequent assumptions are declared from
+significant antecedents.
+Implication declares a useful dependency sequent.
+Several sequents combine to extend cotext with a declaration of implecation.
+Fractional notation encapsulates nested sequent relations to
+improve the interpretation of deductive structure.
+
+\begin{equation*}
+\frac{\obk{a}\vdash\obk{c}}{\vdash\obk{a}\Rightarrow\obk{c}}
+\end{equation*}  
+
+Generally context refers to a relevant universe of interpretation.
+Context supports the concept of dual interpretation to
+assert the opposite of an assertion.
+Duality also applies to context.
+Sequent is defined as an ordered collection of cedents.
+A collection more general than sequent
+relates assumptions without an order constraint.
+Membership declares an antecedent as a constituent of a collection.
+Declaring a collection to contain a member proceeds:
+
+\begin{definition}{Membership Sequent}\label{def:membership},
+  implies a nontrivial consequent collection, $\cat{C}$,
+  consists of an antecedent assumption, $\obk{a}$,
+  \begin{equation*}
+  \begin{array}{rll}
+   \obk{a}&\in&\cat{C} \\[3pt]
+   \in&\quad&\text{membership sequent} \\[3pt]
+   \obk{a}&\quad&\text{assumption of membership} \\[3pt]
+   \cat{C}&\quad&\text{nontrivial collection} \\[3pt]
+   &&\text{containing the antecedent,}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Membership is a restriction on the existential declaration.
+The antecedent of membership is a constituent of a
+nontrivial consequent collection.
+Several sequents combine to form a complex declaration.
+
+\begin{equation*}
+\frac{\exists\,\obk{a},\;\exists\,\cat{C}}{\obk{a}\in\cat{C}}
+\end{equation*}  
+
+Adding a collection assumption to a sequent context combines to
+declare the trivial or initial collection from nothing follows:
+
+\begin{definition}{Initial Collection}\label{def:initialcollection},
+  A nothing antecedent within a collection context declares the
+  initial collection.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\vdash_{\{\}}&\catN{0} \\[3pt]
+   &\quad&\text{nothing antecedent} \\[3pt]
+   \{\}&\quad&\text{collection context} \\[3pt]
+   \catN{0}&\quad&\text{initial collection} \\[3pt]
+    &&\text{existentially defined}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Elaborating further, the collection context applied to an
+assumption antecedent implies a singleton collection or a
+collection with one member:
+
+\begin{definition}{Singleton Collection}\label{def:singletoncollection},
+  An antecedent, $\obk{a}$, within a collection context declares the
+  singleton collection.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\obk{a}\vdash_{\{\}}&\{\obk{a}\} \\[3pt]
+   &\obk{a}\quad&\text{antecedent} \\[3pt]
+   \{\}&\quad&\text{collection context} \\[3pt]
+   \obk{a}&\quad&\text{singleton collection}
+  \end{array}
+  \end{equation*}
+Alternately, denote a singeton collection, $\{\obk{a}\}$,
+consisting of one member, $\obk{a}$, as $\singleton{a}$.
+\end{definition}
+
+The terminal collection is a special singleton collection consiting of the
+initial collection:
+
+\begin{definition}{Terminal Collection}\label{def:singletoncollection},
+  An antecedent, $\catN{0}$, within a collection context declares the
+  terminal collection.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\catN{0}\vdash_{\{\}}&\catN{1} \\[3pt]
+   &\catN{0}\quad&\text{antecedent} \\[3pt]
+   \{\}&\quad&\text{collection context} \\[3pt]
+   \catN{1}&\quad&\text{terminal collection}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+The collection of existential with complex assumptions
+collectively appropriates a universal assumption.
+Universal introduces a collection of assumptions and the declaration of
+specialized sequents to declare membership and subcollection.
+In context a sequent mediates the construction of a consequent assumption
+from an antecedent collection.
+Sequent extends universal collection to an equivalent universal construct.
+The concept of variable further implies a symbol to assert any member
+of a collection within a specific expression. 
+The for all sequent denotes a variable expression universally:
+
+\begin{definition}{For all Sequent, $\forall$}\label{def:forallsequent},
+  implies a variable, $\obk{x}$, as any assumption of the universal context.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\forall&\obk{x} \\[3pt]
+   \forall&\quad&\text{for all sequent} \\[3pt]
+   &\quad&\text{implied universal construct} \\[3pt]
+   \obk{x}&\quad&\text{variable assumption}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Generally a sequent is a conditional relation or rule associating assumptions.
+For example, all assumptions declared as self sequent within universal context:
+
+\begin{equation*}
+\frac{\forall\obk{x}}{\obk{x}\vdash\obk{x}}
+\end{equation*}  
+
+Collections infer a membership relationship amongst constituent assumptions.
+A self sequent relation is a specialized singleton collection
+where the unique assumption is associated with a
+first and second order characteristic.
+More generally sequent defines an ordered collection wherein
+assumptions are attributed by order in the collection.
+
+A graph is a collection with order attributes designated by sequents on members.
+A member of a graph associated only by a self sequent is isolated.
+A collection consisting of assumptions associated by sequents
+defines a directed graph.
+A graph of assumptions is itself a complex assumption.
+Sequent associations determine a concept of order for a collection.
+An unordered collection consists exclusuvely of isolated assumptions.
+A trivial or empty collection consists of no assumptions, otherwise the
+collection consists of one or more assumptions.
+
+In deductive analysis a context validates an antecedent graph.
+Alternately a context provides deductive reasoning to construct
+a consequent graph from an antecedent collection.
+A graph limited by rules of deduction exists within a context.
+A context of deduction attributes a common methodology for the
+construction or analysis of graphs.
+Analysis refers to a process of interpretation of a graph within a context.
+Ideally the deductive  construction or analysis of a graph conforms to a
+consistent context.
+The context of natural deduction establishes the idea
+of reasoning from a context.
+
+\begin{definition}{Context}\label{def:context},
+  a specialization, $R$, of a sequent
+\begin{equation*}
+\frac{R,\,\vdash}{\vdash_R}
+\end{equation*}  
+A metaconcept specializing a sequent is a \textbf{context}.
+The antecedent, $R,\,\vdash$, renders a consequent, $\vdash_R$.
+\end{definition}
+
+A context of a sequent interpretation supports the deductive
+construction or analysis of a directed graph, a deductive graph.
+A consequent assumption conforms to an antecedent collection of assumptions
+relative to a context for deductive reasoning.
+A graph of assumptions that conform to a formal context denotes a proposition.
+An independent proposition denotes an axiom, an intuitive truth.
+
+Initial constructs begin with a nothing context to introduce
+axioms and special operations.
+Incremental extensions of context organize a structured development
+of mathematical construction or analysis.
+
+Other than context, the specialization of a sequent serves to
+define various transformations and relations between cedents to
+extend the syntax of deductive context.
+Fractional notation introduces the the concept of algorithmic structure
+and procedures for deductive reasoning bounded within a context.
+A membership specialization implies a nontrivial collection.
+
+A collection context associates an antecedent with a collection
+construct.
+A trivial antecedent relates to the construction of the
+trivial collection, $\bot$.
+
+\begin{definition}{Trivial Collection}\label{def:trivialcollection},
+  consists of a nothing antecedent with collection context to yield
+  an initial or trivial collection, $\bot$.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\vdash_{\{\}}&\bot \\[3pt]
+   \{\}&\quad&\text{collection context} \\[3pt]
+   &\quad&\text{trivial antecedent and context} \\[3pt]
+   \bot&\quad&\text{initial (bottom) collection}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Combining membershio and collection context defines any
+assumption as a member of a singleton collection.
+
+\begin{definition}{Singleton Collection}\label{def:singletoncollection},
+  consists of an arbitrary antecedent with collection context to yield
+  a singleton collection consisting of a single member, the antecedent.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\vdash_{\{\}}&\bot \\[3pt]
+   \{\}&\quad&\text{collection context} \\[3pt]
+   \obk{a}&\quad&\text{antecedent assumption} \\[3pt]
+   \{\obk{a}\}&\quad&\text{singleton collection} \\[3pt]
+   &&\quad\text{consisting of singlular member, $\obk{a}$}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Equivalence refers to a particular specialization meaning
+that an unordered collection shares a common association.
+Denote the euivalence sequent as $\sim$.
+
+\begin{definition}{Equivalence}\label{def:equivalence},
+  a specialization, $\sim$, of a sequent
+\begin{equation*}
+\frac{\sim,\,\vdash}{\vdash_\sim}
+\end{equation*}  
+An equivalence specialization within a context,
+such that all antecedents of are symmetrically sequent. 
+\begin{equation*}
+\frac{\sim,a,b}{a\sim b,\;b\sim a}
+\end{equation*}  
+\end{definition}
+
+Equivalence indicates mutual dependence within a context
+over a nontrivial antecendent collection.
+
+Boolean or Heyting algebeas serve as example contexts for
+the deductive construction or analysis of propositions/theorems.
+Generally, the design of the context model supports a reperetoire of deductive
+approaches for developing arithementic and mathematics. 
+
+\begin{definition}{Proposition}\label{def:proposition},
+  an assumption that conforms to the deductive analysis of a context.
+  A $0^{th}$ order proposition is atomic and denoted as axiom. 
+  A higher order "complex" proposition consists of constituent propositions.
+  A \textbf{theorem} is a complex propostion.
+\end{definition}
+
+Judgement processes the deductive construction or analysis of an
+assumption as either a proposition or an invalid/inconsistent assumption.
+Judgement operates within a context.
+
+\begin{definition}{Judgement}\label{def:judgement},
+  a process, metaproposition, that invokes a context, $R$, of deduction
+  to evaluate a collection of antecedent
+  judgements, $J_1,\dots$, as a consequent judgement, $J$.
+  \begin{equation*}
+  J_1,\dots\,\vdash_R J
+\end{equation*}
+  A judgement of a collection of axioms, $J_a$,
+  results from an trivial antecedent and context.
+\begin{equation*}
+  \vdash J_a
+\end{equation*}  
+  A judgement process constructs a proposition from an antecedent collection or
+  alternately evaluates an antecedent as a proposition or invalid assumption.
+  Construction of a complex consequent judgement folloes from a plurality of
+  antecedent judgements.
+  Judgement transforms an antecedent collection of judgements to a consequent
+  proposition or invalid. Invalid implies non sequitur.
+  \begin{equation*}
+  \begin{array}{rll}
+   Antecedent&-&\text{collection of judgements} \\[3pt]
+   Consequent&-&\text{a consequent judgement,} \\[3pt]
+     &\quad&\text{a graph of antecedent judgements}
+  \end{array}
+  \end{equation*}
+  A judgement on an antecedent consisting of a non sequitur judgement
+  is non seqitur.
+\end{definition}
+
+The antecedent refers to a collection of component judgements,
+whereas the consequent judgement, a graph of judgements.
+A proposition cannot consist of a non sequitur judgement.
+A judgement constructs an output proposition based
+on antecedents, otherwise the result is invalid, non sequitur.
+Combinatorial outcomes of judgement vary based on context.
+
+Judgement on the nothing cotext renders any proposition not limited by
+the context.
+
+\begin{definition}{Existential Judgement}\label{def:existentialjudgement},
+  Judgement of the nothing domain determines an initial collection.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\exists&\catN{o} \\[3pt]
+   &\quad&\text{nothing context} \\[3pt]
+   \obk{o}&\quad&\text{arbitrary collection,} \\[3pt]
+    &&\text{existentially defined}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Existential judgement determins an everything context.
+The everything and nothing cotext share a lack of structure.
+The for all judgement therefore denotes:
+
+
+\begin{definition}{For all Judgement}\label{def:foralljudgement},
+  For all judgement of everything domain relative to any codomain collection.
+  \begin{equation*}
+  \begin{array}{rll}
+   &\forall& P \\[3pt]
+   &\quad&\text{everything collection} \\[3pt]
+   P&\quad&\text{arbitrary proposition from everything collection}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+A proposition of that a plurality of propositions is a nontrivial collection
+with members.
+
+\begin{definition}{Plural Judgement}\label{def:pluraljudgement},
+  Plural judgement determines that a domain of one or more proposition
+  constitutes a codomain collection.
+  \begin{equation*}
+  \begin{array}{rll}
+   P_1,\dots&\vdash& P \\[3pt]
+   P_1,\dots&\quad&\text{one or more propositions} \\[3pt]
+   P&\quad&\text{a proposition collection}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Logical arrows denote constructs relative to plural propositions.
+Union, $\vee$, and intersection, $\wedge$, denote join and meet of propositions.
+The symbols, $\vee$ and $\wedge$, represent general meet and join
+with various applications in different contexts.
+Simple union and intersection pertain to set operations.
+Logical arrow denote rules for construction of statements in a mathematical
+language.
+
+Implication denotes a stricter judgement. Looser judgements such as
+existential declaration require little or no logical pretext.
+Implication renders judgement on the application of various logical
+operations on propositions to hypothesize proposition structure.
+As a language example, a domain propositions consiting of clauses implies
+a codomain sentence structured with the domain clauses.
+
+\begin{definition}{Hypothetical Judgement}\label{def:hypotheticaljudgement},
+  implies a logical association of a domain consisting of one or more
+  propositions as a codomain sentence construct.
+  \begin{equation*}
+  \begin{array}{rll}
+   P_1,\dots&\Rightarrow& P \\[3pt]
+   P_1,\dots&\quad&\text{one or more propositions} \\[3pt]
+   P&\quad&\text{implied proposition, sentence construct}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Fractional notation equivalates the denominator justification with
+an implied and logically stricter numerator justification.
+
+\begin{definition}{Hypothetical Judgement}\label{def:hypotheticaljudgement},
+  Hypothetical judgement implies a logical association of domain of one or more proposition constitutes a codomain sentence construct.
+  \begin{equation*}
+     \frac{P_1,\dots\vdash P}{\vdash P_1,\dots\Rightarrow P}
+  \end{equation*}
+  \begin{equation*}
+  \begin{array}{rll}
+   P_1,\dots&\Rightarrow& P \\[3pt]
+   P_1,\dots&\quad&\text{one or more propositions} \\[3pt]
+   P&\quad&\text{implied proposition, logical sentence construct}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+A hypothetical judgement on a collection of propositions renders
+a logically structured composit proposition alternately named a complex
+proposition.
+A membership arrow, $\in$, denotes a domain proposition that is a member
+of a plural collection. Subcollection, $\lessdot$, denotes an arrow with
+domain collection which consists of only members that are common with the
+codomain collection. A member of a complex proposition is refered to as
+term.
+
+\begin{definition}{Membership Judgement}\label{def:membershipjudgement},
+  membership association of a domain consisting of a proposition
+  as amember of as a codomain sentence construct or collection.
+  A member proposition is also known as a term.
+  \begin{equation*}
+     \frac{P_1,\dots\vdash P}{\vdash P_1\in P}
+  \end{equation*}
+  \begin{equation*}
+  \begin{array}{rll}
+   P_1,\dots&\Rightarrow& P\quad\text{terms of complex proposition} \\[3pt]
+   P_1,\dots&\quad&\text{one or more propositions} \\[3pt]
+   P&\quad&\text{implied complex proposition, sentence construct}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+Subordinate  
+A collection with members sharing a similar characteristic is a type.
+Members of a type conform to the for all, $\forall$, judgement.
+
+\begin{definition}{Membership Judgement}\label{def:membershipjudgement},
+  membership association of a domain consisting of a proposition
+  as a member of a codomain collection.
+  \begin{equation*}
+     \frac{\forall p\in P}{p:P}
+  \end{equation*}
+\end{definition}
+
+\begin{definition}{Subcollection/Type Judgement}\label{def:subtypejudgement},
+  subcollection/subtype association of a domain consisting of a proposition
+  as amember of a codomain collection.
+  \begin{equation*}
+     \frac{a:A\vdash a\in B}{A\lessdot B}
+  \end{equation*}
+\end{definition}
+
+Logic and types provide a breif introduction to the mechanics to define
+concepts and structure. A complete development of category theory requires
+a thourgh understanding of mappings and trandformations.
+The foundation context of category theory provides a begining.
+
+\begin{definition}{Collection, Foundation Context}\label{def:collection},
+  everything is a collection. A collection represents a concept or entity
+  associated with a label or identity.
+  The trivial collection, $\varnothing$, is uniquely empty,
+  consisting of nothing. Non-trival collections consist of other collections.
+  Category specializes collection. Objects are constituents of a collection.
+  A collection associates with attributes as follows:
+\begin{itemize}
+\item\textbf{(Arrow)} an order pair consisting of a domain collection
+  associated with a codomain collection.
+  \begin{itemize}
+    \item\textbf{(Domain)} a binding of the arrow
+    \item\textbf{(Codomain)} the referent binding of the arrow
+ \end{itemize}
+\item\textbf{(Property)} a codomain associated with a domain collection.
+  A property attributed to a collection or the constituents of a collection
+\item\textbf{(Relation)} a codomain associated with a domain arrow.
+  Membership, subcollection and equals are specific examples of relations.
+  A property associated with the domain to codomain pair of an arrow.
+  Denote the general collection of relations as a collection, $\mathcal{C}$
+  \begin{itemize}
+    \item\textbf{(Membership, $\in$)} an arrow, the domain
+      is a constituent collection of the codomain collection.
+      The domain of membership is an \textbf{object} of the
+      codomain of membership. A domain or codomain must be objects
+      as members of the collection for an arrow
+    \item\textbf{(Subcollection, $\lessdot$)} an arrow, the constituents of the
+      domain collection are constituents of the codomain collection
+    \item\textbf{(Equals, $=$)} an arrow, with domain and codomain
+      the same collection, an identity arrow of this collection.
+      Two objects, $\obk{a}$ and $\obk{b}$, that commute relative
+      to the subcollection arrow, $\obk{a}\lessdot\obk{b}$ and
+      $\obk{b}\lessdot\obk{a}$, then $\obk{a}=\obk{b}$
+ \end{itemize}
+\item\textbf{(Equivalence, $\sim$)} an arrow, an unordered pair
+  of domain and codomain collections. The domain and codomain
+  collections are equivalent relative to common properties.
+  Equality implies equivalence but equvalence does not imply equality.
+  Equivalence is a partial condition but not an absolute requirement
+  for equality.
+\end{itemize}
+\end{definition}
+
+The arrow is peculiar to category theory. An arrow exists as a relation
+with a particular domain/codomain object pair.
+In set theory a relation is a concept judged to be defined or undefined
+in regard to a given domain/codomain object pair.
+For category theory an arrow with domain/codomain pair $\cpair{a}{b}$
+is different from an arrow with domain/codomain pair, $\cpair{c}{d}$,
+assuming $\obk{a}\neq\obk{c}$ or $\obk{b}\neq\obk{d}$.
+Furthermore two arrows with distinct relations are distinct even with an
+identical domain/codomain pair.
+
+As a structural tool, arrows compose with an algebra, compositional algebra,
+to construct diagrams of directed arrows and objects, essentially a graph.
+Diagrams and graphs likewise specify algorithms and
+proceedures with the algebra.
+
+MacLane's in fact introduced meta graphs as a preliminary to category theory.
+Edemic to category theory is the practice of abstracting objects of
+a diagram as meta entities with discriminating identities to focus on the
+structure of the arrows interconnecting the objects.
+
+\begin{definition}{Composition Algebra}\label{def:composition},
+  each arrow, $\arr{r}$, directs an association from a
+  domain object to a codomain object.
+  The domain and codomain objects are a referent pair of the  arrow,
+  $\arr{r}$; designated by properties,
+  $\oper{dom}$ and $\oper{cod}$, respectively:
+  \begin{itemize}
+    \item\textbf{(Domain)}, $\arrdom{r}$, domain object
+    \item\textbf{(Codomain)}, $\arrcod{r}$, codomain object
+    \item\textbf{(Relation)}, $\arrrel{r}\in\mathcal{R}$,
+      arrow characteristic
+    \item\textbf{(Map Notation)},
+      $\arr{r}:\,\arrdom{r}\rightarrow\arrcod{r}$ \\
+      $\qquad$ or $\quad\arrdom{r}\xrightarrow{\;\obk{r}\;}\arrcod{r}$
+    \item\textbf{(Composition Algebra)},\\ given arrows,
+      $\arr{r}$,$\arr{s}$,$\arr{t}$, where\\
+       $\arrcod{r}=\arrdom{s}$ and $\arrcod{s}=\arrdom{t}$
+      \begin{itemize}
+      \item\textbf{(Binary operator, $\circ$)}
+        $\arr{s}\circ\arr{r}=\arr{s\circ r}$,\\
+        $\qquad\arrdom{r}\xrightarrow{\;\obk{s}\circ\obk{r}\;}\arrcod{s}$
+      \item\textbf{(Associative)}
+        $(\arr{t}\circ\arr{s})\circ\arr{r}=\arr{t}\circ(\arr{s}\circ\arr{r})$
+      \item\textbf{(Identity)} 
+      \begin{itemize}
+        \item\textbf{(Idempotency)} $\arrid{o}\circ\arrid{o}=\arrid{o}$
+        \item\textbf{(Composition Identity)}
+        $\arr{r}=\arr{r}\circ\arrid{\arrdom{r}}=\arrid{\arrcod{r}}\circ\arr{r}$
+      \end{itemize}
+      \end{itemize}
+  \end{itemize}  
+\end{definition}
+
+Collection concepts apply to functional and object oriented programming.
+In a practical context the abstraction
+of collection identity supports lazy instantiation
+of program constructs and computer resource management.
+In complement, Mac Lane, \cite{maclane1998}, introduced the
+the concept of meta-categories prior to penetrating set
+and more specific category definitions. Reflexively, category
+theory admits and partitions meta concepts in complement
+with specific concomitant definitions.
+The prefered symbol here, $\lessdot$, indicates a broader subcollection
+relation extending to the specialized collection, category,
+hence the traditional set operator symbol, $\subset$ is not used.
+
+Within the order context each arrow is attributed with order.
+A zero order arrow is a collection unendowed with domain or codomain. 
+Arrows with positive integer order endow a mapping behavior;
+an $n^{th}$ order arrow associates an $n-1^{st}$ order domain arrow to an
+$n-1^{st}$ order codomain arrow.
+The equal arrow, $=$, is a special equivalance arrow, $\sim$.
+The equial arrow is the identity of an a collection.
+Arrows with negative order
+are detailed in following sections but in breif a negative order arrow
+associates a domain arrow with a codomain constiting of
+lower order arrows. The domain and codomain operators, $\oper{dom}$ and
+$\oper{cod}$, are arrows of $-1^{st}$ order.
+A higher context consists of a hierarchy based on category with
+associated maps of categories such as functor and natural transform.
+
+
+
+
+\section{Appendix}
+
+\bibliography{sample-paper}
+
+\bibliographystyle{prsty}
+\begin{thebibliography}{99}
+\bibitem{cartan1966}Cartan,\'{E}., ``The Theory of Spinors'', Hermann, [1966]
+\bibitem{cartan1913}Cartan,\'{E}., ``Les Groupes Projectifs qui ne laissent
+  invariante aucune multiplicit\'{e} plane'', Bull. Soc. Math. France, [1913]
+\bibitem{grothendieck1957}Grothendieck,A., ``Sur quelques points d`Alg\`{e}bra Homologique'', T\^{o}hoku Math. J., 9, pp. 119-221, [1957]
+\bibitem{brauerweyl1937}Brauer,R. and Weyl,H., ``Spinors in n Dimensions'', Am. J. Math., 57, pp. 425-449, [1937]
+\bibitem{russell1902}Russell,B., Letter to Frege,In Heijenoort 1967, pp. 124-125, [1902]
+\bibitem{russell1903}Russell,B., ``The Principles of Mathematics'', Cambridge Univ. Press, Cambridge, Vol. I, [1903]
+\bibitem{pauli1927}Pauli,W., ``Zur Quantenmechanik des Magnetischen Elektrons'', Z. Phys., 43, pp. 601-623, [1927]
+\bibitem{zermelo1908}Zermelo,E., ``Untersuchungen \"{U}ber die Grundlagen der Mengeniehre``, Math. Ann., 65, pp. 261-281, [1908]
+\bibitem{schafer2008}Schafer,R.D., ``An Introduction to Nonassociative Algebras'', Project Gutenberg(Public Domain USA). Internet, [2008]
+\bibitem{dirac1928}Dirac,P.A.M., ``The Quantum Theory of the Electron'', Proc. R. Soc. \(London\), [1928]
+\bibitem{birkoff1935}Birkoff,G.D., ``On the Structure of Abstract Algebras'', Proc. Cambridge P. Soc. 31, pp. 433-454, [1935]
+\bibitem{jipsenrose1992}Jipsen,P.,Rose,H.``Varieties of Lattices'', Springer-Verlag,Berlin-Heidelberg, [1992]
+\bibitem{hodges1993}Hodges,W., ``Model Theory'', Cambridge Univ. Press, Cambridge, [1993]
+\bibitem{lawvere1965}Lawvere,F.W., ``An Elementary Theory of the Category of Sets'', Proc. N. Acad. Sc., PNAS, [1965]
+\bibitem{lawvere1997}Lawvere,F.W.,Shanuel,S.H., ``Conceptual Mathematics, A first Introduction to Categories'', Cambridge Univ. Press, Cambridge, [1997]
+\bibitem{awodey2010}Awodey,S., ``Category Theory'', Oxford Univ. Press, Oxford, [2010]
+\bibitem{barrwells1990}Barr,M.,Wells,.C, ``Category Theory for Computing Science'', Prentice Hall, [1990], pdf version online [1998]
+\bibitem{lang2002}Lang,S., ``Algebra'', Springer-Verlag, NY, [2002]
+\bibitem{maclane1986}Mac Lane,S., ``Mathematics Form and Function'', Springer-Verlag, NY, [1986]
+\bibitem{maclane1998}Mac Lane,S., ``Category Theory for the Working Mathemetician'', Second Edition, Springer-Verlag, NY, [1998]
+\bibitem{bourbaki1989}Bourbaki,N., ``Algebra I'', Springer-Verlag, Berlin Heidelberg, [1989]
+\bibitem{bourbaki22003}Bourbaki,N., ``Algebra II'', Springer-Verlag, Berlin Heidelberg, [2003]
+\bibitem{hungerford1974}Hungerford,T.W., ``Algebra'', Springer-Verlag, NY, [1974]
+\bibitem{burris1981}Burris,S.,Sankappanavar,H.P., ``A Course in Universal Algebra'', Springer-Verlag, NY, [1981]
+\bibitem{rotman1998}Rotman,J., ``Galois Theory'', Springer-Verlag, NY, [1998]
+\bibitem{fultonharris2004}Fulton,W., Harris,J., ``Representation Theory: A First Course'', Springer-Verlag, NY, [2004]
+\bibitem{humphreys1972}Humphreys,J., ``Introduction to Lie Algebras and Representation Theory'', Springer-Verlag, NY, [1972]
+\bibitem{brouwer1911}Brouwer,L.E.J., ``\"Uber Abbildung von Mannigfaltigkeiten'', Math. Ann., 71, pp. 97-115, [1911]
+\bibitem{birkhoff1913}Birkhoff,G.D., ``Proof of Poincar\'e's Geometric Theorem'', Trans. Amer. Math. Soc., 14, pp. 14-22, [1913]
+\bibitem{birkhoff1925}Birkhoff,G.D., ``An Extension of Poincar\'e's Last Geometric Theorem'', Acta Math., 47, pp. 297-311, [1925]
+\bibitem{poincare1912}Poincar\'e,H., ``Sur un Theor\`eme de G\'eom\'etrie'', Rend. Circ. Mat. Palermo, 33, pp. 375-407, [1912]
+\bibitem{brownnwumann977}Brown,H.,NeumannD., ``Proof of the Poincar\'e-Birkhoff Fixed-Point Theorem'', Michigan Math. J., 24, pp. 21-31, [1977]
+
+\end{thebibliography}
+
+\end{document}

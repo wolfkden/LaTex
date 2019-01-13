@@ -1,0 +1,2423 @@
+%\documentclass[aps,twocolumn,secnumarabic,graphics,flotfix,graphicx,
+%url,bm,tightenlines,nobibnotes,nobalancelastpage,amsmath,amssymb,
+%nofootinbib]{article}
+\documentclass[aps,twocolumn,secnumarabic,nobalancelastpage,amsmath,amssymb,
+amsthm,nofootinbib,parskip=full]{revtex4}
+
+% standard graphics specifications
+% alternative graphics specifications
+% helps with long table options
+% for on-line citations
+% special 'bold-math' package
+
+\usepackage{utf8}{inputenc}
+%\usepackage[bottom]{footmisc}
+\usepackage{titlesec}
+\usepackage{mathtools}
+\usepackage{graphics}      % standard graphics specifications
+\usepackage{graphicx}      % alternative graphics specifications
+\usepackage{longtable}     % helps with long table options
+\usepackage{url}           % for on-line citations
+\usepackage{bm}            % special 'bold-math' package
+%\usepackage{unicode-math}
+\usepackage{stmaryrd}
+\usepackage{mathrsfs}
+%\usepackage{mathabx}
+%\setmathfont{XITS Math}
+%\setmathfont[version=setB,StylisticSet=1]{XITS Math}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{pgf, tikz, tikz-cd}
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+\usepackage{calrsfs}
+\usepackage{stringstrings}
+\usepackage{xstring}
+\usepackage{xparse}
+
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+%\DeclareMathAlphabet{\eurocal}{OMS}{zplm}{m}{n}
+\usepackage{calligra}
+\usepackage[T1]{fontenc}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[1.2]callig15}{}
+\DeclareMathAlphabet{\classscr}{T1}{calligra}{m}{n}
+\usepackage[mathscr]{euscript}
+\let\euscr\mathscr \let\mathscr\relax% just so we can load this and rsfs
+\usepackage[scr]{rsfso}
+\usepackage{relsize}
+\usepackage{physics}
+%\usepackage{wasysym}
+\DeclareSymbolFont{extraitalic}      {U}{zavm}{m}{it}
+\DeclareMathSymbol{\Qoppa}{\mathord}{extraitalic}{161}
+\DeclareMathSymbol{\qoppa}{\mathord}{extraitalic}{162}
+\DeclareMathSymbol{\Stigma}{\mathord}{extraitalic}{167}
+\DeclareMathSymbol{\Sampi}{\mathord}{extraitalic}{165}
+\DeclareMathSymbol{\sampi}{\mathord}{extraitalic}{166}
+\DeclareMathSymbol{\stigma}{\mathord}{extraitalic}{168}
+\DeclareMathSymbol{\Koppa}{\mathord}{extraitalic}{163}
+\DeclareMathSymbol{\koppa}{\mathord}{extraitalic}{164}
+\DeclareMathSymbol{\backepsilon}{\mathord}{extraitalic}{169}
+\DeclareMathSymbol{\vareth}{\mathord}{extraitalic}{170}
+\DeclareMathSymbol{\Digamma}{\mathord}{extraitalic}{159}
+\DeclareMathSymbol{\Varkappa}{\mathord}{extraitalic}{160}
+\DeclareMathSymbol{\vardigamma}{\mathord}{extraitalic}{154}
+\DeclareMathSymbol{\Varrho}{\mathord}{extraitalic}{156}
+\DeclareMathSymbol{\snatural}{\mathord}{extraitalic}{157}
+
+\usetikzlibrary{matrix,arrows, decorations,
+  positioning, automata, calc, fit, shapes.geometric}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proof}{Proof}[theorem]
+\newtheorem{axiom}{Axiom}
+
+\numberwithin{equation}{section}
+
+%%\theoremstype{definition}
+\newtheorem{definition}{Definition}[section]
+%\newtheorem*{remark}{Remark}
+
+%\setlength{\parskip}{\baselineskip}
+%\setlength{\parskip}{4em}
+
+\tikzset{every loop/.style={min distance=12mm,looseness=10}}
+\tikzset{place/.style={circle,thick,minimum size=8mm}}
+\tikzset{
+modal/.style={>=stealth’,shorten >=1pt,shorten <=1pt,auto,node distance=1.5cm,
+semithick},
+world/.style={circle,draw,minimum size=0.5cm,fill=gray!15},
+point/.style={circle,draw,inner sep=0.5mm,fill=black},
+reflexive above/.style={->,loop,looseness=7,in=120,out=60},
+reflexive below/.style={->,loop,looseness=7,in=240,out=300},
+reflexive left/.style={->,loop,looseness=7,in=150,out=210},
+reflexive right/.style={->,loop,looseness=7,in=30,out=330}
+}
+
+\newcommand*{\xslant}[2][70]{%
+  \begingroup
+    \sbox0{#2}%
+    \pgfmathsetlengthmacro\wdslant{\the\wd0 + cos(#1)*\the\wd0}%
+    \leavevmode
+    \hbox to \wdslant{\hss
+      \tikz[
+        baseline=(X.base),
+        inner sep=0pt,
+        transform canvas={xslant=cos(#1)},
+      ] \node (X) {\usebox0};%
+      \hss
+      \vrule width 0pt height\ht0 depth\dp0 %
+    }%
+  \endgroup
+}
+
+%\DeclareRobustCommand{\innerd}[1]{\text{\scalebox{1}{$\mathsf{i}$}}_{#1}}
+\DeclareRobustCommand{\xssmall}[2]{\text{\scalebox{#1}{$\mathsf{#2}$}}}
+
+\NewDocumentCommand{\tensorkor}{m >{\SplitList{,}}O{}}
+ {\begingroup
+%  \newcommand\object{\vphantom{\,}}
+%   \def\@temp{\Processlist{#2}{\dotensorpre}\IfEq{#1}{d}{\xssmall{.8}{#1}}{#1}}
+   \def\@temp{\IfEq{#1}{d}{\xssmall{.8}{#1}}{#1}}
+   \@temp
+  \newcommand\object{\vphantom{\@temp}}
+  \ProcessList{#2}{\dotensorkor}%
+  \endgroup}
+
+\NewDocumentCommand{\dotensorpre}{m}
+{%
+% {\object}#1
+% \IfBeginWith{#1}{!}{\,^a{\object}}{{\object}#1}
+ \IfBeginWith{#1}{!}{\object^{\StrBehind{#1}{!}}}{\object}
+}
+\NewDocumentCommand{\dotensorkor}{m}
+{%
+% {\object}#1
+% \IfBeginWith{#1}{!}{\,^a{\object}}{{\object}#1}
+ \IfBeginWith{#1}{!}{\object}{{\object}#1}
+}
+
+\makeatletter
+\newcommand*{\xslantmath}{}
+\def\xslantmath#1#{%
+  \@xslantmath{#1}%
+}
+\newcommand*{\@xslantmath}[2]{%
+  % #1: optional argument for \xslant including brackets
+  % #2: math symbol
+  \ensuremath{%
+    \mathpalette{\@@xslantmath{#1}}{#2}%
+  }%
+}
+\newcommand*{\@@xslantmath}[3]{%
+  % #1: optional argument for \xslant including brackets
+  % #2: math style
+  % #3: math symbol
+  \xslant#1{$#2#3\m@th$}%
+}
+\makeatother
+
+\newcommand{\nlessdot}{\mathrlap{\lessdot}\;|\;\,}
+
+\newcommand{\gtrplus}{\mathrlap
+  {\textbf{\raisebox{1.15pt}{\hspace{2.6pt}\scalebox{.4}{+}}}}>}
+\newcommand{\padtxt}[1]{\hspace*{1em}\parsecat{#1}\hspace*{1em}}
+
+\newcommand{\abk}[1]{\xslantmath{\mathfrak{#1}}}
+%\newcommand{\subp}[1]{\xslantmath{\mathscr{#1}}}
+\newcommand{\subp}[1]{\mathbf{#1}}
+\newcommand{\obk}[1]{\mathpzc{#1}}
+\newcommand{\diag}[1]{\mathbf{\mathsf{#1}}}
+\newcommand{\diagobj}[1]{\diag{#1}_0}
+\newcommand{\diagarr}[1]{\diag{#1}_1}
+\newcommand{\diagdom}[1]{\oper{dom}\diag{#1}}
+\newcommand{\diagcod}[1]{\oper{cod}\diag{#1}}
+%\newcommand{\cat}[1]{\pazocal{#1}}
+\newcommand{\cat}[1]{\pazocal{#1}}
+\newcommand{\iarr}[1]{{\large \abk{i}}_{\obk{#1}}}
+\newcommand{\tarr}[1]{{\large \abk{t}}_{\obk{#1}}}
+\newcommand{\earr}[1]{{\large \abk{e}}_{\obk{#1}}}
+\newcommand{\earrid}[1]{\oper{id}_{\obk{#1}}}
+\newcommand{\earrdom}[1]{\oper{dom}\earr{#1}}
+\newcommand{\earrcod}[1]{\oper{cod}\earr{#1}}
+\newcommand{\arr}[1]{{\large \abk{a}}_{\obk{#1}}}
+\newcommand{\arrid}[1]{\oper{id}_{\obk{#1}}}
+\newcommand{\arrdom}[1]{\oper{dom}\arr{#1}}
+\newcommand{\arrcod}[1]{\oper{cod}\arr{#1}}
+\newcommand{\arrrel}[1]{\oper{rel}\arr{#1}}
+\newcommand{\oarr}[2]{{\large \abk{a}}_{{\subp{#1},\obk{#2}}}}
+\newcommand{\oarrid}[2]{\oper{id}_{\subp{#1},\obk{#2}}}
+\newcommand{\oarrdom}[2]{\oper{dom}\oarr{#1}{#2}}
+\newcommand{\oarrcod}[2]{\oper{cod}\oarr{#1}{#2}}
+\newcommand{\oarrrel}[2]{\oper{rel}\oarr{#1}{#2}}
+\newcommand{\arrn}[2]{{\large \abk{a}}^{#2}_{\obk{#1}}}
+\newcommand{\ccid}[1]{\cat{#1}_{\oper{id}}}
+\newcommand{\ccobj}[1]{\cat{#1}_{\subp{0}}}
+\newcommand{\ccarr}[1]{\cat{#1}_{\subp{1}}}
+\newcommand{\occarr}[2]{\cat{#2}_{\subp{#1}}}
+\newcommand{\ocatarr}[2]{\parsecat{#2}_{\subp{#1}}}
+\newcommand{\catarr}[1]{\parsecat{#1}_{\subp{1}}}
+\newcommand{\catobj}[1]{\parsecat{#1}_{\subp{0}}}
+\newcommand{\owraparr}[2]{(#2)_{\subp{#1}}}
+\newcommand{\wrpcobj}[1]{#1_{,\subp{0}}}
+\newcommand{\wrpcarr}[1]{#1_{,\subp{1}}}
+\newcommand{\owrparr}[2]{{#2}_{\subp{#1}}}
+\newcommand{\wrparr}[1]{#1_{\subp{1}}}
+\newcommand{\wrpobj}[1]{#1_{\subp{0}}}
+\newcommand{\wraparr}[1]{(#1)_{\subp{1}}}
+\newcommand{\wrapobj}[1]{(#1)_{\subp{0}}}
+\newcommand{\catfull}[1]{\cat{#1}(\ccobj{#1},\ccarr{#1})}
+\newcommand{\oper}[1]{\mathbf{#1}\,}
+\newcommand{\catN}[1]{\mathbf{\large #1}}
+\newcommand{\initcat}{\catN{0}}
+\newcommand{\termcat}{\catN{1}}
+\newcommand{\singleton}[1]{\catN{1}_{#1}}
+\newcommand{\singletoncat}[1]{\singleton{\parsecat{#1}}}
+\newcommand{\fst}[1]{\oper{fst}\,#1}
+\newcommand{\snd}[1]{\oper{snd}\,#1}
+\newcommand{\adj}[2]{#1\dashv #2}
+\newcommand{\adjcat}[2]{\pazocal{#1}\dashv\pazocal{#2}}
+\newcommand{\adjfunct}[2]{\funct{#1}\dashv\funct{#2}}
+\newcommand{\adjnat}[2]{\nfunct{#1}\dashv\nfunct{#2}}
+\newcommand{\adjcom}[2]
+{\funct{#2}\circ\funct{#1}\dashv\funct{#1}\circ\funct{#2}}
+\newcommand{\adjtpl}[3]{(\parsecat{#1},\,\funct{#2},\,\nfunct{#3})}
+\newcommand{\adjdbl}[2]{(\funct{#2},\,\nfunct{#3})}
+\newcommand{\montpl}[3]{\mathsf{T}(\funct{#1},\,\nfunct{#2},\,\nfunct{#3})}
+
+\newcommand{\efarr}[3]{\oarr{#1}{\epair{#2}{#3}}}
+\newcommand{\ofarr}[3]{\oarr{#1}{\ffpair{#2}{#3}}}
+\newcommand{\ofarrid}[3]{\langle\arrid{{#1}^*},\,\arrid{#2}\rangle}
+\newcommand{\ofarrdom}[3]{\oper{dom}\ofarr{#1}{#2}{#3}}
+\newcommand{\ofarrcod}[3]{\oper{cod}\ofarr{#1}{#2}{#3}}
+\newcommand{\farr}[2]{\arr{\fpair{#1}{#2}}}
+\newcommand{\farrid}[2]{\langle\arrid{#1},\,\arrid{#2}\rangle}
+\newcommand{\farrdom}[2]{\oper{dom}\farr{#1}{#2}}
+\newcommand{\farrcod}[2]{\oper{cod}\farr{#1}{#2}}
+\newcommand{\ffarrdom}[2]{\oper{dom}_{\obk{1}}\farr{#1}{#2}}
+\newcommand{\ffarrcod}[2]{\oper{cod}_{\obk{1}}\farr{#1}{#2}}
+\newcommand{\arrpidom}[1]{\nprojdown{1}{\oper{dom}}\arr{#1}}
+\newcommand{\arrpicod}[1]{\nprojdown{1}{\oper{cod}}\arr{#1}}
+\newcommand{\arrpidomn}[2]{\nprojdown{#1}{\oper{dom}}\arr{#2}}
+\newcommand{\farrpicodn}[3]{\nprojdown{#1}{\oper{cod}}\oarr{#2}{#3}}
+\newcommand{\farrpidomn}[3]{\nprojdown{#1}{\oper{dom}}\oarr{#2}{#3}}
+\newcommand{\arrpicodn}[2]{\nprojdown{#1}{\oper{cod}}\arr{#2}}
+\newcommand{\farrpidomn}[2]{\arrpidom{\oarr{#1}{#2}}}
+\newcommand{\farrpicodn}[2]{\arrpicod{\oarr{#1}{#2}}}
+\newcommand{\farrpidom}[2]{\arrpidom{\fpair{#1}{#2}}}
+\newcommand{\farrpicod}[2]{\arrpicod{\fpair{#1}{#2}}}
+\newcommand{\arrpifst}[2]{\nprojfst{1}{\farr{#1}{#2}}}
+\newcommand{\arrpisnd}[2]{\nprojsnd{1}{\farr{#1}{#2}}}
+\newcommand{\oarrpiop}[3]{\nprojdown{#1}{\oper{#2}}\,#3}
+\newcommand{\arrpiop}[2]{\oarrpiop{1}{#1}{#2}}
+
+\newcommand{\largenat}{\mathpzc{NAT}}
+\newcommand{\wrpcat}[1]{#1_{\functscr{O}}}
+\newcommand{\wrpfunct}[1]{#1_{\functscr{F}}}
+\newcommand{\wrpnat}[1]{#1_{\functscr{N}}}
+\newcommand{\largenatcat}{\wrpcat{\largenat}}
+\newcommand{\largenatfunct}{\wrpfunct{\largenat}}
+\newcommand{\largenatnat}{\wrpnat{\largenat}}
+\newcommand{\cnat}[2]{\largenat\cpr{#1}{#2}}
+\newcommand{\cfnat}[2]{\largenat\fpair{#1}{#2}}
+\newcommand{\natfunct}[2]{\wrpfunct{\cnat{#1}{#2}}}
+\newcommand{\natnat}[2]{\wrpnat{\cnat{#1}{#2}}}
+\newcommand{\nfunctscr}{\functscr{N}}
+\newcommand{\nfunct}[1]{\nfunctscr_{\obk{#1}}}
+\newcommand{\nfunctdom}[1]{\oper{dom}\,\nfunct{\obk{#1}}}
+\newcommand{\nfunctcod}[1]{\oper{cod}\,\nfunct{\obk{#1}}}
+\newcommand{\nfunctobj}[1]{\nfunctscr_{obk{#1},\subp{2}}}
+\newcommand{\nfunctarr}[1]{\nfunctscr_{\obk{#1},\subp{3}}}
+
+\newcommand{\cone}[2]{\mathpzc{CONE}\cpr{#1}{#2}}
+\newcommand{\conefunct}[2]{{\mathpzc{CONE}\wrpfunct{\cpr{#1}{#2}}}}
+\newcommand{\conenat}[2]{{\mathpzc{CONE}\wrpnat{\cpr{#1}{#2}}}}
+\newcommand{\cocone}[2]{\mathpzc{COCO}\cpr{#1}{#2}}
+\newcommand{\coconefunct}[2]{{\mathpzc{COCO}\wrpfunct{\cpr{#1}{#2}}}}
+\newcommand{\coconenat}[2]{{\mathpzc{COCO}\wrpnat{\cpr{#1}{#2}}}}
+
+\newcommand{\functbag}[1]{\llbracket #1\rrbracket}
+
+%{{\raisebox{.1\baselineskip}{\ensuremath{\digamma}}}}
+%{\mathrlap{\lessdot}\;|\;\,}
+\newcommand{\oprojection}[2]{\xslantmath{\mathsf{P}}_
+  {\!\!\overset{#2}{#1}}}
+\newcommand{\nprojection}[1]{\xslantmath{\mathsf{P}}_
+  {\!\!\shortdownarrow\!\raisebox{.3\baselineskip}{\scalebox{.5}{#1}}}}
+\newcommand{\nprojdown}[2]{\nprojection{#1}_{,\obk{#2}}}
+\newcommand{\nprojfst}[2]{\oprojection{\shortleftarrow}{#1}\,#2}
+\newcommand{\nprojsnd}[2]{\oprojection{\shortrightarrow}{#1}\,#2}
+\newcommand{\simplex}[1]{\scalebox{1}[1.4]{\ensuremath{\rhd}}_{\catN{#1}}}
+\newcommand{\simplexfunct}[1]{\wrpfunct{\simplex{#1}_{,}}}
+\newcommand{\simplexcat}[1]{\wrpcat{\simplex{#1}_{,}}}
+\newcommand{\simplexcat}[1]{\wrpcat{\simplex{#1}_{,}}}
+\newcommand{\simplexnn}{\scalebox{1}[1.4]{\ensuremath{\rhd}}_{\mathbb{N}}}
+
+\newcommand{\snat}{\mathpzc{Nat}}
+\newcommand{\smallnat}[2]{\snat\cpr{#1}{#2}}
+\newcommand{\smallnatobj}{\wrpcat{\smallnat}}
+\newcommand{\smallnatnat}{\wrpnat{\smallnat}}
+\newcommand{\smallnatfunct}{\wrpfunct{\smallnat}}
+\newcommand{\snatfunct}[2]{\wrpfunct{\smallnat{#1}{#2}}}
+\newcommand{\snatnat}[2]{\wrpnat{\smallnat{#1}{#2}}}
+\newcommand{\snfunct}[1]{\nfunctscr_{\obk{#1}}}
+\newcommand{\snfunctdom}[1]{\oper{dom}\,\nfunctscr_{\obk{#1}}}
+\newcommand{\snfunctcod}[1]{\oper{cod}\,\nfunctscr_{\obk{#1}}}
+\newcommand{\snfunctobj}[1]{\nfunctscr_{\obk{#1},\subp{2}}}
+\newcommand{\snfunctarr}[1]{\nfunctscr_{\obk{#1},\subp{3}}}
+
+\newcommand{\homfunct}[2]{\left[\parsecat{#1},\,\parsecat{#2}\right]}
+\newcommand{\chom}[1]{\left|\carr{#1}\right|}
+\newcommand{\homobj}[1]{\wrpobj{\chom{#1}}}
+\newcommand{\homarr}[1]{\wrparr{\chom{#1}}}
+\newcommand{\projg}[3]{\xslantmath{\mathbf{#1}}^{#3}(\mathsf{#2})}
+\newcommand{\ccpairn}[2]{\nprojection{#1}(\parsecat{#2})}
+\newcommand{\ccpair}[1]{\nprojection{1}(\parsecat{#1})}
+\newcommand{\ccpairg}[1]{\nprojection{1}(\mathsf{#1})}
+\newcommand{\apair}[2]{\langle\arr{#1},\,\arr{#2}\rangle}
+\newcommand{\epair}[2]{\langle|\obk{#1},\,\obk{#2}|\rangle}
+\newcommand{\ffpair}[2]{\langle\!\langle\obk{#1},\,\obk{#2}\rangle\!\rangle}
+\newcommand{\fpair}[2]{\langle\obk{#1},\,\obk{#2}\rangle}
+\newcommand{\fopair}[2]{\langle #1,\,#2\rangle}
+\newcommand{\pair}[2]{(#1,\,#2)}
+\newcommand{\cpair}[2]{(\obk{#1},\,\obk{#2})}
+\newcommand{\cpr}[2]{(\pazocal{#1},\,\pazocal{#2})}
+\newcommand{\ctpair}[4]{(\pair{#1}{#2},\,\pair{#3}{#4})}
+\newcommand{\ccrel}[2]{\parsecat{#1}_{\obk{#2}}}
+\newcommand{\csub}[2]{#1\lessdot #2}
+\newcommand{\carrn}[2]{\parsecat{#1}_{\overset{#2}{\rightarrow}}}
+\newcommand{\carrnobj}[2]{\wrapobj{\carrn{#1}{#2}}}
+\newcommand{\carrnarr}[2]{\wraparr{\carrn{#1}{#2}}}
+\newcommand{\carr}[1]{\parsecat{#1}_{\rightarrow}}
+\newcommand{\carrobj}[1]{\carr{#1}_{\subp{,\,0}}}
+\newcommand{\carrarr}[1]{\carr{#1}_{\subp{,\,1}}}
+\newcommand{\functscr}[1]{\small\xslantmath{\pazocal{#1}}}
+
+\newcommand{\bfunct}[1]{\functscr{F}_{\parsecat{#1}}} % behavior
+\newcommand{\bfunctobj}[1]{\functscr{F}_{\parsecat{#1},\subp{0}}} % behavior
+\newcommand{\bfunctarr}[1]{\functscr{F}_{\parsecat{#1},\subp{1}}} % behavior
+
+\newcommand{\funct}[1]{\functscr{F}_{\obk{#1}}}
+\newcommand{\functobj}[1]{\funct{#1}_{,\subp{1}}}
+\newcommand{\functarr}[1]{\funct{#1}_{,\subp{2}}}
+\newcommand{\functV}[2]{\funct{#1}(#2)}
+\newcommand{\functid}[1]{\oper{id}_{\parsecat{#1}}}
+\newcommand{\functdom}[1]{\oper{dom}\funct{#1}}
+\newcommand{\functcod}[1]{\oper{cod}\funct{#1}}
+
+\newcommand{\atlas}[1]{\functscr{A}_{\pazocal{#1}}}
+\newcommand{\atlasobj}[1]{\atlas{#1}_{,\subp{1}}}
+\newcommand{\atlasarr}[1]{\atlas{#1}_{,\subp{2}}}
+\newcommand{\atlasV}[2]{\atlas{#1}(#2)}
+\newcommand{\atlasid}[1]{\oper{id}_{\parsecat{#1}}}
+\newcommand{\atlasdom}[1]{\oper{dom}\atlas{#1}}
+\newcommand{\atlascod}[1]{\oper{cod}\atlas{#1}}
+
+\newcommand{\smetric}[2]{\mathsf{E}\pa{g,\,#1,\,#2}}
+\newcommand{\ssmetric}[1]{\mathsf{E}\pa{g,\,#1}}
+\newcommand{\lmetric}[2]{\ppv{g}{\mathsf{L}}\pa{#1,\,#2}}
+
+\newcommand{\ofunct}[1]{\functscr{F}_{#1}}
+\newcommand{\ofunctobj}[1]{\functscr{F}_{#1,\subp{1}}}
+\newcommand{\ofunctarr}[1]{\functscr{F}_{#1,\subp{2}}}
+\newcommand{\ofunctV}[2]{\ofunct{#1}(#2)}
+\newcommand{\ofunctid}[1]{\oper{id}_{#1}}
+\newcommand{\ofunctdom}[1]{\oper{dom}\ofunct{#1}}
+\newcommand{\ofunctcod}[1]{\oper{cod}\ofunct{#1}}
+
+\newcommand{\umpclass}{\mathcal{F}}
+\newcommand{\umpclassp}[1]{{\umpclass}_{\parsecat{#1}}}
+\newcommand{\umpclasspc}[2]{\umpclassp{#1}(\parsecat{#2})}
+\newcommand{\umpall}{\umpclassp{\forall}}
+\newcommand{\umpallc}[1]{\umpall(\parsecat{#1})}
+\newcommand{\umpconst}[1]{\umpall_{\parsecat{#1}}}
+\newcommand{\umpconstc}[2]{\umpconst{#1}(\parsecat{#2})}
+\newcommand{\umpcat}{\mathcal{C}}
+\newcommand{\umpcatp}[1]{\umpcat_{\parsecat{#1}}}
+\newcommand{\umpdomp}[1]{\oper{dom}\,\umpclassp{#1}}
+\newcommand{\umpcodp}[1]{\oper{cod}\,\umpclassp{#1}}
+\newcommand{\expab}[2]{\obk{#1}^{\obk{#2}}}
+\newcommand{\expxab}[2]{\expab{#2}{#1}\times\obk{#1}}
+\newcommand{\mapfab}[3]{{#1}:\,{#2}\longrightarrow {#3}}
+\newcommand{\mapaob}[3]{{#1}\xrightarrow{\;{#2}\;}{#3}}
+
+\newcommand{\homcat}{\parsecat{Hom}}
+\newcommand{\quivercat}[1]{\parsecat{Quiv}(\parsecat{#1})}
+\newcommand{\largepo}{\mathbf{\mathpzc{PO}}}
+\newcommand{\largeeq}{\mathbf{\mathpzc{EQUIV}}}
+\newcommand{\smalleq}{\mathbf{\mathpzc{Equiv}}}
+\newcommand{\poset}{\mathbf{\mathpzc{Poset}}}
+\newcommand{\largegrf}{\mathbf{\mathpzc{GRF}}}
+\newcommand{\smallgrf}{\mathbf{\mathpzc{Grf}}}
+\newcommand{\functcat}{\mathbf{\mathpzc{FUN}}}
+\newcommand{\functcatcat}{\mathbf{\mathpzc{FUN}}_{\functscr{C}}}
+\newcommand{\functcatfunct}{\mathbf{\mathpzc{FUN}}_{\functscr{F}}}
+\newcommand{\smallfunctcat}{\mathbf{\mathpzc{Fun}}}
+\newcommand{\smallfunctcatcat}{\smallfunctcat_{\functscr{C}}}
+\newcommand{\smallfunctcatfunct}{\smallfunctcat_{\functscr{F}}}
+\newcommand{\functcatp}[1]{\functcat_{\parsecat{#1}}}
+\newcommand{\functcatcatp}[1]{\functcat_{\parsecat{#1},\functscr{C}}}
+\newcommand{\functcatfunctp}[1]{\functcat_{\parsecat{#1},\functscr{F}}}
+\newcommand{\wrpcat}[1]{{#1}_{\functscr{C}}}
+\newcommand{\wrpfunct}[1]{{#1}_{\functscr{F}}}
+\newcommand{\wrpnat}[1]{{#1}_{\functscr{N}}}
+\newcommand{\largecat}{\mathbf{\mathpzc{CAT}}}
+\newcommand{\largecatobj}{\wrpobj{\largecat}}
+\newcommand{\largecatarr}{\wrparr{\largecat}}
+\newcommand{\smallcat}{\parsecat{Cat}}
+\newcommand{\smallcatobj}{\wrpobj{\smallcat}}
+\newcommand{\smallcatarr}{\wrparr{\smallcat}}
+\newcommand{\expcat}{\mathpzc{Exp}}
+\newcommand{\setcat}{\mathpzc{Set}}
+\newcommand{\smallsetcat}{\parsecat{set}}
+\newcommand{\fincat}{\parsecat{Fin}}
+\newcommand{\forgetful}[1]{|#1|}
+\newcommand{\forgetgrf}[1]{\functscr{U}(#1)}
+\newcommand{\rffunct}{\functscr{U}^{\Circlearrowright}}
+\newcommand{\rforgetgrf}[1]{\rffunct(#1)}
+\newcommand{\ffunct}{\funct{U}}
+\newcommand{\subcat}[1]{\mathpzc{Sub}\parsecat{#1}}
+
+\newcommand{\rquiver}[1]{\parsecat{Q}^{\Circlearrowright}(\mathsf{#1})}
+\newcommand{\wquiver}[1]{\parsecat{Q}(\mathsf{#1})}
+\newcommand{\nwquiver}[2]{\parsecat{Q}^{#1}(\mathsf{#2})}
+\newcommand{\quiver}[1]{\Gamma(\mathsf{#1})}
+\newcommand{\graph}[1]{\mathsf{#1}}
+\newcommand{\graphv}[1]{\mathsf{#1}_{\mathbf{v}}}
+\newcommand{\graphe}[1]{\mathsf{#1}_{\mathbf{e}}}
+\newcommand{\graphfree}[1]{\parsecat{C}(\graph{#1})}
+\newcommand{\graphclass}[1]{{\mathcal{F}}\,(\graph{#1})}
+
+\newcommand{\evalxab}[2]{\mapaob{\expxab{#1}{#2}}{\oper{eval}}{\obk{#2}}}
+
+\newcommand{\di}[1]{\boldsymbol #1}
+\newcommand{\dI}{\boldsymbol \imath}
+
+\newcommand{\freefunct}{{\raisebox{.1\baselineskip}{\ensuremath{\digamma}}}}
+\newcommand{\freeset}[1]{\freefunct(#1)}
+\newcommand{\pset}[1]{{\raisebox{.15\baselineskip}{\Large\ensuremath{\wp}}}(#1)}
+\newcommand{\scard}[1]{\kappa(#1)}
+
+\newcommand{\numchars}[1]{\noindent The string #1 has \StrLen{#1} characters. }
+
+%\newcommand{\hmult}{\scalebox{.4}{\bigtriangledown}}
+\newcommand{\cohopfmult}{\scalebox{.6}[1]{\ensuremath{\Delta}}}
+\newcommand{\hopfmult}{\raisebox{\depth}{\scalebox{.6}[-1]{\ensuremath{\Delta}}}}
+
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\spin}[1]{\mathbf{#1}}
+\newcommand{\adjoint}[1]{\widetilde{#1}}
+\newcommand{\uvector}[1]{\hat{\mathbf{#1}}}
+\newcommand{\svector}[2]{\left[\begin{array}{r} #1 \\[5pt]
+                                                #2 \end{array}\right]}
+\newcommand{\tsvector}[2]{\left[\begin{array}{cc} #1 & #2 \end{array}\right]}
+\newcommand{\spinor}[1]{\svector{#1_1}{#1_2}}
+\newcommand{\lspinor}[2]{e^{#1}\spinor{#2}}
+\newcommand{\aspinor}[1]{\svector{-#1^*_2}{#1^*_1}}
+\newcommand{\alspinor}[2]{e^{-#1}\aspinor{#2}}
+
+\newcommand{\pspinor}[2]
+           {\svector{e^{-\iu#2/2}\cos(\frac{#1}{2})}
+             {e^{\iu#2/2}\sin(\frac{#1}{2})}}
+\newcommand{\qspinor}[3]{e^{\iu#3/2}\pspinor{#1}{#2}}
+\newcommand{\espinor}[3]{\qspinor{#1}{#2}{i#3}}
+\newcommand{\hspinor}[3]{e^{-#3/2}\pspinor{#1}{#2}}
+\newcommand{\ahspinor}[3]{e^{#3/2}\apspinor{#1}{#2}}
+\newcommand{\apspinor}[2]
+           {\svector{-e^{-\iu#2/2}\sin(\frac{#1}{2})}
+                    {e^{\iu#2/2}\cos(\frac{#1}{2})}}
+\newcommand{\aqspinor}[3]{e^{-\iu#3/2}\apspinor{#1}{#2}}
+\newcommand{\aespinor}[3]{\aqspinor{#1}{#2}{i#3}}
+\newcommand{\iu}{\iota\mkern1mu}
+\newcommand{\rpauli}[1]{\varsigma_#1\mkern2mu}
+\newcommand{\pauli}[1]{\sigma_#1\mkern2mu}
+\newcommand{\levicivita}[1]{\varepsilon_{#1}\mkern2mu}
+
+\newcommand{\smatrix}[4]{\left[\begin{array}{rr}
+                          #1 & #2 \\[3pt] #3 & #4\end{array}\right]}
+\newcommand{\psu}{\smatrix{1}{0}{0}{1}}
+\newcommand{\psx}{\smatrix{0}{1}{1}{0}}
+\newcommand{\psy}{\smatrix{0}{-\iu}{\iu}{0}}
+\newcommand{\psz}{\smatrix{1}{0}{0}{-1}}
+
+\newcommand{\qmatrix}[2]
+{\smatrix{1+\cos#2}{e^{\iu#1}\sin#2}{e^{-\iu#1}\sin#2}{1-\cos#2}}
+\newcommand{\aqmatrix}[2]
+{\smatrix{1-\cos#2}{-e^{\iu#1}\sin#2}{-e^{-\iu#1}\sin#2}{1+\cos#2}}
+\newcommand{\dualform}{\raisebox{1pt}{\scalebox{.8}
+  {\rotatebox[origin=c]{60}{$\leftrightharpoons$}}}}
+\newcommand{\bigdual}{\raisebox{-3pt}{\scalebox{2.2}{$\diamond$}}}
+\newcommand{\qs}[1]{\mathsf{#1}}
+\newcommand{\qv}[1]{\mathbf{\mathsf{#1}}}
+\newcommand{\ppv}[2]{{\,\raisebox{2pt}{\scalebox{.5}{(#1)\,}}}#2}
+\newcommand{\qvl}[2]{\ppv{#1}{\mathbf{\mathsf{#2}}}}
+\newcommand{\sv}[1]{\mathbf{#1}}
+\newcommand{\uvl}[2]{\overset{#1}{\sv{#2}}}
+\newcommand{\svl}[2]{\ppv{#1}{\sv{#2}}}
+\newcommand{\ssl}[2]{\ppv{#1}{#2}}
+\newcommand{\fv}[2]{#1_{\mathsf{#2}}}
+\newcommand{\fvl}[3]{\fv{#1}{#2}_{,#3}}
+\newcommand{\lint}[1]{\mathlarger{\int}_{#1}}
+\newcommand{\olint}[1]{\mathlarger{\oint}_{\partial#1}}
+\newcommand{\pa}[1]{\left(#1\right)}
+\newcommand{\fa}[2]{#1\pa{#2}}
+\newcommand{\MAN}[1]{\cat{#1}}
+\newcommand{\MANobj}[1]{\ccobj{#1}}
+\newcommand{\MANarr}[1]{\ccarr{#1}}
+\newcommand{\MET}[1]{\cat{#1}}
+\newcommand{\METobj}[1]{\ccobj{#1}}
+\newcommand{\METarr}[1]{\ccarr{#1}}
+\newcommand{\MU}[1]{\mathcal{#1}}
+\newcommand{\mU}[1]{\mathsf{#1}}
+\newcommand{\morph}[1]{\arr{#1}}
+\newcommand{\morphdom}[1]{\arrdom{#1}}
+\newcommand{\morphcod}[1]{\arrcod{#1}}
+
+\makeatletter
+\def\instring#1#2{TT\fi\begingroup
+  \edef\x{\endgroup\noexpand\in@{#1}{#2}}\x\ifin@}
+%
+\def\isuppercase#1{%
+  \ensuremath{%
+  \instring{#1}{AÂBCÇDEFGĞHIİÎJKLMNOÖÔPRSŞTUÜÛVYZ}%
+  }
+}%
+\makeatother
+
+\newcommand{\checkcat}[1]{
+\StrBefore[1]{#1}{/}[\Topcat]
+\StrBehind[1]{#1}{/}[\Botcat]
+\StrLen{\Topcat}[\toplen]
+\StrLen{\Botcat}[\botlen]
+\IfEq{\toplen}{0}{\mathbf{\mathpzc{#1}}}
+{(\parseonecat{\Topcat}/\parseonecat{\Botcat})}
+}
+
+\newcommand{\UpperCats}{ABCDEFGHIJKLMNOPQRSTUVWXYZ}
+
+\newcommand{\parsecat}[1]{%
+    \StrLen{#1}[\slen]
+    \ifcase\slen
+      #1
+    \or\parseonecat{#1}
+    \else
+      \checkcat{#1}
+    \fi
+}
+
+\newcommand{\parseonecat}[1]{
+  \IfInteger{#1}{\catN{#1}}
+    { \IfSubStr{\UpperCats}{#1}{\pazocal{#1}}{\obk{#1}} }
+}
+
+%\newcommand{\catcaseset}[1]{
+%\if\isuppercase{#1}\cat{#1}\else\obk{#1}\fi
+%}
+
+\def\CircleArrowleft{\ensuremath{%
+  \reflectbox{\rotatebox[origin=c]{180}{$\circlearrowleft$}}}}
+\def\CircleArrowright{\ensuremath{%
+  \reflectbox{\rotatebox[origin=c]{180}{$\circlearrowright$}}}}
+\def\Circlearrowleft{\ensuremath{%
+  \rotatebox[origin=c]{100}{$\circlearrowleft$}}}
+\def\Circlearrowright{\ensuremath{%
+  \rotatebox[origin=c]{150}{$\circlearrowright$}}}
+
+\setcounter{secnumdepth}{4}
+
+\DeclareRobustCommand{\atled}{\text{\reflectbox{$\delta$}}}
+
+\titleformat{\paragraph}{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\tikzset{
+commutative diagrams/.cd,
+%row sep=3cm,
+%column sep=3cm,
+%matrix scale/.style={/tikz/matrix xscale=3,/tikz/matrix yscale=3},
+%matrix scale=2,
+arrow style=tikz,
+diagrams={>=latex}
+}
+\tikzset{res/.style={ellipse,draw,minimum height=0.1cm,minimum width=0.1cm}}
+
+\begin{document}
+\title{Quantum Spin Formulation}
+\author         {Wolfgang Kraske}
+\email        {wolfkden@gmail.com}
+\homepage     {http://www.oviumzone.com}
+\affiliation  {OVium Studies in Physics}
+\date{\today}
+
+\begin{abstract}
+$\vardigamma\Varrho\varrho\snatural\natural\backepsilon\vareth\eth\Digamma\digamma\Varkappa\varkappa$
+Spin manifests from the motion of a spherical coordinate system. Sans fixed
+points, motion evinces a the continuous automorphisms of the surface of a
+sphere consistent with a open maping of a three sphere. Anomolous
+fixed points curiously render quantum observables denoted as spin.
+A spinor coordinate system engenders a mathematical conceptualization of
+spin derived from the Dirac equation to gauge theories familiar to
+electrodynamics and Yang-Mills theory. 
+\end{abstract}
+
+\maketitle
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.0}
+
+\section{Introduction}
+
+% \textsuperscript
+
+\section{Basic Theory}\label{sec:basictheory}
+
+\begin{definition}{Sequent}\label{def:sequent},
+  denoted with symbol, $\vdash$, relates an
+  antecedent, $\obk{a}$, to the consequent, $\obk{c}$.
+\begin{equation*}
+\obk{a}\vdash\obk{c}
+\end{equation*}
+A cedent refers either an antecedent or consequent mutually
+associated by a sequent
+  \begin{equation*}
+  \begin{array}{rll}
+   Antecedent&-&\text{an assumption} \\[3pt]
+   Consequent&-&\text{an assumption dependent on antecedent}
+  \end{array}
+  \end{equation*}
+\end{definition}
+
+\begin{equation*}
+\spinor{z}\qquad z_1,z_2\in\mathbb{C},\qquad 1=z_1z_1^*+z_2z_2^*
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{lclrrrr}
+z_1&=&\abs{z_1}e^{\iu\mu/2}e^{-\iu\phi/2}\,,&\qquad&
+\abs{z_1}&=&\cos\left(\frac{\theta}{2}\right) \\[3pt]
+z_2&=&\abs{z_2}e^{\iu\mu/2}e^{\;\iu\phi/2}\,,&\qquad&
+\abs{z_2}&=&\sin\left(\frac{\theta}{2}\right)
+\end{equation*}
+
+\begin{equation*}
+\iu=\sqrt{-1}\qquad zz^*=z^*z=\abs{z}\qquad z\in\mathbb{C}
+\end{equation*}
+
+\begin{equation*}
+\spin{\Phi}=\spinor{z}\qquad\adjoint{\spin{\Phi}}=\aspinor{z}\qquad
+-\spin{\Phi}=\adjoint{\adjoint{\Phi}}
+\end{equation*}
+\begin{equation*}
+\spin{\Phi}^\dagger=\tsvector{z_1^*}{z_2^*}\qquad
+\adjoint{\spin{\Phi}}^\dagger=\tsvector{-z_2}{z_1}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{ccccc}
+1&=&\spin{\Phi}^\dagger\spin{\Phi}&=&
+\adjoint{\spin{\Phi}}^\dagger\adjoint{\spin{\Phi}} \\[5pt]
+0&=&\adjoint{\spin{\Phi}}^\dagger\spin{\Phi}&=&
+\spin{\Phi}^\dagger\adjoint{\spin{\Phi}}
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{ccccccc}
+\rpauli{0}&=&\;\:\spin{\Phi}\spin{\Phi}^\dagger+
+\adjoint{\spin{\Phi}}\adjoint{\spin{\Phi}}^\dagger&\qquad&
+\rpauli{1}&=&\spin{\Phi}\adjoint{\spin{\Phi}}^\dagger+
+\adjoint{\spin{\Phi}}\spin{\Phi}^\dagger \\[5pt]
+\rpauli{2}&=&\iu\left(\spin{\Phi}\adjoint{\spin{\Phi}}^\dagger-
+\adjoint{\spin{\Phi}}\spin{\Phi}^\dagger\right)&\qquad&
+\rpauli{3}&=&\spin{\Phi}\spin{\Phi}^\dagger-
+\adjoint{\spin{\Phi}}\adjoint{\spin{\Phi}}^\dagger
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\rpauli{0}=\rpauli{i}^2\,,\qquad\rpauli{i}=\rpauli{i}^\dagger\qquad
+i\in\left\{ 0\cdots 3\right\}
+\end{equation*}
+\begin{equation*}
+\rpauli{i}\rpauli{j}\rpauli{k}=\iu\levicivita{ijk}\rpauli{0},\qquad
+i,j,k\in\left\{ 1\cdots 3\right\}
+\end{equation*}
+
+\begin{equation*}
+0=\phi=\theta
+\end{equation*}
+\begin{equation*}
+\levicivita{ijk}=\left\{\begin{array}{rrlll}
+                           1&\text{even permutation}&
+                                   \left(ijk\right)&=&\left(123\right)
+\\[3pt]
+                           -1&\text{odd  permutation}&
+                                   \left(ijk\right)&=&\left(123\right)
+                         \end{array}
+\end{equation*}
+\begin{equation*}
+\rpauli{0}=\adjoint{\rpauli{0}}\,,\qquad
+-\rpauli{i}=\adjoint{\rpauli{i}}\qquad i\in\left\{ 1\cdots 3\right\}
+\end{equation*}
+
+\begin{equation*}
+0=\mu=\phi=\theta
+\end{equation*}
+
+\begin{equation*}
+\spin{e}=\svector{1}{0}\qquad\adjoint{\spin{e}}=\svector{0}{1}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{ccccccc}
+\pauli{0}&=&\;\:\spin{e}\spin{e}^\dagger+
+\adjoint{\spin{e}}\adjoint{\spin{e}}^\dagger&\qquad&
+\pauli{1}&=&\spin{e}\adjoint{\spin{e}}^\dagger+
+\adjoint{\spin{e}}\spin{e}^\dagger \\[5pt]
+\pauli{2}&=&\iu\left(\spin{e}\adjoint{\spin{e}}^\dagger-
+\adjoint{\spin{e}}\spin{e}^\dagger\right)&\qquad&
+\pauli{3}&=&\spin{e}\spin{e}^\dagger-
+\adjoint{\spin{e}}\adjoint{\spin{e}}^\dagger
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{ccccccc}
+\pauli{0}&=&\psu&\qquad&\pauli{1}&=&\psx \\[9pt]
+\pauli{2}&=&\psy&\qquad&\pauli{3}&=&\psz
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+1=\pauli{0}
+\end{equation*}
+\begin{equation*}
+\mathbf{i}=-\iu\pauli{1}\qquad\mathbf{j}=-\iu\pauli{2}\qquad
+\mathbf{k}=-\iu\pauli{3}
+\end{equation*}
+
+W.L.O.G. eigenvectors
+\begin{equation*}
+\spin{\Phi}=\pspinor{\phi}{\theta}\qquad
+\adjoint{\spin{\Phi}}=\apspinor{\phi}{\theta}
+\end{equation*}
+
+singular matrices
+\begin{equation*}
+\begin{array}{rcccl}
+\spin{\Phi}\spin{\Phi}^\dagger&=&\qmatrix{\phi}{\theta}&=&
+  \pauli{0}+\sigma\cdot\uvector{r} \\[11pt]
+\adjoint{\spin{\Phi}}\adjoint{\spin{\Phi}}^\dagger&=&\aqmatrix{\phi}{\theta}
+  &=&\pauli{0}-\sigma\cdot\uvector{r}
+\end{array}
+\end{equation*}
+
+eigenvalues
+\begin{equation*}
+e^{-\frac{\mu}{2}}\qquad e^{\frac{\mu}{2}}\qquad\mu\in\mathbb{C}
+\end{equation*}
+
+Minkowski vector
+\begin{equation*}
+\qv{M}=\pauli{0}ct-\left(\sigma\cdot\uvector{r}\right)r\qquad
+\mathbf{r}=\uvector{r}r
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{ccccccc}
+\sigma\cdot\uvector{r}&=&
+\pauli{1}\uvector{r}_1+\pauli{2}\uvector{r}_2+\pauli{3}\uvector{r}_3&\qquad&
+\uvector{r}_1&=&\cos\phi_r\sin\theta_r \\[9pt]
+\uvector{r}_2&=&\sin\phi_r\sin\theta_r&\qquad&
+\uvector{r}_3&=&\cos\theta_r
+\end{array}
+\end{equation*}
+
+Boost
+\begin{equation*}
+\qv{U}\qv{M}\qv{U}^\dagger
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{l}
+\qv{U}=e^{-\frac{\mu}{2}}\spin{\Phi}\spin{\Phi}^\dagger+
+e^{\frac{\mu}{2}}\adjoint{\spin{\Phi}}\adjoint{\spin{\Phi}}^\dagger \\[3pt]
+\qquad =\pauli{0}\cosh\frac{\mu}{2}- \\[3pt]
+\qquad\qquad \left(
+\left(\pauli{1}\cos\phi+\pauli{2}\sin\phi\right)\sin\theta+
+\pauli{3}\cos\theta\right)\sinh\frac{\mu}{2} \\[3pt]
+\qquad =\pauli{0}\cosh\frac{\mu}{2}-
+\left(\sigma\cdot\uvector{v}\right)\sinh\frac{\mu}{2} \\[3pt]
+\qquad=\exp\left(-\left(\sigma.\uvector{v}\right)\frac{\mu}{2}\right)
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\qv{U}\adjoint{\qv{U}}=
+\adjoint{\qv{U}}\qv{U}=\det{\qv{U}}\pauli{0}=\pauli{0}
+\end{equation*}
+
+\begin{equation*}
+0=\mu-\mu*,\qquad\qv{U}=\qv{U}^\dagger
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{ccccccc}
+\cosh\mu&=&\gamma&\qquad&\sinh\mu&=&\gamma\tanh\mu \\[9pt]
+\tanh\mu&=&\frac{v}{c}&\qquad&\mathbf{v}&=&\uvector{v}v
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{ccccccc}
+\sigma\cdot\uvector{v}&=&
+\pauli{1}\uvector{v}_1+\pauli{2}\uvector{v}_2+\pauli{3}\uvector{v}_3&\qquad&
+\uvector{v}_1&=&\cos\phi\sin\theta \\[5pt]
+\uvector{v}_2&=&\sin\phi\sin\theta&\qquad&
+\uvector{v}_3&=&\cos\theta
+\end{array}
+\end{equation*}
+
+Minkowski vector
+\begin{equation*}
+\begin{array}{rcl}
+\qv{M}&=&\pauli{0}ct-
+r\sigma\cdot\left(\uvector{r}_\parallel\cos\delta+
+  \uvector{r}_\perp\sin\delta\right) \\[3pt]
+&=&\left(\pauli{0}ct-
+\left(\sigma\cdot\uvector{r}_\parallel\right)r\cos\delta\right)-
+  \left(\sigma\cdot\uvector{r}_\perp\right)r\sin\delta \\[3pt]
+\uvector{r}&=&\uvector{r}_\parallel\cos\delta+\uvector{r}_\perp\sin\delta \\[3pt]
+\cos\delta&=&\uvector{v}\cdot\uvector{r} \\[3pt]
+\uvector{r}_\parallel\cos\delta&=&
+             \uvector{v}\left(\uvector{v}\cdot\uvector{r}\right),\quad
+                                   \uvector{r}_\parallel=\uvector{v} \\[3pt]
+\uvector{r}_\perp\sin\delta&=&\uvector{r}-\uvector{v}\cos\delta
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\qv{M}^\prime=\qv{U}\qv{M}\qv{U}^\dagger,
+\quad\qv{U}^2=\exp\left(-\left(\sigma.\uvector{v}\right)\mu\right)
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{rcl}
+\qv{M}^\prime&=&
+\qv{U}^2\,\left(\pauli{0}ct-
+\left(\sigma\cdot\uvector{r}_\parallel\right)r\cos\delta\right) \\[3pt]
+&&\qquad-\left(\sigma\cdot\uvector{r}_\perp\right)r\sin\delta \\[3pt]
+&=&\pauli{0}ct^\prime-\left(\sigma.\uvector{r}^\prime\right)r^\prime \\[3pt]
+\qv{U}\left(\sigma\cdot\uvector{r}_\perp\right)\qv{U}^\dagger&=&
+\left(\sigma\cdot\uvector{r}_\perp\right)\qv{U}^{-1}\qv{U}=
+\left(\sigma\cdot\uvector{r}_\perp\right) \\[3pt]
+\uvector{r}^\prime&=&
+    \uvector{r}^\prime_\parallel\cos\delta^\prime+
+    \uvector{r}^\prime_\perp\sin\delta^\prime, 
+    \quad\uvector{r}^\prime_\parallel=\uvector{v},
+    \quad\uvector{r}^\prime_\perp=\uvector{r}_\perp \\[3pt]
+ct^\prime&=&ct\cosh\mu+r\cos\delta\sinh\mu \\[3pt]
+r^\prime\cos\delta^\prime&=&ct\sinh\mu+r\cos\delta\cosh\mu \\[3pt]
+r^\prime\sin\delta^\prime&=&r\sin\delta \\[3pt]
+\left(\frac{r^\prime}{r}\right)^2&=&
+              \left(\frac{ct}{r}\sinh\mu+\cos\delta\cosh\mu\right)^2+
+              \sin^2\delta
+\end{array}
+\end{equation*}
+
+Quaternion Rotation
+\begin{equation*}
+0=\mu-\mu*
+\end{equation*}
+
+\begin{equation*}
+\qv{U}\qv{M}\qv{U}^\dagger
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{l}
+\qv{U}=e^{-i\frac{\mu}{2}}\spin{\Phi}\spin{\Phi}^\dagger+
+e^{i\frac{\mu}{2}}\adjoint{\spin{\Phi}}\adjoint{\spin{\Phi}}^\dagger \\[3pt]
+\qquad =\pauli{0}\cos\frac{\mu}{2}- \\[3pt]
+\qquad\qquad i\left(
+\left(\pauli{1}\cos\phi+\pauli{2}\sin\phi\right)\sin\theta+
+\pauli{3}\cos\theta\right)\sin\frac{\mu}{2} \\[3pt]
+\qquad =\pauli{0}\cos\frac{\mu}{2}-
+i\left(\sigma\cdot\uvector{v}\right)\sin\frac{\mu}{2} \\[3pt]
+\qquad =\exp\left(-i\left(\sigma.\uvector{v}\right)\frac{\mu}{2}\right)
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\qv{U}\adjoint{\qv{U}}=
+\adjoint{\qv{U}}\qv{U}=
+\qv{U}\qv{U}^\dagger=\qv{U}^\dagger\qv{U}=
+\det{\qv{U}}\pauli{0}=\pauli{0}
+\end{equation*}
+
+\begin{equation*}
+\qv{M}^\prime=\qv{U}\qv{M}\qv{U}^\dagger,
+\quad\qv{U}^\dagger^2=\qv{U}^{-2}=
+\exp\left(i\left(\sigma.\uvector{v}\right)\mu\right)
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{rcl}
+\qv{M}^\prime&=&
+\left(\pauli{0}ct-
+\left(\sigma\cdot\uvector{r}_\parallel\right)r\cos\delta\right) \\[3pt]
+&&\qquad-\,\qv{U}^2
+   \left(\sigma\cdot\uvector{r}_\perp\right)r\sin\delta \\[3pt]
+&=&\pauli{0}ct-\left(\sigma.\uvector{r}^\prime\right)r \\[3pt]
+\uvector{r}^\prime&=&
+    \uvector{r}^\prime_\parallel\cos\delta^\prime+
+    \uvector{r}^\prime_\perp\sin\delta^\prime,\quad r^\prime=r,
+    \quad\uvector{r}^\prime_\parallel=\uvector{v} \\[3pt]
+\left(\sigma\cdot\uvector{r}^\prime_\perp\right)&=&
+               \left(\sigma\cdot\uvector{r}_\perp\right)\qv{U}^{-2}=
+               \qv{U}^2\left(\sigma\cdot\uvector{r}_\perp\right) \\[3pt]
+ct^\prime&=&ct,\quad\cos\delta^\prime=\cos\delta,\quad
+                                       \sin\delta^\prime=\sin\delta
+\end{array}
+\end{equation*}
+
+Construction and Analysis
+
+Mathematical dialectic interposes construct versus reductive analysis
+in the study of dynamical systems.
+Construction of spaces from elementary properties
+provides a bottom up approach whereas reductive analysis
+of dynmical expression provides a top down approach.
+Intentional construction of spaces from elementary principles
+establishes explanatory models for dynamical systems
+whereas analysis of symmetries reduce general dynamical
+systems to regular expression.
+Manifold denotes a space beholden to the literal behavior
+of general dynamical systems, in complement phase space
+denotes a regular space for idealized dynamical behavior.
+Quantum mechanics exibits a mainifold of wave behavior
+shaped by dynamics in a classical phase space.
+General dynamical systems yield representation to
+manifolds regularized by local tangent space behavior.
+Phase space embraces a field
+with Hausdorff seperability, local convexity,
+and norm, all properties crucial for the
+formation of vector spaces and differential local behavior.
+Banach spaces meet these requisite criterion with additional
+metric properties that support the agregate requirements of integration.
+The real field conforms to Banach space requirements.
+A vector field with metric develops in
+construction from a base field, $\mathbb{K}$,
+with  the coproduct operation, $\oplus$:
+
+\begin{equation*}
+\begin{array}{c}
+\mathbb{K}^n=\bigoplus^n \mathbb{K} \\[7pt]
+\text{where $n$ is cardinality of dimension}
+\end{array}
+\end{equation*}
+
+Classical physical representations require finite cardinality, $n$,
+whereas quantum mechanics requires the countable cardinality, $n=\aleph_0$
+of Hilbert space.
+Metric spaces with infinite cardinality define, 
+$\mathsf{L}^q_r$ spaces, where $q+r=qr$, integers for normalization;
+Hilbert space dictates, $q=r=2$, to imply square normed function spaces,
+over a a Banach space.
+
+Other than integration properties, phase space dynamics
+admit expression with finite dimensional
+constructions via coordinate bases having a metric, $g^{\mu\nu}$.
+Obvious examples hail from familiar
+Euclidean spatial and Minkowski pseudo-Euclidiean
+temporal-spatial representation.
+
+Fundamental forms in Euclidian and Pseudo-Euclidean spaces
+
+Construction begins with a metric space, $\mathsf{E}$,
+characterized by a metric, $g$, with an implied
+quadratic fundamental form, $\Phi$.
+The metric, $g$, relates dual vector spaces, $\lmetric{V}{V^*}$,
+where, $V$ and $V^*$, denote
+covariant and contravariant spaces respectively.
+Covariant and contravariant spaces may represent vector
+spaces of conceptually different applicatiopns however
+sharing the same dimensionality and Banach properties, i.e. $\mathbb{K}^n$.
+For instance vector space, $Q$, may be accompanied by a
+symplectic dual, $P$, for to join
+temporal-spatial with dual energy-momentum spaces, $\smetric{Q}{P}$.
+The metric, $g$, is a special invertable linear map,
+hence the dual metric maps the inverse form,
+$\lmetric{V^*}{V}$.
+The dual spaces are each $n$-dimensional vector spaces, $\mathbb{K}^n$,
+over a separable abelian field,
+$\mathbb{K}$, admiting finite measure over compact intervals.
+The familiar real line, $\mathbb{R}$, resonates a convenient
+example of $\mathbb{K}$.
+
+Arbitrary covariant vectors of, $V$, map to distinct contravariant
+vectors of $V^*$, via metric transform implied by the
+Einstein summation convention over dimension indicies,
+$\mu,\,\nu\in [n]=\{1\cdots n\}$.
+The contravariant representation of $x$ is $x^\mu$
+and the covariant representation is, $x_\mu$, denote
+the metric transform from covariant to contravariant,
+$\lmetric{V}{V^*}$:, as, $g^{\mu\nu}$:
+
+\begin{equation*}
+\begin{array}{rcl}
+x^\mu$=$g^{\mu\nu} x_\nu,\quad x^\nu\in V^*\;\text{and}\;x_\mu\in V
+\end{array}
+\end{equation*}
+
+Alternately contravariant vectors map distinct covariant vectors,
+denote metric of $\lmetric{V^*}{V}$:, as, $g_{\mu\nu}$:
+
+\begin{equation*}
+\begin{array}{rcl}
+x_\mu$=$g_{\mu\nu} x^\nu,\quad x^\mu\in V^*\;\text{and}\;x_\nu\in V
+\end{array}
+\end{equation*}
+
+In accordance, metric behavior associates dual vector spaces.
+The dimension $n$ designates the integral range of coordinates in the
+dual vector spaces. The space $\mathbb{K}^n$ represents
+each dual vector space designated as $V$ and $V^*$. Covariant and
+contravariant label the behavior of dual space vectors
+relative to the metric, $g$.
+
+Abelian addition and component multiplication of coordinates introduce the
+vector concept in the corresponding $n$-dimensional affine space.
+
+The fundamental form defines a measure over aggregate vector components,
+$x_\mu$, in a field, $\mathbb{K}$, as:
+
+\begin{equation*}
+\begin{array}{rcl}
+\Phi\pa{x}$=$g^{\mu\nu}x_\mu x_\nu=x^\nu x_\nu=x_\mu x^\mu \\[7pt]
+\Phi\pa{x}\in\mathbb{K}\quad\text{for all}\;x_\mu\in\mathbb{K}^n \\[7pt] 
+\end{array}
+\end{equation*}
+
+Employing a traditional dot operator, $\cdot$, the product shows:
+$x_\mu\cdot x^\mu=x_\mu x^\mu$, Operator notation is dispensed with
+unless necessary for detail.
+
+Sylvester's law of inertia assures the invariance of the fundamental form
+and the metric trace through any non-singular coordinate transformation.
+A reduced expression of the fundamental form with a symmetric metric:
+
+\begin{equation*}
+\begin{array}{rcl}
+\Phi\pa{x}$=$g^{\mu\mu} x_\mu x_\mu&=&g_{\mu\mu} x^\mu x^\mu
+\end{array}
+\end{equation*}
+
+The trace of the squared metric tensor reveals the dimension of vectors.
+\begin{equation*}
+\begin{array}{rcl}
+n&=&\tr\pa{g^{\mu\nu}g_{\mu\nu}}=\tr\pa{g_{\mu\nu}g^{\mu\nu}}
+\end{array}
+\end{equation*}
+
+A weighted summation of fundamental forms renders a
+scalar product between vectors in the
+corresponding $n$-dimensional affine space:
+
+\begin{equation*}
+\begin{array}{rcl}
+x_\mu y^\mu = x^\mu y_\mu $=$ \frac{1}{4}\pa{\Phi\pa{x+y}-\Phi\pa{x-y}}
+\end{array}
+\end{equation*}
+
+The trace of the metric tensor exposes the hyperbolic nature of a
+pseudo-Euclidean space:
+
+\begin{equation*}
+\begin{array}{rcl}
+\frac{1}{2}\pa{n+\tr\pa{g_{\mu\nu}}}&=&\frac{1}{2}\pa{n+\tr\pa{g^{\mu\nu}}}
+\end{array}
+\end{equation*}
+
+A Euclidean metric space shows no hyperbolic trace.
+The familiar Minkowski space demonstrates a hyperbolic trace of $1$.
+
+The fundamental form measures the
+length of a vector. Isotropic vectors have length zero.
+An anisotropic form dictates an Euclidian space with
+zero as a unique isotropic vector.
+An isotropic form dictates a pseudo-euclidean space with a non-trivial
+collection of non-zero isotropic vectors.
+Time-like vectors have a positive length and space-like vectors have a
+negative length; light-like vectors constitute isotropic manifolds
+that partition a pseudo-Euclidean space. 
+
+Covariant and contravariant vectors form dual spaces. In particular the
+scalar product with a contravariant vector space, $V^*$, linearly maps
+a covariant vector space, $V$ into an abelian field $\mathbb{K}$. 
+
+\begin{equation*}
+\begin{array}{rcl}
+x^\mu:V\rightarrow\mathbb{K}\quad\text{for all}\;x^\mu\in V^*
+\end{array}
+\end{equation*}
+
+Alternately,
+\begin{equation*}
+\begin{array}{rcl}
+x_\mu:V^*\rightarrow\mathbb{K}\quad\text{for all}\;x_\mu\in V
+\end{array}
+\end{equation*}
+
+Dual is a binary operation on a vector field, $V$.
+
+\begin{equation*}
+V=V^{**}
+\end{equation*}
+
+A general basis, $\{\svl{i}{a}\}_{i\in[n]}$, of the space, $V$,
+complements the dual basis, $\svl{j}{\alpha}_{j\in[n]}$, of $V^*$.
+
+\begin{equation*}
+\svl{j}{\alpha}^\mu \svl{i}{a}_\mu=\delta^j_i
+\end{equation*}
+
+A contravariant transform, $\gamma^\nu_\mu$, from basis,
+$\alpha^\mu$, to basis, $\alpha^{\prime\nu}$, expresses as follows:
+
+\begin{equation*}
+\alpha^{\prime\nu}=\gamma^\nu_\mu\alpha^\mu
+\end{equation*}
+
+The inverse transform, $\pa{\gamma^{-1}}_\nu^\mu$, similarly transforms
+the covariant basis, $a_\mu$, to covariant basis,
+$a^\prime_\nu$, expresses as follows:
+
+\begin{equation*}
+a^\prime_\nu=\pa{\gamma^{-1}}_\nu^\mu a_\mu
+\end{equation*}
+
+The idea of basis extends to multilinear forms.
+A multilinear basis constructs from a specialized product
+of basis vectors spanning a space, $V=\mathbb{K}^n$.
+The multivector employs wedge product, a specialization of
+the product operation, $\otimes$.
+Given a basis for, $V$, of $n$ elements, $\{e_i\}_{i\in[n]}$,
+the order of basis indices, ${i\in[n]}$, imparts a sign
+on multilinear basis elements where basis elements
+partition into $p$-forms.
+A $p$-form basis element, $\svl{p}{T}_\gamma$,
+represents $p$ distinct basis elements
+ordered by acending indices as:
+
+\begin{equation*}
+\svl{p}{T}_\gamma=
+\langle e_{i_1}\cdots e_{i_p}\rangle,\quad i_1<\cdots<i_p\in[n]
+\end{equation*}
+
+Note that $0\leq p\leq n$ and transposition of any two basis
+elements proves the $p$-form antilinear:
+
+\begin{equation*}
+\begin{array}{c}
+\langle e_{i_1}\cdots e_{i_k}\cdots e_{i_l}\cdots e_{i_p}\rangle= \\[5pt]
+\qquad\qquad-\langle e_{i_1}\cdots e_{i_l} \cdots e_{i_k}\cdots e_{i_p}\rangle
+\end{equation*}
+
+The $0$-form consists of one basis element, $1\in\mathbb{K}$.
+By induction each $p$-form basis consists of $\pa{\mqty{n \\ p}}$ elements
+due to the distinct sets of $p$ basis vectors.
+
+The $p$-form basis extends to represent general p-linear forms,
+$\svl{p}{\varphi}\in{\bigwedge}^p V$:
+
+\begin{equation*}
+\begin{array}{rcl}
+\svl{p}{\varphi}&\in&\bigwedge^p V,\quad 0\leq p\leq n \\[5pt]
+\svl{p}{\varphi}&=&\svl{p}{\varphi}_\gamma\,
+           \svl{p}{T}_\gamma,\quad\svl{p}{\varphi}_\gamma\in\mathbb{K} \\[5pt]
+\gamma&\in&\left[\pa{\mqty{n \\ p}}\right]
+\end{array}
+\end{equation*}
+
+Multiforms in a wider multilinear space show as:
+
+\begin{equation*}
+\begin{array}{rcl}
+\varphi&\in&\bigwedge V,\quad \\[5pt]
+\varphi&=&\sum_{p\in[n]} \svl{p}{\varphi},\quad
+           \svl{p}{\varphi}\in\bigwedge^p V\\[5pt]
+\end{array}
+\end{equation*}
+
+Multilinear alternating forms principally represent
+tangent space topology on manifolds.
+
+A dual space expresses as a multilinear algebra with \\
+$p=1$ demonstrates an intuitive example:
+
+\begin{equation*}
+V = {\bigwedge}^{\!\! 1} V
+\end{equation*}
+
+Trivially the $0$-form, is a scalar field: $\mathbb{K}=\bigwedge^0 V$.
+
+Combinatorially a $p$-form $\varphi\in\bigwedge^p V$ parametrizes
+$\pa{\mqty{n \\ p}}$ components of the $p$ independent vectors.
+The ordering of multilinear vectors
+for each component comforms to to a sign standard, $\mathfrak{g}$,
+familiar to transpositions of the levi-civa matrix, $\varepsilon_{[n]}$.
+
+A monoidal wedge product acts as a binary operation on
+$p$-linear forms to construct larger forms:
+
+\begin{equation*}
+\begin{array}{rcl}
+  \bigwedge^{p+q} V&=&\pa{\bigwedge^p V} \wedge \pa{\bigwedge^q V} \\[7pt]
+  \varphi\wedge\psi&=&\pa{-1}^{p+q}\psi\wedge\varphi,
+               \quad\varphi\in\bigwedge^p V\;\text{and}\;\psi\in\bigwedge^q V
+\end{array}
+\end{equation*}
+
+If $p+q$ is odd then $\varphi\wedge\psi$ anticommutes.
+
+Again a convention, $\mathfrak{g}$, for multilinear vector ordering for
+each component of a form $\varphi\in\bigwedge^p V$ establishes
+a regularity for the application of a wedge product. The convention,
+$\mathfrak{g}$, denotes the index set of the algebra.
+
+Vectors from, $V$, combine to construct a non-trivial $p$-form basis:
+
+\begin{equation*}
+\dim {\bigwedge}^p V = \pa{\mqty{n \\ p}}
+\end{equation*}
+
+Multilinear components distinctly express a $p$-form of
+$\varphi\in\bigwedge^p V$:
+
+\begin{equation*}
+\varphi= \varphi_\mu \svl{p}{T}^\mu\;\;\text{where}\;\varphi_\mu\in\mathbb{K}
+\;\text{and}\;\svl{p}{T}^\mu\in\mathfrak{g}^p\subset{\bigwedge}^p V
+\end{equation*}
+
+Each basis element, $\svl{p}{T}^\mu$, is an ordered
+multilinear set of $p$ vectors
+from the basis of $V$. For general application, the commutator of $p$ and
+$q$ forms establish a wedge product characteristic for multilinear forms.
+
+\begin{equation*}
+\begin{array}{rcl}
+  \comm{\varphi}{\psi}&=&\varphi_\mu\psi_\nu
+                          \comm{\svl{p}{T}^\mu}{\svl{q}{T}^\nu} \\[7pt]
+  \comm{\svl{p}{T}^\mu}{\svl{q}{T}^\nu}&=&
+        \ssl{pq}{f}}_\gamma\svl{pq}{T}^\gamma,\quad
+  \ssl{pq}{f}_\gamma\;\;\text{structure constant}\\[7pt]
+  \comm{A}{B}&=&AB-BA,\quad\text{commutator operation}
+\end{array}
+\end{equation*}
+
+
+The complete multilinear vector dimensionality formed over the basis vectors
+of $V$:
+
+\begin{equation*}
+2^n=\dim \bigoplus_{p=0}^n {\bigwedge}^p\, V
+\end{equation*}
+
+
+
+The complement relation of binary coefficients,
+
+\begin{equation*}
+\pa{\mqty{n \\ \pa{n-p}}}=\pa{\mqty{n \\ p}}
+\end{equation*},
+
+upholds the Hodge star transform, $\pa{}^\Ydown$, between
+complimentary multilinear spaces of $$.
+
+\begin{equation*}
+\begin{array}{rcl}
+  \varphi_\mu\wedge\psi_\mu&\in&\bigwedge^n V \\[7pt]
+  \varphi_\mu\in\bigwedge^p V\;&\text{and}&\;
+                \psi_\mu\in\bigwedge^{\pa{n-p}} V =\pa{\bigwedge^p V}^\Yup
+\end{array}
+\end{equation*}
+
+Hodge dual acts on mulilinear basis elements in a straightforward method:
+
+\begin{equation*}
+\begin{array}{rcl}
+\svl{p}{T}^\gamma^\Yup=
+\langle e^{i_1}\cdots e^{i_p}\rangle^\Yup&=&
+\langle e^{i_{p+1}}\cdots e^{i_n}\rangle=\svl{n-p}{T}^\gamma \\[7pt]
+\varepsilon_{i_1\cdots i_n}&=&\varepsilon_{[n]}
+\end{array}
+\end{equation*}
+
+The wedge product implies an algebra for an outer derivative,
+a contravariant multi-form basis implies the inner derivative.
+Denote a multiform basis for the inner derivative as:
+
+\begin{equation*}
+\svl{p}{T}^\gamma=
+\langle e^{i_1}\cdots e^{i_p}\rangle,\quad i^1<\cdots<i_p\in[n]
+\end{equation*}
+
+Note that $0\leq p\leq n$ and transposition of any two basis
+elements proves the $p$-form antilinear:
+
+\begin{equation*}
+\begin{array}{c}
+\langle e^{i_1}\cdots e^{i_k}\cdots e^{i_l}\cdots e^{i_p}\rangle= \\[5pt]
+\qquad\qquad-\langle e^{i_1}\cdots e^{i_l} \cdots e^{i_k}\cdots e^{i_p}\rangle
+\end{equation*}
+
+The symbol, $\diamond$, now denotes a product for dual multi-linear
+forms. The contravariant multilinear forms perform homogeneously as
+the did the covariant multilinear form. Heterogeneous products act
+to reduce the order of forms in product.
+
+\begin{equation*}
+\begin{array}{rcl}
+\langle e^{i}\rangle\diamond\langle e_{j}\rangle&=&\hspace{8pt}
+            \langle e_{j}\rangle\diamond\langle e^{i}\rangle=\delta^i_j \\[5pt]
+\langle e^{i}\rangle\diamond\langle e^{j}\rangle&=&
+                   -\langle e^{j}\rangle\diamond\langle e^{i}\rangle \\[5pt]
+\langle e_{i}\rangle\diamond\langle e_{j}\rangle&=&
+                   -\langle e_{j}\rangle\diamond\langle e_{i}\rangle \\[5pt]
+\langle e^{i}\rangle\diamond\langle e^{i}\rangle&=&\hspace{8pt}
+                    \langle e_{i}\rangle\diamond\langle e_{i}\rangle=0
+\end{array}
+\end{equation*}
+
+As shorthand vectors are represented in covariant, $x_{\mu}$, and
+contravariant notation, $x^\mu$, with underlying dual
+multi-linear basis elements understood.
+
+The symbol, $\dualform$, denotes binary transformation
+acting as a multilinear metric transform of
+covariant to contravariant basis vectors and vis versa.
+
+A quaternion product of two vectors renders as follows:
+
+\begin{equation*}
+\begin{array}{rcl}
+x_\mu y^\mu&=&x\pa{1+\dualform}\diamond y \\[5pt]
+          &=&x\cdot y+x\wedge y
+\end{array}
+\end{equation*}
+
+A two dimensional space with complex metric renders the product
+for complex numbers.
+
+The Pauli spin form is similar with an imaginary factor associated
+with the spatial wedge product. The Pauli product is fully detailed
+in the previous section.
+
+\begin{equation*}
+\begin{array}{rcl}
+x_\mu y^\mu&=&x_\mu\pa{1+\iu\dualform}\diamond x^\mu
+\end{array}
+\end{equation*}
+
+Dual product, $\diamond$, acts as an interior transform of
+covariant $p$-forms to
+$\pa{p-1}$-forms or contravariant $p$-forms to $\pa{p-1}$-forms.
+
+\begin{equation*}
+\begin{array}{c}
+\mapfab{x^\mu}{{\bigwedge}^p V}{{\bigwedge}^{p-1} V},
+  \quad x^\mu\in{\bigwedge}^1 V^* \\[7pt]
+\mapfab{x_\mu}{{\bigwedge}^p V^*}{{\bigwedge}^{p-1} V^*},
+  \quad x_\mu\in{\bigwedge}^1 V \\[7pt]
+\end{array}
+\end{equation*}
+
+Likewise, dual product, $\diamond$, acts as an exterior transform of
+covariant $p$-forms to
+$\pa{p+1}$-forms or contravariant $p$-forms to $\pa{p-1}$-forms.
+
+\begin{equation*}
+\begin{array}{c}
+\mapfab{x_\mu}{{\bigwedge}^p V}{{\bigwedge}^{p+1} V},
+  \quad x_\mu\in{\bigwedge}^1 V \\[7pt]
+\mapfab{x^\mu}{{\bigwedge}^p V^*}{{\bigwedge}^{p+1} V^*},
+  \quad x^\mu\in{\bigwedge}^1 V^* \\[7pt]
+\end{array}
+\end{equation*}
+
+More details develop in the next sections with the
+dual operations of esexterior derivative
+and partial derivative. The eventual Lie algebra develops later.
+
+Manifolds: Topological Category Theory
+
+The concept of a mathematical manifold engenders the study of the
+current flow of charges in a general space.
+The dynamics of discrete particles assumes a special case.
+The manifold concept embraces the idea of connected smoothly varying surfaces
+embedded immersed within a metric space.
+Manifolds embody the qualitative nature of dynamics whereas
+metric spaces dictate quantitative measure, differentiation and
+the linear coordinate specification of tangent spaces.
+Category theory proffers a mathematical
+framework to comparatively analyze and construct manifolds from metric spaces.
+Riemann surfaces and hyperbolic surfaces in Minkowski space
+epitomize historical images of a manifold.
+Riemann surfaces idealized as two dimensional sheets
+that form closed spheres and tori with one or more loops
+demonstrate sufaces that map only with a plurality of local patches into a
+two dimensional Euclidean or complex space.
+Mapping constraints between manifolds and linear metric spaces
+impose homotopy characteristics.
+
+The intention herin concerns manifolds consistent with
+Noether's theorem of abstract charges and flows.
+Manifolds characterized by locally convex open tangent spaces
+dictate the topology of interest.
+Continuity of differentiation on the manifold qualify local convexity
+and requirements of differentiable smoothness.
+The interstitial dynamics of charge currents on smooth manifolds
+translates locally with the conformity of a metric phase space.
+Such mappings imply the duality of smooth manifolds with
+the conformity of Euclidean and pseudo-Euclidean metric spaces.
+The mappings are bijective or isomorphic in category theory,
+hence the dynamic current of charges throughout a manifold
+behave interstitially with piecewise dynamics in a metric space.
+The mappings are diffeomorphisms, hence continuous and countably differentiable.
+Diffeomorphisms interrelate dynamical frames between a local tangent space
+with the regular behavior of Euclidean and pseudo-Euclidean metric spaces.
+The local dynamical behavior in a tangent space of a smooth manifold requires
+a countable number of locally convex neighbourhoods and diffeomorphisms
+to a metric space. A collection of diffeomorphisms with associated convex
+domains and codomains constitute an atlas.
+The simplest manifolds require a finite atlas.
+The surface of a $2$-sphere requires an minimal atlas of 2 diffeomorphisms.
+The union of domains of the atlas defines the smooth manifold
+whereas the union of codomains embeds within the metric space.
+Metric space properties of
+convexity, continuity and accessibiliy from a singular region
+dictate dynamical behavior in the manifold.
+
+The semantics of category theory establishes a foundation to construct
+and analyze the tangent spaces of manifolds.
+A collections of objects and morphisms between
+objects define a category.
+Special categories, called functors, consist exclusively
+of morphisms that map a domain category to a codomain category.
+Category objects generally exist as distinguishable entities.
+The category approach begins with of definition of
+general topological sets, not necessarily manifolds.
+Topological categories consist of objects that are sets
+and morphisms decribing the topological relation between objects.
+Topological morhisms act as functions that map set objects.
+The aggregate of objects in a topological category cover a 
+maximal set, $X$, henceforth denote such a category with
+a script font, $\cat{X}$.
+A topological category morphism
+maps an association between an underlying object pair to define
+homological characteristics.
+Detailed homology extends beyond introduction to the rhelm
+of algebraic topology.
+Development progresses further with the comparative study of
+target and metric topological categories.
+A target category, $\cat{M}$, denotes a topological structure
+to analyze or construct whereas a metric category, $\cat{E}$, defines
+a metric space or a patchwork of metric spaces
+with a comparatively regular structure and behavior.
+Categories and functors aggregate into classes
+distingued by shared properties.
+A topological class, $\umpclass_{C^p}$, consist
+of special functors named atlases, $\atlas{F}\in\umpclass_{C^p}$,
+where $p$ indicates an order of differentiability.
+The atlas transforms a domain target category into a codomain metric category.
+The morphisms of an atlas are diffeomorhisms,
+uniformly characterized as continuous $p^{th}$ order differentiable functions,
+where $p\in\mathbb{N}$, the natural numbers;
+$p=0$ denotes a class of continuous morhphisms that are not differentiable.
+Each atlas, $\atlas{F}$, maps the target category, $\MAN{M}$,
+to the metric category, $\MET{E}$.
+
+\begin{equation*}
+\begin{array}{c}
+\mapaob{\MAN{M}}{\atlas{F}}{\MET{E}} \\[7pt]
+\MAN{M}=\atlasdom{F},\quad\cat{E}=\atlascod{F},
+  \quad\atlas{F}\in\umpclass_{C^p} \\[5pt]
+\morphdom{m}\in\MANobj{M},\quad\morphcod{m}\in\METobj{E},
+  \quad\morph{m}\in\atlasobj{F} \\[5pt]
+\end{array}
+\end{equation*}
+
+The properties of category and functor classes transform through
+universal mapping properties. Special identity and dual operations
+instantiate the distinguishablity and reversability properties of
+classes.
+The idempotent identity operation implies the distinguishability of category
+entities, other than proper classes.
+The binary dual operation implies that morphisms are reversable.
+The dual of a diffeomorphisms is an exact inverse.
+Denote the dual UMP operation with the $*$ superscript.
+
+\begin{equation*}
+\begin{array}{c}
+\mapaob{\MET{E}^*}{\atlas{F}^*}{\MAN{M}^*} \\[7pt]
+\MET{E}^*=\atlasdom{F}^*,\quad\MAN{M}^*=\atlascod{F}^*,
+  \quad\atlas{F}^*\in\umpclass_{C^p} \\[5pt]
+\morphdom{m}^{-1}\in\METobj{E},\quad\morphcod{m}^{-1}\in\MANobj{M},
+  \quad\arr{m}^{-1}\in\atlasobj{F}^* \\[5pt]
+\MANobj{M}^*=\MANobj{M}\quad\text{and}\quad\METobj{E}^*=\METobj{E}
+\end{array}
+\end{equation*}
+
+Topological categories and atlases embraces the binary operation of
+composition, $\circ$, on morphisms as well as the union $\cup$ and
+intersection $\cap$ operations on category objects.
+An atlas, $\atlas{F}$, supports the following properties:
+Composition of a diffeomorphism and dual or vis versa
+renders the identity morphism for the respective domain or codomain object.
+The dual operation extends to any atlas which compose to an identity atlas.
+
+\begin{itemize}
+\item\textbf{Target Space Covering}
+\begin{equation*}
+\begin{array}{c}
+M=\bigcup_{\MU{U}\in\MANobj{M}}\MU{U}=\bigcup_{\morph{m}\in\atlasobj{F}}\morphdom{m}
+\end{array}
+\end{equation*}
+\item\textbf{Metric Intersection}
+\begin{equation*}
+\begin{array}{c}
+\MU{U}_i,\,\MU{U}_j\in\MANobj{M},\quad \MU{U}_i=\morphdom{i}
+  \;\text{and}\; \MU{U}_j=\morphdom{j} \\[5pt]
+\morph{i},\,\morph{j}\in\atlasobj{F} \\[5pt]
+\morph{i}\pa{\MU{U}_i\cap \MU{U}_j}\subset\morphcod{i}=\mU{E}_i \\[5pt]
+  \;\text{and}\; \\[5pt]
+\morph{j}\pa{\MU{U}_i\cap \MU{U}_j}\subset\morphcod{j}=\mU{E}_j \\[5pt]
+\mU{E}_i,\,\mU{E}_j\in\METobj{E}\quad\text{metric open sets}
+\end{array}
+\end{equation*}
+\item\textbf{Category Morphisms}
+\begin{equation*}
+\begin{array}{c}
+\mapfab{\morph{j}\circ\morph{i}^{-1}}{\morph{i}\pa{\MU{U}_i\cap \MU{U}_j}}
+  {\morph{j}\pa{\MU{U}_i\cap \MU{U}_j}} \\[5pt]
+  \;\text{and}\; \\[5pt]
+\mapfab{\morph{i}\circ\morph{j}^{-1}}{\morph{j}\pa{\MU{U}_i\cap \MU{U}_j}}
+  {\morph{i}\pa{\MU{U}_i\cap \MU{U}_j}} \\[5pt]
+\morph{i}\circ\morph{j}^{-1},\,\morph{j}\circ\morph{i}^{-1}\in\METarr{E} \\[5pt]
+\morph{i}^{-1}\circ\morph{j},\,\morph{j}^{-1}\circ\morph{i}\in\MANarr{M}
+\end{array}
+\end{equation*}
+\end{itemize}
+
+Overall the atlas dictates the domain and codomain category pair with
+topological morphisms, including identities.
+
+An atlas, $\atlas{F}$, implies the pairwise relation of
+coordinate frames between metric sets, $\mU{E}_i,\,\mU{E}_j\in\METobj{E}$.
+A maifold requires an linear space or
+tangent bundle assigned to all interior points on each
+cover set $\MU{U}\in\MANobj{M}$.
+The morphisms from each tangent space and cover set must
+map diffeomorphically to the metric space.
+Restriction of metric sets to a uniform metric space, $E$,
+implies a universal covering manifold of, $M$, with homology groups.
+The atlas of the $2$-sphere associates two morphisms with
+a the same complex space for instance.
+The dimension of the tangent space
+imposes a minimum differentiabliity condition on the associated
+diffeomorphisms of the atlas.
+Fundamental theorems for inverse mapping, convexity and Taylor
+expansion intercalate all aspects of atlas definition.
+
+Tangent Space
+
+Tangent space exposes the benefit from the torturous construct of an
+atlas relating a maifold with a metric space.
+The manifold provides a deformable evironment for a current of charges
+whereas the metric space transforms to a tangent vector space
+describing the instantaneous dynamics of a flow within the manifold.
+
+Ideally a manifold with complicated surface structure
+yields to an algebraic decoupling and reduction into simpler manifolds.
+Quantum particle models surrender to approximate solutions with reduction
+techniques.
+The application of diffeomorphic functor mappings
+between manifolds lends utility accordingly.
+
+\begin{figure}[section]
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (A) {$\cat{M}$};
+        \node[] (B) [right of=A] {$\cat{E}$};
+        \node[] (C) [below of=B,right of=D] {$\cat{F}$};
+        \node[] (D) [below of=A] {$\cat{N}$};
+        
+        \path[->] (A) edge node {$\atlas{H}$} (D);
+        \path[->] (A) edge node {$\atlas{F}$} (B);
+        \path[->] (B) edge node {$\atlas{g}$} (C);
+        \path[->] (D) edge node {$\atlas{G}$} (C);
+      \end{tikzpicture}
+      \caption {Arrow identity, composition and assosiative law
+        }\label{fig:arrowalgebra}
+\end{figure}
+
+Functorially related 
+
+Cosider a special functor, $\funct{\cat{F}\digamma\stigma\Stigma\varsigma}$,
+that transforms a domain category,
+$\cat{M}=\functdom{A}$, to a codomain,  $\cat{E}=\functcod{A}$.
+The dual
+Each arrow, $a\in\ofunctobj{A}$, is a bijection with inverse, $a^{-1}$.
+Objects of the codomain category, $\ccobj{E}$, are open sets in
+a Banach space, typically Euclidean or pseudo-Euclidean.
+Objects of the domain category, $\cat{M}$,
+are an open cover collection,
+$\{\ppv{a}{\mathscr{U}}\}=\ccobj{M}$ of a manifold,
+$\cat{M}$. The index, $\alpha$, designates the
+first order arrows, $\ofunctobj{A}$.
+Let $\mathcal{A}=\ofunctobj{A}$ The following unions :
+
+The open cover of the manifold, $\pazocal{M}$, specifies
+objects of a category
+A collection $L$ $\mathcal{L}$ $\mathscr{L}$ $\pazocal{L}$
+$\euscr{L}$ $\mathfrak{L}$ manifold, $\mathscr{M}$, is covered by 
+A local open set, $\ppv{\alpha}{\mathscr{U}}$, of a manifold embodies a tangent space, $T_x$.
+A parametrization, $\xi$, characterizes the local behavior of a tangent space,
+a convenient basis for the coordinate frame.
+Consider a point $x\in\mathscr{U}$, the local tangent space of $x$,
+follows:
+
+\begin{equation*}
+\begin{array}{rcl}
+\mathscr{U}&\in&\mathscr{O}\pa{V} \\[7pt]
+T_x\mathscr{U}&=&\{\pa{x,\xi}\mid x\in\mathscr{U},\;
+                  \xi\in \mathbb{K}^n\} \\[7pt]
+T\mathscr{U}&=&\bigcup_{x\in\mathscr{U}} T_x\mathscr{U}
+  \subset\mathscr{U}\times\mathbb{K}^n \\[7pt]
+\end{array}
+\end{equation*}
+
+The parametrization, $\xi$, manifests as a basis for a local tangent space
+or differential form characterizing the coordinate, $x_\mu$. The basis, $\xi$,
+generates a local multilinear algebra. The set of orthonomal unit vectors,
+$e_\mu=\frac{\partial\;}{\partial x^\mu}x$, represent a simple basis for a
+flat tangent space.
+
+Simple tangent spaces characterize free particles and independent fields.
+Interaction of particles and fields require mapping into an interleaving
+tangent space. Hence consider a mapping, $F$, from a tangent
+space $T_x$ into a space $T_{F\pa{x}}$.
+
+\begin{equation*}
+\begin{array}{rcl}
+&&\hspace{-8pt}\mapaob{\mathscr{U}}{F}{\mathscr{V}}\subset\mathbb{K}^m \\[11pt]
+T_{F\pa{x}}\mathscr{V}&=&\{\pa{F\pa{x},F\circ\xi}\mid \\[7pt]
+                          &&\quad F\pa{x}\in\mathscr{V},\;
+                  F\circ\xi\in \mathbb{K}^m\} \\[7pt]
+T\mathscr{V}&=&\bigcup_{F\pa{x}\in\mathscr{V}} T_{F\pa{x}}\mathscr{V}
+  \subset\mathscr{V}\times\mathbb{K}^m \\[11pt]
+&&\hspace{-20pt}\mapaob{T_x\mathscr{U}}{T_xF}{T_{F\pa{x}}\mathscr{V}}
+\end{array}
+\end{equation*}
+
+Detail of the interleaving interaction of particles and fields
+progresses via the sequential mapping from free tangent spaces to
+ones with greater involvement. Consider a sequence of two mappings,
+$F$ and $G$:
+
+\begin{equation*}
+\begin{array}{c}
+\mapaob{\mathscr{U}}{F}{\mapaob{\mathscr{V}}{G}{\mathscr{W}}} \\[11pt]
+\mapaob{T_x\mathscr{U}}{\;\;T_xF\;\;}{
+  \mapaob{T_{F\pa{x}}\mathscr{V}}
+  {T_{F\pa{x}}G}{T_{G\circ F\pa{x}}\mathscr{W}}} \\[11pt]
+\end{array}
+\end{equation*}
+
+The mechanism of differential forms applies directly to the vector space
+$\mathscr{U}\subset\mathbb{K}^n$ as ${\bigwedge}^p\mathscr{U}$.
+A complete multilinear space in a tangent space is similarly.
+
+\begin{equation*}
+\begin{array}{rcl}
+\bigwedge\mathscr{U}=\bigoplus^n_{p=0}{\bigwedge}^p\mathscr{U}
+\end{array}
+\end{equation*}
+
+Differential Forms
+
+The mathematical construct of $p$-forms and tangent space provision tools
+to elaborate on conformal coordinates, surfaces and higher dimensional
+structures familiar to manifolds.
+These topological features generally vary nonlinearly
+over manifolds. A simplifying assumptions constrains manifolds to vary
+smoothly with countable continuous derivatives.
+Hence consider a simple curve, $u^\mu$, in tangent space, $T_x$, coordinates
+parameterized by a variable, $\tau$. furthermore a differential vector,
+$dx_\mu$, measures alignment with, $u^\mu$, via scalar product:
+
+\begin{equation*}
+\begin{array}{c}
+u^\mu dx_\mu\quad\text{or}\quad u_\mu dx^\mu
+\end{array}
+\end{equation*}
+
+Assiming, $u^\mu$, to propagate smoothly as a function of, $\tau$,
+a tangent vector develops accordingly from the chain rule:
+
+\begin{equation*}
+\begin{array}{c}
+dx_\mu=\frac{d\xi_\mu}{d\tau}d\tau
+\end{array}
+\end{equation*}
+
+The differential form evinces above as an infinitestimal vector.
+Alternately a divergence of a vector direction denotes as $\partial_\mu$,
+in a particular coordinate systems, $\xi$, with indices, $\mu$.
+
+Using differential forms each tangent space reduces to an infinitestimal
+patch. Linear coordinate transformation relate tangent spaces,
+$T_x$ and $T_{x^\prime}$, from $\pa{x,\,\xi}$ to
+$\pa{x^\prime,\,\xi^{\prime}}$. A one form transformation
+shows as follows:
+
+\begin{equation*}
+\begin{array}{rcl}
+\frac{\partial\;}{\partial x^{\prime\mu}}&=&
+                \frac{\partial x^\nu}{\partial x^{\prime\mu}}
+                      \frac{\partial\;}{\partial x^\nu}
+\end{array}
+\end{equation*}
+
+The matrix, $\frac{\partial x^\nu}{\partial x^{\prime\mu}}$,
+corresponds to the inverse of the gauge transform, $\gamma^\mu_\nu$.
+Simplifying notation for a partial operator as,
+$\partial^{\prime}_\mu=\frac{\partial\;}{\partial x^{\prime\mu}}$,
+reduces the above to:
+
+\begin{equation*}
+\begin{array}{rcl}
+\partial^{\prime}_\mu&=&\pa{\gamma^{-1}}^\nu_\mu\partial_\nu
+\end{array}
+\end{equation*}
+
+Tensors support gauge transforms for higher order forms.
+Smoothly continuous transforms mediate the analysis of cooridinate
+behavior throughout a tangent space.
+
+\begin{equation*}
+\begin{array}{rcll}
+\partial^{\prime\gamma}_\mu&=&
+          \pa{\gamma^{-1}}^{\gamma\nu}_{\lambda\mu}\partial^\lambda_\nu & \\[11pt]
+\lambda&&\text{contravariant index list }&\lambda_1\cdots\lambda_i \\[5pt]
+\gamma&&\text{contravariant index list }&\gamma_1\cdots\gamma_j \\[5pt]
+\mu&&\text{covariant index list }&\mu_1\cdots\mu_k \\[5pt]
+\nu&&\text{covariant index list }&\mu_1\cdots\mu_l
+\end{array}
+\end{equation*}
+
+Differential forms conform to the $\wedge$-algebra of multilinear forms.
+As infinitestimals, differential forms maintain tensor qualities
+with the manifest of aggregate measurable quantites under integration.
+In expression, a one form is a vector such as $dx_\mu$ and a
+two form is a wedge product of two one forms that defines infinitestiman area,
+$dx_\mu\wedge dx_\nu=-dx_\nu\wedge dx_\mu$.
+covatiant and contravariant products conjoin as a Clifford product,
+consisting of a binary sum of a scalar product and a wedge product,
+$dx_\mu dx^\mu$. Scalar product also cojoins forms of different order.
+A $0$-form, $\phi_\mu$, with a $1$-form, $dx^\mu$, enjoin as $\phi_\mu\dx^\mu$,
+whereas a $1$-form and diveregence, $dx^\mu\partial_\mu$,
+generalizes to a tensor:
+
+\begin{equation*}
+\begin{array}{rcl}
+dx^\nu\partial_\mu&=&\delta^\nu_\mu
+\end{array}
+\end{equation*}
+
+A zero differential form corresponds with a zero multilinear form having
+representation as the scalar field, $\mathbb{K}$.
+Higher order differential forms
+demonstrate greater description of local tangent space behavior,
+in particular, the distinction as a differential tensor.
+
+\begin{equation*}
+\begin{array}{rcl}
+\partial^{\prime}_\mu&=&\pa{\gamma^{-1}}^\nu_\mu\partial_\nu
+\end{array}
+\end{equation*}
+
+Transformation of a differential form from one tangent coordinate
+systems to another follows the same rules a differentiation:
+
+\begin{equation*}
+\begin{array}{rcl}
+dx^{\prime\mu}&=&\gamma^\mu_\nu dx^\nu
+\end{array}
+\end{equation*}
+
+
+A bijective mapping from a a domain tangent, $T_x$, space to a
+codomain tangent space, $T_{x^\prime}$,
+
+Coordinates of an open domain, $\mathscr{U}$, index a tangent space, $T_x$.
+A basis, $\xi$, mapped over the domain, $\mathscr{U}$, completes
+definition of the tangent space, $T_x$.
+
+Stoke's Theorem
+\begin{equation*}
+\begin{array}{rcl}
+\varphi\in\bigwedge^{p-1}\mathscr{U},&\quad&K\subset\mathscr{U} \\[11pt]
+\lint{K} d\varphi &=& \olint{K}\varphi \\[11pt]
+1\xslantmath{\delta}2\delta 3\atled\imath\xssmall{.8}{d}
+  \tensorkor{i}[_\mu,^\nu]\tensorkor{d}[_\mu,^\nu,_\gamma]
+  d\iota\dd
+\end{array}
+\end{equation*}
+
+Closed Stokes Theorem
+\begin{equation*}
+\begin{array}{rcl}
+\lint{V}\nabla\times\sv{f}\,dv&=&\olint{V}\uvector{n}\times\sv{f}\,da
+\end{array}
+\end{equation*}
+
+Stokes Theorem-Flux Integral
+\begin{equation*}
+\begin{array}{rcl}
+  \lint{S}
+  \nabla\times\sv{f}\,ds&=&\olint{S}\sv{f}\cdot d\sv{l}
+\end{array}
+\end{equation*}
+
+Divergence Form, $\sv{f}$ is a $p$ form
+\begin{equation*}
+\begin{array}{rcl}
+\lint{V}\left(\omega\wedge d\sv{f}+\left(-1\right)^pd\omega\wedge\sv{f}\right)
+      &=&\olint{V}\omega\wedge\sv{f} \\[7pt]
+\text{where}\quad\lint{V}da\wedge d\sv{f}
+      &=&\olint{V}da\wedge\sv{f} \\[9pt]
+\text{when}\qquad dv\wedge\nabla\sv{f}&=&
+            da\wedge d\sv{f} \\[7pt]
+\text{and}\:\qquad\qquad d^2 a &=& 0
+\end{array}
+\end{equation*}
+
+Delta Operator
+\begin{equation*}
+\begin{array}{rcl}
+\delta_\mu&=&dx^\mu\partial_\mu,\quad\left[\partial_\mu,\,\partial_\nu\right]=0
+\end{array}
+\end{equation*}
+
+Lagrangian Field Theory, Lagrangian field density
+\begin{equation*}
+\pazocal{L}\equiv\fa{\pazocal{L}}{\fv{\phi}{p},\,\fvl{\phi}{p}{\mu};\,x_\mu}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{rcl}
+x_\mu&&\text{coordinate component with index }\mu \\[5pt]
+\fv{\phi}{p}&&\text{field component with index by }p  \\[5pt]
+\fvl{\phi}{p}{\mu}&=&\partial_\mu\fv{\phi}{\mu}
+                      \text{ field components with partial} \\[5pt]
+              &&\text{derivative of component }x_\mu
+\end{array}
+\end{equation*}
+
+Action Integral
+\begin{equation*}
+S=\lint{\pazocal{M}}d^4\mathpzc{m}\,\pazocal{L}
+\end{equation*}
+
+Least Action Principle
+\begin{equation*}
+\begin{array}{rcl}
+0=d_\mu S
+      &=&\lint{\pazocal{M}}d^4\mathpzc{m}\wedge d_\mu\pazocal{L}
+\end{array}
+\end{equation*}
+
+First Order Lagrangian Form
+\begin{equation*}
+\begin{array}{rcl}
+d_\mu\pazocal{L}&=&\delta_\mu\fvl{\phi}{p}{\nu}
+\partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}+
+             \delta_\mu\fv{\phi}{p}\,\partial_{\fv{\phi}{p}}\pazocal{L} \\[9pt]
+&=&
+\partial_\nu\pa{\delta_\mu\fv{\phi}{p}\,\partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}}
+\\[9pt]
+   &&-\delta_\mu\fv{\phi}{p}\,
+      \pa{\partial_\nu\partial_{\fvl{\phi}{p}{\nu}}-\partial_{\fv{\phi}{p}}}
+      \pazocal{L} \\[9pt]
+\end{array}
+\end{equation*}
+
+Divergence of Lagrangian Form
+\begin{equation*}
+\begin{array}{rcl}
+0&=&\lint{\pazocal{M}}d^4\mathpzc{m}\wedge\partial_\nu
+\pa{\delta_\mu\fv{\phi}{p}\,
+     \partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}} \\[9pt]
+&=&\olint{\pazocal{M}}d^3\mathpzc{m}\wedge\uvector{n}^\nu
+\pa{\delta_\mu\fv{\phi}{p}\,\partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}} \\[9pt]
+0&=&\uvector{n}^\nu\pa{\delta_\mu\fv{\phi}{p}\,
+     \partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}}
+     \mathlarger{\arrowvert}_{\partial\pazocal{M}} \\[9pt]
+d^4\mathpzc{m}&=&d^3\mathpzc{m}\wedge d\mathpzc{m}^\nu \\[9pt]
+0&=&\pa{\partial_\nu\partial_{\fvl{\phi}{p}{\nu}}
+     -\partial_{\fv{\phi}{p}}}\pazocal{L} \\[9pt]
+\end{array}
+\end{equation*}
+
+Second Order Euler-Lagrange Form for Fields
+\begin{equation*}
+\begin{array}{rcl}
+d_\mu\pazocal{L}&=&\delta\fvl{\phi}{p}{\nu\mu}
+                    \partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}
+              +\delta\fvl{\phi}{p}{\mu}\partial_{\fv{\phi}{p}}\pazocal{L}
+              +\delta_\mu\pazocal{L}
+                \\[9pt]
+            &=&g_{\mu\nu}
+              \delta\fvl{\phi}{p}{\mu\nu}\partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}
+              +g_{\mu\nu}
+                \fvl{\phi}{p}{\mu}
+                \delta_\nu\partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}
+              +\delta_\mu\pazocal{L}
+                \\[9pt]
+            &=&g_{\mu\nu}\delta_\nu\pa{\fvl{\phi}{p}{\mu}
+                \partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}}
+              +\delta_\mu\pazocal{L}
+                \\[9pt]
+            &=&g_{\mu\nu}
+               d_\nu\pa{\fvl{\phi}{p}{\mu}\partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}}
+              +\delta_\mu\pazocal{L}
+                \\[9pt]
+\end{array}
+\end{equation*}
+
+Euler-Lagrange Current Form
+\begin{equation*}
+\begin{array}{rcl}
+-\delta_\mu\pazocal{L}&=&d_\nu\pa{\fvl{\phi}{p}{\mu}
+               \partial_{\fvl{\phi}{p}{\nu}}\pazocal{L}
+               -g^{\mu\nu}\pazocal{L}}
+\end{array}
+\end{equation*}
+
+4-Momentum
+\begin{equation*}
+\begin{array}{rcl}
+\fv{\pi}{p}^\mu&=&\partial_{\fvl{\phi}{p}{\mu}}\pazocal{L}
+\end{array}
+\end{equation*}
+
+Stress-Energy-Momentum Tensor
+\begin{equation*}
+\begin{array}{rcl}
+\qv{T}^\nu_\mu&=&\fvl{\phi}{p}{\mu}\fv{\pi}{p}^\nu-g^{\mu\nu}\pazocal{L}
+\end{array}
+\end{equation*}
+
+Canonical Transform % with $g^{\mu\nu}$ an identity transform
+\begin{equation*}
+\begin{array}{rcl}
+\pazocal{T}^\mu_\mu&=&
+            \fv{\pi}{p}^\mu\fvl{\phi}{p}{\mu}-g^{\mu\mu}\pazocal{L} \\[5pt]
+2\pazocal{L}&=&
+            \fv{\pi}{p}^\mu\fvl{\phi}{p}{\mu}-\pazocal{T}^\mu_\mu \\[5pt]
+d_\mu\pazocal{T}^\mu_\mu&=&\fv{\pi}{p}^\mu\delta_\mu\fvl{\phi}{p}{\mu}
+          +\delta_\mu\fv{\pi}{p}^\mu\fvl{\phi}{p}{\mu}-
+                            g^{\mu\mu}d_\mu\pazocal{L} \\[5pt]
+&=&\delta_\mu\fv{\pi}{p}^\mu\fvl{\phi}{p}{\mu}
+    -g^{\mu\mu}\delta_\mu\fv{\phi}{p}\pa{\partial_{\fv{\phi}{p}}\pazocal{L}}^\mu
+    -g^{\mu\mu}d_\mu\pazocal{L} \\[5pt]
+&=&\delta_\mu\fv{\pi}{p}^\mu\fvl{\phi}{p}{\mu}
+    -g^{\mu\mu}\delta_\mu\fv{\phi}{p}\fvl{\pi}{p}{\mu}
+    -g^{\mu\mu}\delta_\mu\pazocal{L} \\[5pt]
+&=&\delta_\mu\fv{\pi}{p}\partial_{\fv{\pi}{p}}\pazocal{T}^\mu_\mu
+    +\delta_\mu\fv{\phi}{p}\partial_{\fv{\phi}{p}}\pazocal{T}^\mu_\mu
+    +\delta_\mu\pazocal{T}^\mu_\mu \\[5pt]
+\end{array}
+\end{equation*}
+
+Hamiltonian Field Density, Minkowski form $g^{00}=1$
+\begin{equation*}
+\pazocal{H}\equiv\fa{\pazocal{H}}{\fv{\phi}{p},\,\fv{\pi}{p};\,x_\mu},\quad
+\pazocal{H}=\pazocal{T}^0_0
+\end{equation*}
+
+Symplectic Field Components
+\begin{equation*}
+\fvl{\phi}{p}{\mu}=\partial_{\fv{\pi}{p}^\mu}\pazocal{T}^\mu_\mu,\quad
+-\fvl{\pi}{p}{\mu}^\mu=\partial_{\fv{\phi}{p}}\pazocal{T}^\mu_\mu,\quad
+-\delta_\mu\pazocal{L}=\delta_\mu\pazocal{T}^\mu_\mu
+\end{equation*}
+
+\begin{equation*}
+d_\mu\pazocal{T}^\mu_\mu=\delta_\mu\pazocal{D}^\mu_\mu=-\delta_\mu\pazocal{L}
+\end{equation*}
+
+Alternate Functions
+\begin{equation*}
+\pazocal{F}\equiv\fa{\pazocal{F}}{\fv{\phi}{p},\,\fv{\pi}{p};\,x_\mu},\quad
+\pazocal{G}\equiv\fa{\pazocal{G}}{\fv{\phi}{p},\,\fv{\pi}{p};\,x_\mu}
+\end{equation*}
+
+Poisson Bracket
+\begin{equation*}
+\pb{\pazocal{F}}{\pazocal{G}}_\mu=
+          \partial_{\fv{\phi}{p}}\qv{\pazocal{F}}
+          \partial_{\fv{\pi}{p}^\mu}\qv{\pazocal{G}}
+         -\partial_{\fv{\pi}{p}^\mu}\qv{\pazocal{F}}
+          \partial_{\fv{\phi}{p}}\qv{\pazocal{G}}
+\end{equation*}
+
+External Current Dependence 
+\begin{equation*}
+\dv{x_\mu}\pazocal{F}=\pb{F}{T^\mu_\mu}_\mu+\partial_\mu\pazocal{F}
+\end{equation*}
+
+Free Field: Closed system relative to $x_\mu$ coordinate system
+\begin{equation*}
+0=\delta_\mu\pazocal{L},\quad
+\pazocal{H}\equiv\fa{\pazocal{H}}{\fv{\phi}{p},\,\fv{\pi}{p}},\quad
+\pazocal{L}\equiv\fa{\pazocal{L}}{\fv{\phi}{p},\,\fvl{\phi}{p}{\mu}}
+\end{equation*}
+
+Conservation of Current for Free Field Lagrangian:
+\begin{equation*}
+\begin{array}{rcl}
+0&=&d_\nu\,\qv{T}^\nu_\mu,\quad 0=\delta_\mu\pazocal{L}
+\end{array}
+\end{equation*}
+
+Stress-Energy-Angular Momentum Tensor
+\begin{equation*}
+\begin{array}{rcl}
+\pazocal{M}^{\mu\nu\gamma}&=&
+           \pa{\qv{T}^{\mu\nu}x^\gamma-\qv{T}^{\mu\gamma}x^\nu} \\[5pt]
+0&=&\partial_\mu\pazocal{M}^{\mu\nu\gamma}
+\end{array}
+\end{equation*}
+
+Field Propagator
+\begin{equation*}
+\begin{array}{rcl}
+\fv{\phi}{p}^\prime\pa{x_\mu^\prime}&=&\euscr{N}\pa{\Delta x_\mu}
+                  \lint{\pazocal{P}_\mu}\hspace*{-4pt}
+  \euscr{D}x_\mu\:\fv{\phi}{p}\pa{x_\mu}
+                           e^{\frac{\iu}{\hbar}\delta_\mu\tau\pazocal{L}} \\[13pt]
+\fv{\phi}{p}^\prime\pa{x_\mu^\prime}&=&
+           e^{delta_\mu\tau\frac{\iu}{\hbar}\pazocal{L}}\:
+                             \fv{\phi}{p}\pa{x_\mu}
+\end{array}
+\end{equation*}
+
+Coordinate Geodesic Operator
+\begin{equation*}
+\begin{array}{rcl}
+\delta_\mu&=&\mathfrank{L}_{\xi^\mu}
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{rcl}
+\delta_\mu\phi&=&dx_\mu\xi^\mu\partial_\mu\phi \\[5pt]
+\delta_\mu A^\nu&=&\pa{\partial_\nu\partial^\mu\xi}A^\nu-
+                    \pa{\partial^\nu\xi}\partial_\nu A^\mu \\[5pt]
+\delta_\nu A_\mu&=&\pa{\partial_\mu\partial^\nu\xi}A_\nu+
+                    \pa{\partial^\nu\xi}\partial_\nu A_\mu \\[5pt]
+\end{array}
+\end{equation*}
+
+Lagrangian Field Theory, Lagrangian field density
+\begin{equation*}
+\pazocal{L}\equiv\fa{\pazocal{L}}{\fv{\phi}{p},\,\fvl{\phi}{p}{\mu};\,x_\mu}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{rcl}
+x_\mu&&\text{coordinate component with index }\mu \\[5pt]
+\fv{\phi}{p}&&\text{field component with index by }p  \\[5pt]
+\fvl{\phi}{p}{\mu}&=&\partial_\mu\fv{\phi}{\mu}
+                      \text{ field components with partial} \\[5pt]
+              &&\text{derivative of component }x_\mu
+\end{array}
+\end{equation*}
+
+Electromagnetic Potential
+\begin{equation*}
+\begin{array}{rcl}
+\qvl{e}{A}^\mu&=&\pauli{0}\ssl{e}{a}+\sigma\cdot\svl{e}{a} \\[3pt]
+\qvl{m}{A}^\mu&=&\pauli{0}\ssl{m}{a}+\sigma\cdot\svl{m}{a} \\[3pt]
+\qv{A}^\mu&=&\qvl{e}{A}^\mu+\iu\qvl{m}{A}^\mu \\[3pt]
+\adjoint{\qv{A}^\mu}=\qv{A}_\mu&=&\qvl{e}{A}_\mu+\iu\qvl{m}{A}_\mu
+\end{array}
+\end{equation*}
+
+4 Vector Divergence
+\begin{equation*}
+\begin{array}{rcl}
+\partial^\mu&=&\pauli{0}\partial_{ct}-\sigma\cdot\nabla \\[3pt]
+\adjoint{\partial^\mu}=\partial_\mu&=&
+               \pauli{0}\partial^{ct}+\sigma\cdot\nabla \\[3pt]
+\Box&=&\partial_\mu\partial^\mu=\partial^\mu\partial_\mu=
+               \partial_{ct}^2-\nabla^2
+\end{array}
+\end{equation*}
+
+Field Strength Tensor
+\begin{equation*}
+\begin{array}{rcl}
+\partial_\mu\qv{A}^\mu&=&
+    \pauli{0}\left(\partial_{ct}\ssl{e}{a}^0+\nabla\cdot\svl{e}{a}\right)
+    +\iu\pauli{0}\left(\partial_{ct}\ssl{m}{a}^0+\nabla\cdot\svl{m}{a}\right)
+              \\[3pt]
+ &&+\sigma\cdot\left(\nabla\ssl{e}{a}^0+\partial_{ct}\svl{e}{a}
+                  -\nabla\times\svl{m}{a}\right) \\[3pt]
+ &&+\iu\sigma\cdot\left(\nabla\ssl{m}{a}^0+\partial_{ct}\svl{m}{a}
+                  +\nabla\times\svl{e}{a}\right) \\[3pt]
+               &=&\sigma\cdot\left(-\qv{E}+i\qv{B}\right) \\[3pt]
+\partial^\mu\qv{A}_\mu&=&
+                   \sigma\cdot\left(\qv{E}+\iu\qv{B}\right) \\[3pt]
+0&=&\partial_{ct}a^0+\nabla\cdot\mathbf{a}\quad\text{Lorentz Gauge}
+\end{array}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{rclll}
+\mathbf{u}&=&\frac{1}{2}\left(\abs{\qv{E}}^2+\abs{\qv{B}}^2\right)
+&&\text{Energy Density} \\[3pt]
+\mathbf{g}&=&\qv{E}\times\qv{B} &&\text{Poynting Vector}
+\end{array}
+\end{equation*}
+
+Gauge Invariant Forms, $\Lambda$
+\begin{equation*}
+\begin{array}{rcl}
+  0&=&\Box\Lambda\quad\text{Condition} \\[3pt]
+  \qv{A}_\mu^\prime&=&\qv{A}_\mu-\partial_\mu\Lambda \\[3pt]
+  \qv{A}^\mu^\prime&=&\qv{A}^\mu-\partial^\mu\Lambda \\[3pt]
+  \partial^\mu\qv{A}_\mu^\prime&=&\partial^\mu\qv{A}_\mu-\Box\Lambda
+        =\partial^\mu\qv{A}_\mu\\[3pt]
+  \partial_\mu\qv{A}^\mu^\prime&=&\partial_\mu\qv{A}^\mu-\Box\Lambda
+        =\partial_\mu\qv{A}^\mu
+\end{array}
+\end{equation*}
+
+Power Equations
+\begin{equation*}
+\begin{array}{rcl}
+\frac{1}{2}\left(\partial^\mu\qv{A}_\mu\right)
+  \left(\partial_\mu\qv{A}^\mu\right)&=&
+              -\pauli{0}\mathbf{u}-\sigma\cdot\mathbf{g} \\[3pt]
+\frac{1}{2}\left(\partial_\mu\qv{A}^\mu\right)
+  \left(\partial^\mu\qv{A}_\mu\right)&=&
+              -\pauli{0}\mathbf{u}+\sigma\cdot\mathbf{g}
+\end{array}
+\end{equation*}
+
+Relativistic Conservation
+\begin{equation*}
+\begin{array}{rcl}
+\left(\partial_\mu\qv{A}^\mu\right)^2&=&
+                  \pauli{0}\left(\abs{\qv{E}}^2-\abs{\qv{B}}^2
+                -\iu 2\left(\qv{E}\cdot\qv{B}\right)\right) \\[3pt]
+\left(\partial^\mu\qv{A}_\mu\right)^2&=&
+                  \pauli{0}\left(\abs{\qv{E}}^2-\abs{\qv{B}}^2
+                 +\iu 2\left(\qv{E}\cdot\qv{B}\right)\right) \\[3pt]
+\end{array}
+\end{equation*}
+
+Charge Density
+\begin{equation*}
+\begin{array}{rclll}
+4\pi\ssl{e}{\rho}&=&\nabla\cdot\qv{E}&&\text{Electric} \\[3pt]
+4\pi\ssl{m}{\rho}&=&\nabla\cdot\qv{B}&&\text{Magnetic}
+\end{array}
+\end{equation*}
+
+Current Density
+\begin{equation*}
+\begin{array}{rclll}
+\frac{4\pi}{c}\svl{e}{j}&=&
+              -\partial_{ct}\qv{E}+\nabla\times\qv{B}&&\text{Electric} \\[3pt]
+\frac{4\pi}{c}\svl{m}{j}&=&
+               -\partial_{ct}\qv{B}-\nabla\times\qv{E}&&\text{Magnetic}
+\end{array}
+\end{equation*}
+
+Electro-Magnetic Current
+\begin{equation*}
+\begin{array}{rclll}
+\frac{c}{4\pi}\qvl{e}{J}_\mu&=&\pauli{0}\,c\ssl{e}{\rho}
+                       -\sigma\cdot\svl{e}{j}&&\text{Electric} \\[3pt]
+\frac{c}{4\pi}\qvl{m}{J}_\mu&=&\pauli{0}\,c\ssl{m}{\rho}
+                       -\sigma\cdot\svl{m}{j}&&\text{Magnetic}
+\end{array}
+\end{equation*}
+
+Current Tensor
+\begin{equation*}
+\begin{array}{rcl}
+\partial^\mu\partial_\mu\qv{A}^\mu&=&
+         \pauli{0}\nabla\cdot\left(\qv{E}-\iu\qv{B}\right)
+        -\sigma\cdot\left(\partial_{ct}\qv{E}-
+                                   \iu\partial_{ct}\qv{B}\right) \\[3pt]
+      &&+\iu\sigma\cdot\nabla\times\left(\qv{E}-\iu\qv{B}\right) \\[3pt]
+   &=&\qvl{e}{J}^\mu-\iu\qvl{m}{J}^\mu \\[3pt]
+\partial_\mu\partial^\mu\qv{A}_\mu&=&
+        \pauli{0}\nabla\cdot\left(\qv{E}+\iu\qv{B}\right)
+        +\sigma\cdot\left(\partial_{ct}\qv{E}+
+                                    \iu\partial_{ct}\qv{B}\right) \\[3pt]     &&+\iu\sigma\cdot\nabla\times\left(\qv{E}+\iu\qv{B}\right) \\[3pt]
+   &=&\qvl{e}{J}_\mu+\iu\qvl{m}{J}_\mu \\[3pt]
+\end{array}
+\end{equation*}
+
+Continuity Current
+\begin{equation*}
+0=\partial_t\,\ssl{e}{\rho}+\nabla\cdot\svl{e}{j}=
+  \partial_t\,\ssl{m}{\rho}+\nabla\cdot\svl{m}{j}
+\end{equation*}
+
+\begin{equation*}
+\begin{array}{rcl}
+\partial_\mu\left(\qvl{e}{J}^\mu-\iu\qvl{m}{J}^\mu\right)&=&
+\Box\,\sigma\cdot\left(-\qv{E}+\iu\qv{B}\right) \\[3pt]
+\partial^\mu\left(\qvl{e}{J}_\mu+\iu\qvl{m}{J}_\mu\right)&=&
+\Box\,\sigma\cdot\left(\qv{E}+\iu\qv{B}\right) \\[3pt]
+\frac{c}{4\pi}\Box\sigma\cdot\qv{E}
+       &=&-\sigma\cdot\left(\nabla c\ssl{e}{\rho}+\partial_{ct}\,\svl{e}{j}
+          +\nabla\times\svl{m}{j}\right) \\[3pt]
+\frac{c}{4\pi}\Box\sigma\cdot\qv{B}
+       &=&-\sigma\cdot\left(\nabla c\ssl{m}{\rho}+\partial_{ct}\,\svl{m}{j}
+          -\nabla\times\svl{e}{j}\right)
+\end{array}
+\end{equation*}
+
+Work Density
+\begin{equation*}
+\begin{array}{rcl}
+  \partial_\mu\partial^\mu\qv{A}_\mu\partial_\mu\qv{A}^\mu&=&
+              \left(\qvl{e}{J}_\mu+\iu\qvl{m}{J}_\mu\right)
+              \sigma\cdot\left(-\qv{E}+\iu\qv{B}\right) \\[3pt]
+  &=&-2\partial_\mu
+      \left(\pauli{0}\mathbf{u}+\sigma\cdot\mathbf{g}\right)
+\end{array}
+\end{equation*}
+
+Electromagnetic Power Density
+\begin{equation*}
+\begin{array}{rcl}
+  \partial_\mu\left(\pauli{0}\mathbf{u}+\sigma\cdot\mathbf{g}\right)
+  &=&\pauli{0}
+       \left(\partial_{ct}\mathbf{u}+\nabla\cdot\mathbf{g}\right)\\[3pt]
+   &&\sigma\cdot\left(\nabla\mathbf{u}+\partial_{ct}\mathbf{g}+
+                       i\nabla\times\mathbf{g}\right) \\[3pt]
+\end{array}
+\end{equation*}
+
+Electromagnetic Force Density
+\begin{equation*}
+\begin{array}{rcl}
+             && \sigma\cdot\left(-\qv{E}+\iu\qv{B}\right)
+                \frac{4\pi}{c}\left(\qvl{e}{J}_\mu+\iu\qvl{m}{J}_\mu\right)
+               \\[3pt]
+&&\quad =\pauli{0}\left(
+            \qv{E}\cdot\left(-\partial_{ct}\qv{E}+\nabla\times\qv{B}\right)
+            +\qv{B}\cdot\left(-\partial_{ct}\qv{B}-\nabla\times\qv{E}\right)
+                                                             \\[3pt]
+   &&\qquad -\iu\qv{B}\cdot\left(-\partial_{ct}\qv{E}+\nabla\times\qv{B}\right)
+            +\iu\qv{E}\cdot\left(-\partial_{ct}\qv{B}-\nabla\times\qv{E}\right)
+            \right) \\[3pt]
+   &&\qquad +c\sigma\cdot\left(
+                  -\qv{E}\left(\nabla\cdot\qv{E}\right)
+                  -\qv{B}\left(\nabla\cdot\qv{B}\right)
+                  +\iu\qv{B}\left(\nabla\cdot\qv{E}\right)
+                  -\iu\qv{E}\left(\nabla\cdot\qv{B}\right)
+             \right) \\[3pt]
+   &&\qquad +\sigma\cdot\left(
+     +\iu\qv{E}\times\left(-\partial_{ct}\qv{E}+\nabla\times\qv{B}\right)\\[3pt]
+   &&\qquad\qquad
+     +\iu\qv{B}\times\left(-\partial_{ct}\qv{B}-\nabla\times\qv{E}\right)\\[3pt]
+   &&\qqud\qquad
+        +\qv{B}\times\left(-\partial_{ct}\qv{E}+\nabla\times\qv{B}\right)\\[3pt]
+   &&\qqud\qquad
+        -\qv{E}\times\left(-\partial_{ct}\qv{B}-\nabla\times\qv{E}\right)
+             \right) \\[3pt]
+&&\quad =-2\pauli{0}\left(\partial_{ct}\mathbf{u}+\nabla\cdot\mathbf{g}
+                    \right) \\[3pt]
+&&\qquad -2\sigma\cdot\left(\nabla\mathbf{u}+\partial_{ct}\mathbf{g}
+                  +\iu\nabla\times\mathsf{g}\right)
+\end{array}
+\end{equation*}
+
+Tensor Transform
+\begin{equation*}
+\begin{array}{rcl}
+&&\qv{C}\left(\nabla\cdot\qv{C}\right)-\qv{C}\times\nabla\times\qv{C} \\[3pt]
+&&\qquad
+   =\qv{C}\left(\nabla\cdot\qv{C}\right)+\left(\qv{C}\cdot\nabla\right)\qv{C}
+    -\frac{1}{2}\nabla\left(\qc{C}\cdot\qv{C}\right) \\[3pt]
+&&\qquad
+   =\nabla\cdot\left(
+   \qv{C}\qv{C}^\dagger-\frac{1}{2}\qv{I}\left(\qv{C}^\dagger\qv{C}\right)\right)
+\end{array}
+\end{equation*}
+
+Maxwell Stress Tensor
+\begin{equation*}
+\begin{array}{rcl}
+  \qv{T}&=&\qv{E}\qv{E}^\dagger+\qv{B}\qv{B}^\dagger-\qv{I}\mathsf{u}
+\end{array}
+\end{equation*}
+
+Poynting Flux
+\begin{equation*}
+\begin{array}{rcl}
+\frac{1}{2}\nabla\times\mathsf{g}&=&
+           \qv{E}\left(\nabla\cdot\qv{B}\right)
+           -\qv{B}\left(\nabla\cdot\qv{E}\right) \\[3pt]
+         &&+\left(\qv{B}\cdot\nabla\right)\qv{E}
+           -\left(\qv{E}\cdot\nabla\right)\qv{B}
+\end{array}
+\end{equation*}
+
+\begin{definition}{Collection, Foundation Context}\label{def:collection},
+  everything is a collection. A collection represents a concept or entity
+  associated with a label or identity.
+  The trivial collection, $\varnothing$, is uniquely empty,
+  consisting of nothing. Non-trival collections consist of other collections.
+  Category specializes collection. Objects are constituents of a collection.
+  A collection associates with attributes as follows:
+\begin{itemize}
+\item\textbf{(Arrow)} an order pair consisting of a domain collection
+  associated with a codomain collection.
+  \begin{itemize}
+    \item\textbf{(Domain)} a binding of the arrow
+    \item\textbf{(Codomain)} the referent binding of the arrow
+ \end{itemize}
+\item\textbf{(Property)} a codomain associated with a domain collection.
+  A property attributed to a collection or the constituents of a collection
+\item\textbf{(Relation)} a codomain associated with a domain arrow.
+  Membership, subcollection and equals are specific examples of relations.
+  A property associated with the domain to codomain pair of an arrow.
+  Denote the general collection of relations as a collection, $\mathcal{C}$
+  \begin{itemize}
+    \item\textbf{(Membership, $\in$)} an arrow, the domain
+      is a constituent collection of the codomain collection.
+      The domain of membership is an \textbf{object} of the
+      codomain of membership. A domain or codomain must be objects
+      as members of the collection for an arrow
+    \item\textbf{(Subcollection, $\lessdot$)} an arrow, the constituents of the
+      domain collection are constituents of the codomain collection
+    \item\textbf{(Equals, $=$)} an arrow, with domain and codomain
+      the same collection, an identity arrow of this collection.
+      Two objects, $\obk{a}$ and $\obk{b}$, that commute relative
+      to the subcollection arrow, $\obk{a}\lessdot\obk{b}$ and
+      $\obk{b}\lessdot\obk{a}$, then $\obk{a}=\obk{b}$
+ \end{itemize}
+\item\textbf{(Equivalence, $\sim$)} an arrow, an unordered pair
+  of domain and codomain collections. The domain and codomain
+  collections are equivalent relative to common properties.
+  Equality implies equivalence but equvalence does not imply equality.
+  Equivalence is a partial condition but not an absolute requirement
+  for equality.
+\end{itemize}
+\end{definition}
+
+
+
+\section{Appendix}
+
+\bibliography{sample-paper}
+
+\bibliographystyle{prsty}
+\begin{thebibliography}{99}
+\bibitem{cartan1966}Cartan,\'{E}., ``The Theory of Spinors'', Hermann, [1966]
+\bibitem{cartan1913}Cartan,\'{E}., ``Les Groupes Projectifs qui ne laissent
+  invariante aucune multiplicit\'{e} plane'', Bull. Soc. Math. France, [1913]
+\bibitem{grothendieck1957}Grothendieck,A., ``Sur quelques points d`Alg\`{e}bra Homologique'', T\^{o}hoku Math. J., 9, pp. 119-221, [1957]
+\bibitem{brauerweyl1937}Brauer,R. and Weyl,H., ``Spinors in n Dimensions'', Am. J. Math., 57, pp. 425-449, [1937]
+\bibitem{russell1902}Russell,B., Letter to Frege,In Heijenoort 1967, pp. 124-125, [1902]
+\bibitem{russell1903}Russell,B., ``The Principles of Mathematics'', Cambridge Univ. Press, Cambridge, Vol. I, [1903]
+\bibitem{pauli1927}Pauli,W., ``Zur Quantenmechanik des Magnetischen Elektrons'', Z. Phys., 43, pp. 601-623, [1927]
+\bibitem{zermelo1908}Zermelo,E., ``Untersuchungen \"{U}ber die Grundlagen der Mengeniehre``, Math. Ann., 65, pp. 261-281, [1908]
+\bibitem{schafer2008}Schafer,R.D., ``An Introduction to Nonassociative Algebras'', Project Gutenberg(Public Domain USA). Internet, [2008]
+\bibitem{dirac1928}Dirac,P.A.M., ``The Quantum Theory of the Electron'', Proc. R. Soc. \(London\), [1928]
+\bibitem{birkoff1935}Birkoff,G.D., ``On the Structure of Abstract Algebras'', Proc. Cambridge P. Soc. 31, pp. 433-454, [1935]
+\bibitem{jipsenrose1992}Jipsen,P.,Rose,H.``Varieties of Lattices'', Springer-Verlag,Berlin-Heidelberg, [1992]
+\bibitem{hodges1993}Hodges,W., ``Model Theory'', Cambridge Univ. Press, Cambridge, [1993]
+\bibitem{lawvere1965}Lawvere,F.W., ``An Elementary Theory of the Category of Sets'', Proc. N. Acad. Sc., PNAS, [1965]
+\bibitem{lawvere1997}Lawvere,F.W.,Shanuel,S.H., ``Conceptual Mathematics, A first Introduction to Categories'', Cambridge Univ. Press, Cambridge, [1997]
+\bibitem{awodey2010}Awodey,S., ``Category Theory'', Oxford Univ. Press, Oxford, [2010]
+\bibitem{barrwells1990}Barr,M.,Wells,.C, ``Category Theory for Computing Science'', Prentice Hall, [1990], pdf version online [1998]
+\bibitem{lang2002}Lang,S., ``Algebra'', Springer-Verlag, NY, [2002]
+\bibitem{maclane1986}Mac Lane,S., ``Mathematics Form and Function'', Springer-Verlag, NY, [1986]
+\bibitem{maclane1998}Mac Lane,S., ``Category Theory for the Working Mathemetician'', Second Edition, Springer-Verlag, NY, [1998]
+\bibitem{bourbaki1989}Bourbaki,N., ``Algebra I'', Springer-Verlag, Berlin Heidelberg, [1989]
+\bibitem{bourbaki22003}Bourbaki,N., ``Algebra II'', Springer-Verlag, Berlin Heidelberg, [2003]
+\bibitem{hungerford1974}Hungerford,T.W., ``Algebra'', Springer-Verlag, NY, [1974]
+\bibitem{burris1981}Burris,S.,Sankappanavar,H.P., ``A Course in Universal Algebra'', Springer-Verlag, NY, [1981]
+\bibitem{rotman1998}Rotman,J., ``Galois Theory'', Springer-Verlag, NY, [1998]
+\bibitem{fultonharris2004}Fulton,W., Harris,J., ``Representation Theory: A First Course'', Springer-Verlag, NY, [2004]
+\bibitem{humphreys1972}Humphreys,J., ``Introduction to Lie Algebras and Representation Theory'', Springer-Verlag, NY, [1972]
+\bibitem{brouwer1911}Brouwer,L.E.J., ``\"Uber Abbildung von Mannigfaltigkeiten'', Math. Ann., 71, pp. 97-115, [1911]
+\bibitem{birkhoff1913}Birkhoff,G.D., ``Proof of Poincar\'e's Geometric Theorem'', Trans. Amer. Math. Soc., 14, pp. 14-22, [1913]
+\bibitem{birkhoff1925}Birkhoff,G.D., ``An Extension of Poincar\'e's Last Geometric Theorem'', Acta Math., 47, pp. 297-311, [1925]
+\bibitem{poincare1912}Poincar\'e,H., ``Sur un Theor\`eme de G\'eom\'etrie'', Rend. Circ. Mat. Palermo, 33, pp. 375-407, [1912]
+\bibitem{brownnwumann977}Brown,H.,NeumannD., ``Proof of the Poincar\'e-Birkhoff Fixed-Point Theorem'', Michigan Math. J., 24, pp. 21-31, [1977]
+
+\end{thebibliography}
+
+\end{document}

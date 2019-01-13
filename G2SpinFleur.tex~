@@ -1,0 +1,69 @@
+%\documentclass[aps,twocolumn,secnumarabic,graphics,flotfix,graphicx,
+%url,bm,tightenlines,nobibnotes,nobalancelastpage,amsmath,amssymb,
+%nofootinbib]{article}
+\documentclass[aps,twocolumn,secnumarabic,nobalancelastpage,amsmath,amssymb,
+nofootinbib,parskip=full]{revtex4}
+
+% standard graphics specifications
+% alternative graphics specifications
+% helps with long table options
+% for on-line citations
+% special 'bold-math' package
+
+\usepackage{utf8}{inputenc}
+%\usepackage[bottom]{footmisc}
+\usepackage{graphics}      % standard graphics specifications
+\usepackage{graphicx}      % alternative graphics specifications
+\usepackage{longtable}     % helps with long table options
+\usepackage{url}           % for on-line citations
+\usepackage{bm}            % special 'bold-math' package
+
+%\setlength{\parskip}{\baselineskip}
+\setlength{\parskip}{4em}
+
+\newcommand{\di}[1]{\boldsymbol #1}
+
+\newcommand{\dI}{\boldsymbol \imath}
+
+\begin{document}
+\title{Emerging Insight into Spinor Concepts}
+\author         {Wolfgang Kraske}
+\email        {wolfkden@gmail.com}
+\homepage     {http://www.oviumzone.com}
+\affiliation  {OVium Studies in Mathematical Physics}
+\date{\today}
+
+\begin{abstract}
+Spinors resonate deep mysteries in quantum physics while
+galvanizing fields of mathematical research.
+The manuscript herein reviews spinor concepts and
+unifies mathematical principles for a comprehensive
+application in information theory.
+\end{abstract}
+
+\maketitle
+
+\bibliography{sample-paper}
+
+\bibliographystyle{prsty}
+\begin{thebibliography}{99}
+\bibitem{cartan1966}Cartan,\'{E}., ``The Theory of Spinors'', Hermann, [1966]
+\bibitem{cartan1913}Cartan,\'{E}., ``Les Groupes Projectifs qui ne laissent
+  invariante aucune multiplicit\'{e} plane'', Bull. Soc. Math. France, [1913]
+\bibitem{brauerweyl1937}Brauer,R. and Weyl,H., ``Spinors in n Dimensions'', Am. J. Math., 57, pp. 425-449, [1937]
+\bibitem{pauli1927}Pauli,W., ``Zur Quantenmechanik des Magnetischen Elektrons'', Z. Phys., 43, pp. 601-623, [1927]
+\bibitem{dirac1928}Dirac,P.A.M., ``The Quantum Theory of the Electron'', Proc. R. Soc. \(London\), [1928]
+\bibitem{lang2002}Lang,S., ``Algebra'', Springer-Verlag, NY, [2002]
+\bibitem{hungerford1974}Hungerford,T.W., ``Algebra'', Springer-Verlag, NY, [1974]
+\bibitem{rotman1998}Rotman,J., ``Galois Theory'', Springer-Verlag, NY, [1998]
+\bibitem{fultonharris2004}Fulton,W., Harris,J., ``Representation Theory: A First Course'', Springer-Verlag, NY, [2004]
+\bibitem{humphreys1972}Humphreys,J., ``Introduction to Lie Algebras and Representation Theory'', Springer-Verlag, NY, [1972]
+\bibitem{brouwer1911}Brouwer,L.E.J., ``\"Uber Abbildung von Mannigfaltigkeiten'', Math. Ann., 71, pp. 97-115, [1911]
+\bibitem{birkhoff1913}Birkhoff,G.D., ``Proof of Poincar\'e's Geometric Theorem'', Trans. Amer. Math. Soc., 14, pp. 14-22, [1913]
+\bibitem{birkhoff1925}Birkhoff,G.D., ``An Extension of Poincar\'e's Last Geometric Theorem'', Acta Math., 47, pp. 297-311, [1925]
+\bibitem{poincare1912}Poincar\'e,H., ``Sur un Theor\`eme de G\'eom\'etrie'', Rend. Circ. Mat. Palermo, 33, pp. 375-407, [1912]
+\bibitem{brownnwumann977}Brown,H.,NeumannD., ``Proof of the Poincar\'e-Birkhoff Fixed-Point Theorem'', Michigan Math. J., 24, pp. 21-31, [1977]
+
+\end{thebibliography}
+
+\end{document}

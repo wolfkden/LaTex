@@ -1,0 +1,511 @@
+%\documentclass[aps,twocolumn,secnumarabic,graphics,flotfix,graphicx,
+%url,bm,tightenlines,nobibnotes,nobalancelastpage,amsmath,amssymb,
+%nofootinbib]{article}
+\documentclass[aps,twocolumn,secnumarabic,nobalancelastpage,amsmath,amssymb,
+amsthm,nofootinbib,parskip=full]{revtex4}
+
+% standard graphics specifications
+% alternative graphics specifications
+% helps with long table options
+% for on-line citations
+% special 'bold-math' package
+
+\usepackage{utf8}{inputenc}
+%\usepackage[bottom]{footmisc}
+\usepackage{graphics}      % standard graphics specifications
+\usepackage{graphicx}      % alternative graphics specifications
+\usepackage{longtable}     % helps with long table options
+\usepackage{url}           % for on-line citations
+\usepackage{bm}            % special 'bold-math' package
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+%%\theoremstype{definition}
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem*{remark}{Remark}
+
+%\setlength{\parskip}{\baselineskip}
+%\setlength{\parskip}{4em}
+
+\newcommand{\di}[1]{\boldsymbol #1}
+
+\newcommand{\dI}{\boldsymbol \imath}
+
+\begin{document}
+\title{Nonassociative Structures in Physics}
+\author         {Wolfgang Kraske}
+\email        {wolfkden@gmail.com}
+\homepage     {http://www.oviumzone.com}
+\affiliation  {OVium Studies in Physics}
+\date{\today}
+
+\begin{abstract}
+Associative algebra is a cornerstone of particle
+physics and mathematics. A sustained flourish of
+Lie algebra research for more than century maintains
+strict associative rules to establish the fields of
+quantum mechanics and gravitation. The new
+tensor formulation of physics demanded the surrender of
+classical commutative structure to model
+paradoxical phenomenon, such as electron spin,
+while maintaining acquiescence to associative rules.
+The mathematics of Lie algebra supported the journey
+with Lie brackets and grading of algebraic structures.
+An emerging perogtive to develop non-associative algebra 
+harkens from the relentless pursuit of new frontiers in
+fields such as particle physics, gravity, quantum computation,
+functional programming and artificial intelligence.
+For instance in particle physics the exceptional algebra, $G2$,
+has been explored primarily with the formalism of Lie algebra
+despite obvious nonassociative behaviors of the module
+structure. The algebra of $G2$ provides a curious
+complex of intertwining spin structures that interact
+nonassociatively with cartan basis elements. Interestingly
+the non-associative nature of $G2$ is limited to an ambiguity
+of polarity. Hence the spin submanifolds of $G2$ subordinate to a
+larger double cover structure of the compact space, $Sp(8)$.
+A great expanse of algebraic structure is expanded in
+this manuscript as embraced by
+Bourbaki's magma structure, \cite{bourbaki1989}, and
+more general composition algebras.
+\end{abstract}
+
+\maketitle
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.0}
+
+
+\section{Appendix}
+
+Notation and peripherial concepts not detailed herein are
+found in Hungerford's algebra text, \cite{hungerford1974}.
+For instance topics relied on in the text are,
+\cite{hungerford1974}, cartesian product,
+$A^{n+1}=A^n\times A$, $n\in\mathbb{N}$, tensor product,
+direct sum and set theory.
+Axioms of choice and order, \cite{hungerford1974},
+that intuit a basis of the real number set,
+$\mathbb{R}$, are also assumed. Other areas
+of adherance are model theory, \cite{hodges1993},
+and category theory, \cite{awodey2010}.
+Certainly the study of mathematics embraces several
+language theories, \cite{hodges1993},
+or disaplines. In particular
+the theory of algebra associates well with
+category theory, \cite{awodey2010}. A relationship that
+is exploited in the text.
+
+The manuscript details the composition and extension of
+mathematical strucures the require a formalism and appliance
+of algebra beyond the scope of traditional text, \cite{hungerford1974}.
+To achieve this objective concepts and definitions are
+adopted from Birkoff, \cite{birkoff1935}, Hodges, \cite{hodges1993},
+and Burris, \cite{burris1981}:
+
+\begin{definition}{Algebra, $\mathcal{A}$}\label{algebradef},
+  a language theory shaped set of functions 
+\end{definition}
+
+\begin{definition}{Algebra, $\mathcal{A}$}\label{algebradef},
+  a language theory consisting of models with
+  a signature $(A,F)\models\mathcal{A}$,
+  consisting of a nonempty set, $A$, of elements and a
+  nonempty set of composable functions, $F$.
+  $f\in F$. such that $f:\,A^{n}\rightarrow A$.
+  Nullary functions have an arity value of zero,
+  A nullary function of a signature is map of a
+  constant element in the set, $A$.
+\begin{itemize}
+\item\textbf{\small (Arity)} arity
+  function, $ar:\,F\rightarrow\mathbb{N}$,
+  partitions the function
+  set, $F$, by mapping signature
+  $f:\,A^{n}\rightarrow A\,\forall\,f\in F$.
+\item \textbf{\small (Closure)} codomains
+  of the functions in the set $F$ cover
+  the element set $A$: \\
+  $A\subset\,\cup_{f\in F}f(A^{ar(f)})$
+\item \textbf{\small (Composition)}
+  Each function, $f\in F$, of the signature
+  is characterised by
+  an integral arity, $n=ar(f)\in\mathbb{N}$,
+  $\cup_{f\in F}f(A^{ar(f)})\subset A$
+\item \textbf{\small (Constant)}
+  $\cup_{f\in F}f(A^{ar(f)})\subset A$
+\end{itemize}
+\end{definition}
+
+A property of any algebra, $(A,F)$, is containment:
+
+\begin{itemize}
+\item \textbf{\small (Containment)}
+  $\cup_{f\in F}f(A^{ar(f)})\subset A$
+\end{itemize}
+
+If the union of the codomains of the function set, $F$, cover $A$ then the algebra
+has a closure property:
+
+\begin{itemize}
+\item \textbf{\small (Compositional Closure)}
+  $\cup_{f\in F}f(A^{ar(f)})=A$
+\end{itemize}
+
+An algebra with closure has a basis:
+
+\begin{itemize}
+\item \textbf{\small (Basis)}
+  $X\subset A$, $X$ is a basis of $A$ $\Rightarrow$ $A=\langle X\rangle=\cup_{f\in F}f(X^{ar(f)})$.
+\end{itemize}
+
+The composition of functions, $f\in F$, dictate a structure on elements of the set $A$.
+An algebra, $(A,f)$, with
+a binary function, $f$, dictates a tree structure on members of the set,
+$A$, relative to a basis $A=\langle X\rangle$.
+
+\begin{itemize}
+\item \textbf{\small (Binary Forest)}
+  $(A,f)$ is an algebra, $f$ is a binary function and $A=\langle X\rangle$:
+  $c\in A\Rightarrow c=f(a,b)\,a,b\in A$ or $c\in X$.
+\end{itemize}
+
+
+
+If an algebra, $(A,f)$, has an identity element, $1_A$, relative to the binary
+function, $f$ then the condition for a basis is relaxed:
+
+\begin{itemize}
+\item \textbf{\small (Binary Identity)}
+  $(A,f)$ is an algebra. $f$ is a binary function with identity element, $1_A\in A$: \\
+  $a=f(a,1_A)=f(1_A,a)\forall\,a\in A$ then: \\
+  $c\in A\Rightarrow c=f(a,b)\,a,b\in A$.
+\end{itemize}
+
+Algebras with a binary function over a set
+are classified as magmas. Borbaki, \cite{bourbaki1989},
+employed magmas to define a wide vatiety of signatures
+including the classical signatures in algebra.
+
+The composalble functions of an algebra also dictate invariant
+subalgebras.
+
+\begin{definition}{Sublgebra}\label{subalgebradef},
+  denotes an algebra subset of another algebra:
+  $B\subset A$ where both $(B,F)$ and $(A,F)$ are algebras.
+  A proper subalgebra requires $B\neq A$.
+\end{definition}
+
+As a corollary to, definition \ref{subalgebradef}, a proper subalgebra
+cannot be a basis for the containing algebra.
+
+As an example the power set $\mathcal{P}(A)$ of a set $A$,
+with the binary function of union or intersetion
+is an example of an algebra, $(\mathcal{P}(A),\cup)$
+or $(\mathcal{P}(A),\cap)$. Binary functions may also
+be used with operator notation, $f(A,B)=A\,{}^\backprime f{}^\backprime \,B$ where
+tick accents $\backprime$ are omitted for familiar operators such as
+$\cup,\,\cap,\,+,\,\cdot,\,\bullet$. Since the
+binary set operators $\cup$ and $\cap$, are associative the algebras,
+$(\mathcal{P}(A),\cup)$ and $(\mathcal{P}(A),\cap)$, provide
+examples of semigroups. Algebras with
+associative properties, Su, define a semigroup:
+
+\begin{definition}{Semigroup, $(G,\bullet)$}\label{semigroup},
+  an algebra with an associative binary operator, $\bullet$, \\
+  $a\bullet (b\bullet c) = (a\bullet b)\bullet c\in G$ $\forall$ $a,b,c\in G$
+\end{definition}
+
+A semigroup with an identity element is a monoid:
+
+
+
+The various function signature of an algebra, $F$, $(A,F)$,
+permits the analysis of the structure and behavior
+of the set, $A$, relative to the functions of $F$.
+Closure is an obvious property of algebra class:
+
+
+
+Various structures of algebra are defined with different
+signatures. Signatures with a binary function define
+a large class of structures. Operator notation
+is convenient to denote binary functions for a
+structure, $(A,\bullet)$. A semigroup is
+such a structure with the additional property
+of associativity 
+
+
+
+\begin{definition}{Composition Algebra },
+  
+\end{definition}
+
+Omega algebra provides the generalization
+
+Magmas are introduced, \cite{borbaki1989}, to fully embrace
+algebraic developments. A Magma is a
+set with a binary composition operation. A magma
+
+
+
+
+Algebraic developments are detailed in Serge Lang's text, 
+\cite{lang2002}, and Joseph Rotman's text, \cite{rotman1998}. 
+Development begins with sets and the action of a binary operator on a set.
+Greater development will be dedicated to compositional algebras that
+combine multiple structures and operators.
+
+Consider a set $G$ with a binary function, a binary operator:
+\begin{center}
+$\cdot\, {:}\, G \times G \to G$:
+\end{center}
+
+\begin{itemize}
+\item \textbf{\small (Closure)} $a\cdot b\in G$ $\forall$ $a,b\in G$
+\end{itemize}
+
+A simplifying notation for binary operator, $\cdot$ , is used:
+
+\begin{center}
+ $\cdot(a,b)\equiv a\cdot b$
+\end{center}
+
+A binary operator that is invariant to the order of the input argument pair
+is commutative:
+
+\begin{itemize}
+\item \textbf{\small (Commutative)} $a\cdot b=b\cdot a\in G$, $\forall$ $a,b\in G$
+\end{itemize}
+
+Algebraic structures with commutative algebraic operations are abelian.
+
+A semigroup is a set, $G$, with an associative binary operator, $\cdot$ :
+
+\begin{itemize}
+\item \textbf{\small (Associative)}
+  $a\cdot (b\cdot c) = (a\cdot b)\cdot c\in G$ $\forall$ $a,b,c\in G$
+\end{itemize}
+
+A semigroup, $G$, with an identity element, $e\in G$, is a monoid $(G,\cdot,e)$:
+
+\begin{itemize}
+\item \textbf{\small (Identity)} $a\cdot e=e\cdot a=a$, $\forall$ $a \in G$
+\end{itemize}
+
+Uniqueness of the identity element derives as a corollary to the monoid definition.
+The trivial monoid consists of a single identity element, $G=\{e\}$.
+
+A monoid, $(G,\cdot,e)$, is a group if for every element, $a\in G$, 
+there exists an inverse element $a^{-1}\in G$ such that:
+
+\begin{itemize}
+\item \textbf{\small (Inverse)} $\forall$ $a\in G$ $\exists$ $a^{-1}\in G$ \\
+  such that $e=a\cdot a^{-1}=a^{-1}\cdot a$
+\end{itemize}
+
+As a corollary, the inverse of any element of a group is unique.
+
+To support the development of a class of composite algebras a
+free group provides a construct.
+A free group is constructed from a set, $X$, and a unit, $e$.
+A vocabulary $W$ of words $w$ of length $\ell(w)\in\mathbb{N}$ are constructed
+by listing all combinations elements of $X$ such that $W\in X^{\ell(w)}$.
+The identity element, $e$, is the zero length word.
+The product of words is fulfiled by the non-abelian operation of 
+appending of words.
+Assume the product identity is $e$.
+The vocabulary is the set $W={\cup}_{i\in\mathbb{N}}X^i$.
+A collection of words that reduce to $e$ of length 0 determine a rule set
+to reduce the length of words in W. 
+This group structure is familiar to Coxeter groups and
+useful in developing bases for algebras
+
+A module is developed as a free group over a field. The center of the module
+is the field.
+If the generating set of the free group is abelian then the module is a polynomial ring. 
+
+Semigroups, monoids and groups are algebraic structures 
+with a single binary operator.
+A compositional algebra is a structure with more than one 
+binary operator. 
+The simplest compositional algebra is a ring.
+A ring, $(R,+,\cdot,0)$, is a composition of an 
+additive commutative group $(R,+,0)$
+and a multiplicative semigroup, $(R,\cdot)$.
+A ring with identity is a ring with a 
+multiplicative monoid $(R,\cdot,1)$.
+All rings are assumed to have a multiplicative identity 
+unless stated otherwise.
+The composition of ring operators, $+$ and $\cdot$, 
+demonstrate distributive ring, $R$, properties:
+
+\begin{itemize}
+\item \textbf{\small (Left Distributive)}
+  $a\cdot(b + c)=a\cdot b+a\cdot c\in R,$
+\item \textbf{\small (Right Distributive)}
+  $(a+b)\cdot c=a\cdot c+b\cdot c\in R,$
+\end{itemize}
+
+\begin{center}
+  $\forall$ $a,b,c\in R$.
+\end{center}
+
+The trivial ring consists of one element with one property:
+
+\begin{itemize}
+\item \textbf{(\small Trivial Ring)} $\mathfrank{Z}=\{0\}$ where $1=0$.
+\end{itemize}
+
+Unless otherwise stated all rings are assumed to be not trivial.
+
+The distributive properties of a ring assert the following corollaries:
+
+\begin{itemize}
+\item \textbf{\small (Zero)} $0\cdot a=a\cdot 0=0$, $\forall$ $a\in R$
+\item \textbf{\small (Unit Reflection)} $(-1)+1=1+(-1)=1-1=0$
+\item \textbf{\small (Element Reflection)} $(-1)\cdot a=a\cdot (-1)=-a$, 
+$(-a)+a=a+(-a)=a-a=0$ $\forall$ $a\in R$
+\end{itemize}
+
+A ring, $R$, has at least one ideal subset. All ideals, 
+$\mathfrak{I}\subset R$, have properties:
+
+\begin{itemize}
+\item \textbf{(Coset)} $a-b\in \mathfrak{I}\,\,\forall\, a,b\in\mathfrak{I}$
+\item \textbf{(Closure)} $r\cdot a\in \mathfrak{I}$ and
+  $a\cdot r\in\mathfrak{I}$ $\forall$ $a\in\mathfrak{I}$ and $r\in R$
+\end{itemize}
+
+All rings have the ideals, $\{0\}$, and $R$. If $R$ has an identity 
+then $R=\{1\}$. In general denote a set of elements, $P$,
+that generate and ideal $\mathfrak{I}$ as $\mathfrak{I}=\{P\}$ 
+In general a prime ideal $\mathfrak{P}$ is not a proper subset 
+of any ideal other than $R$. A maximal ideal is the largest 
+proper ideal subset of the ring $R$.
+
+If the multiplicative operator of a ring, $R$, is commutative then $R$ is commutative.
+
+The zero divisor subset, $ZD$, of a ring, $R$,
+consists of elements with the following property:
+
+\begin{itemize}
+\item \textbf{\small (Zero)} $0\in ZD$,
+\item \textbf{\small (Zero Divisor)} $ZD\subset R$
+  such that $\forall$ $a\in ZD$ there exists $b\in ZD$ where
+  $a\cdot b=0$ or $b\cdot a=0$
+\end{itemize}
+
+A ring with a trivial zero divisor set, $ZD=\{0\}$, is an integral domain.
+
+A nontrivial ring, $(R,+,\cdot,0,1)$, also has a nontrivial subset,
+$R^*\subset R\backslash\{0\}$, of units.
+
+\begin{itemize}
+\item \textbf{\small (Unit)} $1\in R^*$, 
+\item \textbf{\small (Closure)} $\forall$ $u\in R^*$ $\exists$ $u^{-1}\in R^*$
+  such that $u\cdot u^{-1}=u^{-1}\cdot u=1\in R^*$
+\end{itemize}
+
+A ring consisting wholely of units and the additive identity is a division ring,
+$R=\{0\}\cup R^*$. A commutative division ring is a field.
+
+A more complex compositional structure is a module.
+A left $R-module$ is a compositional algebra
+of an additive group, $(A,+,0)$ and a ring $(R,+,\cdot,0)$
+with a compositional function, $f{:}R\times A -> A$,
+denote $f(r,a)=ra\in A$ $\forall$ $r\in R$ and $a\in A$.
+Composition of ring and function operations demonstrate 
+distibutive properties:
+
+\begin{itemize}
+\item $r(a+b)=ra + rb\in A$ $\forall$ $r\in R$ and $a,b\in A$
+\item $(r+s)A=ra+sa\in A$ $\forall$ $r,s\in R$ and $a\in A$
+\item $(r\cdot s)a=r\cdot (sa)\in A$ $\forall$ $r,s\in R$ and $a\in A$
+\end{itemize}
+
+A unitary $R-module$ incorporates a ring with identity for the multiplicative unit
+of the ring with identity $R$ of the module $A$.
+
+\begin{itemize}
+\item \textbf{\small (Unit)} $1a=a$ for $1\in R$ and $\forall$ $a\in A$
+\end{itemize}
+
+A left vector space is a left $R-module$ over a division ring.
+
+A right $R-module$ transposes the operational properties of the ring $R$
+relative to the left $R-module$, $M$.
+
+A module may have different structure to discriminate 
+operations from the left and right, e.g. covarant/contravariant matrix algebra.
+If the ring of the module is commutative the left and right module
+operations are identical. A module with a commutative base ring centralizer
+is a bimodule.
+
+Modules may be constructed, extended or derived from the dependent ring. For instance
+a module may be a basis of ideals, multivectors, derivations, matrices or tensors.
+
+\begin{center}
+$\alpha\cdot\prod_{x\in X}x^{i_x},\,i_x\in\mathbb{N},\,\alpha\in R$
+\end{center}
+
+A free group over a variable set may defines a module over
+a division ring or a field. An abelian free group over a filed
+is a polynomial.
+
+Polynomial modules are rings. Hence, if the base ring is a domain
+then the polynomial ring is also a domain.
+
+polynomial domains have irreducuble elements.
+
+\begin{itemize}
+\item \textbf{\small (Irreducible)} $p\in M$ is irreducuble
+  if $p=q\cdot r\,\Rightarrow$ either $q$ or $r$ is a unit of $M$.
+\end{itemize}
+
+A further journey in compositional structure is an algebra over a
+commutative ring, $K$, a $K-algebra$, $\mathbb{A}$.
+
+\begin{itemize}
+\item \textbf{\small (Unitary)} $(\mathbb{A},+)$ is a unitary left $K$ module
+\item \textbf{\small (Closure)} $k\cdot(ab)=(k\cdot a)b=a(k\cdot b)$
+  $\forall$ $k\in K$ and $a,b\in\mathbb{A}$
+\end{itemize}
+
+\bibliography{sample-paper}
+
+\bibliographystyle{prsty}
+\begin{thebibliography}{99}
+\bibitem{cartan1966}Cartan,\'{E}., ``The Theory of Spinors'', Hermann, [1966]
+\bibitem{cartan1913}Cartan,\'{E}., ``Les Groupes Projectifs qui ne laissent
+  invariante aucune multiplicit\'{e} plane'', Bull. Soc. Math. France, [1913]
+\bibitem{brauerweyl1937}Brauer,R. and Weyl,H., ``Spinors in n Dimensions'', Am. J. Math., 57, pp. 425-449, [1937]
+\bibitem{pauli1927}Pauli,W., ``Zur Quantenmechanik des Magnetischen Elektrons'', Z. Phys., 43, pp. 601-623, [1927]
+\bibitem{schafer2008}Schafer,R.D., ``An Introduction to Nonassociative Algebras'', Project Gutenberg(Public Domain USA). Internet, [2008]
+\bibitem{dirac1928}Dirac,P.A.M., ``The Quantum Theory of the Electron'', Proc. R. Soc. \(London\), [1928]
+\bibitem{birkoff1935}Birkoff,G.D., ``On the Structure of Abstract Algebras'', Proc. Cambridge P. Soc. 31, pp. 433-454, [1935]
+\bibitem{jipsenrose1992}Jipsen,P.,Rose,H.``Varieties of Lattices'', Springer-Verlag,Berlin-Heidelberg, [1992]
+\bibitem{hodges1993}Hodges,W., ``Model Theory'', Cambridge Univ. Press, Cambridge, [1993]
+\bibitem{awodey2010}Awodey,S., ``Category Theory'', Oxford Univ. Press, Oxford, [2010]
+\bibitem{lang2002}Lang,S., ``Algebra'', Springer-Verlag, NY, [2002]
+\bibitem{bourbaki1989}Bourbaki,N., ``Algebra I'', Springer-Verlag, Berlin Heidelberg, [1989]
+\bibitem{bourbaki22003}Bourbaki,N., ``Algebra II'', Springer-Verlag, Berlin Heidelberg, [2003]
+\bibitem{hungerford1974}Hungerford,T.W., ``Algebra'', Springer-Verlag, NY, [1974]
+\bibitem{burris1981}Burris,S.,Sankappanavar,H.P., ``A Course in Universal Algebra'', Springer-Verlag, NY, [1981]
+\bibitem{rotman1998}Rotman,J., ``Galois Theory'', Springer-Verlag, NY, [1998]
+\bibitem{fultonharris2004}Fulton,W., Harris,J., ``Representation Theory: A First Course'', Springer-Verlag, NY, [2004]
+\bibitem{humphreys1972}Humphreys,J., ``Introduction to Lie Algebras and Representation Theory'', Springer-Verlag, NY, [1972]
+\bibitem{brouwer1911}Brouwer,L.E.J., ``\"Uber Abbildung von Mannigfaltigkeiten'', Math. Ann., 71, pp. 97-115, [1911]
+\bibitem{birkhoff1913}Birkhoff,G.D., ``Proof of Poincar\'e's Geometric Theorem'', Trans. Amer. Math. Soc., 14, pp. 14-22, [1913]
+\bibitem{birkhoff1925}Birkhoff,G.D., ``An Extension of Poincar\'e's Last Geometric Theorem'', Acta Math., 47, pp. 297-311, [1925]
+\bibitem{poincare1912}Poincar\'e,H., ``Sur un Theor\`eme de G\'eom\'etrie'', Rend. Circ. Mat. Palermo, 33, pp. 375-407, [1912]
+\bibitem{brownnwumann977}Brown,H.,NeumannD., ``Proof of the Poincar\'e-Birkhoff Fixed-Point Theorem'', Michigan Math. J., 24, pp. 21-31, [1977]
+
+\end{thebibliography}
+
+\end{document}

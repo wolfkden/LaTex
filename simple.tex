@@ -1,0 +1,510 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sample template for MIT Junior Lab Student Written Summaries
+% Available from http://web.mit.edu/8.13/samplepaper/sample-paper.tex
+%
+% Last Updated June 20, 2004
+%
+% Adapted from the American Physical Societies REVTeK-4 Pages
+% at http://publish.aps.org
+%
+% ADVICE TO STUDENTS: Each time you write a paper, start with this
+%    template and save under a new filename.  If convenient, don't
+%    erase unneeded lines, just comment them out.  Often, they
+%    will be useful containers for information.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\documentclass[aps,twocolumn,secnumarabic,graphics,flotfix,graphicx,
+%url,bm,tightenlines,nobibnotes,nobalancelastpage,amsmath,amssymb,
+%nofootinbib]{article}
+\documentclass[aps,twocolumn,secnumarabic,nobalancelastpage,amsmath,amssymb,
+nofootinbib,parskip=full]{revtex4}
+
+% standard graphics specifications
+% alternative graphics specifications
+% helps with long table options
+% for on-line citations
+% special 'bold-math' package
+
+\usepackage{utf8}{inputenc}
+%\usepackage[bottom]{footmisc}
+\usepackage{graphics}      % standard graphics specifications
+\usepackage{graphicx}      % alternative graphics specifications
+\usepackage{longtable}     % helps with long table options
+\usepackage{url}           % for on-line citations
+\usepackage{bm}            % special 'bold-math' package
+
+%\setlength{\parskip}{\baselineskip}
+\setlength{\parskip}{4em}
+
+\newcommand{\di}[1]{\boldsymbol #1}
+
+\newcommand{\dI}{\boldsymbol \imath}
+
+\begin{document}
+\title{Emerging Insight into Spinor Concepts}
+\author         {Wolfgang Kraske}
+\email        {wolfkden@gmail.com}
+\homepage     {http://www.oviumzone.com}
+\affiliation  {OVium Studies in Mathematical Physics}
+\date{\today}
+
+\begin{abstract}
+Spinors resonate deep mysteries in quantum physics while
+galvanizing fields of mathematical research.
+The manuscript herein reviews spinor concepts and
+unifies mathematical principles for a comprehensive
+application in information theory.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+The namesake of spinor harkens from the observable fine structure of
+hydrogen energy spectra. The concept of the spinor defies representation
+by the classical geometries of spatial coordinates and momenta.
+Mathematically, particle spin is a manifestation of the discontinuities
+in the rotation group $SO(3)$ of a sphere $S^2$. The spin group, $Sp(3)$,
+corresponds directly with a binary, $\mathbb{Z}_2$, cover of the
+rotational group, $SO(3)$.
+
+\begin{equation}
+Sp(3) / \mathbb{Z}_2 \cong SO(3)
+\end{equation}
+
+The seminal contribution of spin structure of electron energy states
+was introduced by Pauli in 1927, \cite{pauli1927}, and Dirac in 1928,
+\cite{dirac1928}. Although an epic discovery in physics,
+the spin concept, sans the moniker, spinor, was originated
+in 1913 by the [Bencompassing mathematical studies by \'{E}lie Cartan,
+\cite{cartan1913}. Mathematically, the invariance of the spinor
+in complex multilinear spaces was discovered by \'{E}lie Cartan
+as an extension of the manifold
+representations familiar to tensor calculus and exterior algebra.
+The particle spin ansance of 1920's physics and Cartan's
+prior accomplishment were
+comprehensively recognized and further formalized in 1937 within several
+mathematically rigorous treatise of spin
+extending to general 2n and 2n+1 dimensional manifolds. Specifically,
+spinors extend the multilinear concept of tensors to include
+double sheeted coverings of manifolds.
+Henceforth, the lecture notes of \'{E}lie Cartan summarized and
+elaborated the accomplishments of physicists, Pauli \cite{pauli1927}
+and Dirac \cite{dirac1928} as well as the mathematicians,
+Brauer and Weyl, \cite{brauerweyl1937}.
+In 1966, the published lecture notes were posthumously
+translated into English \cite{cartan1966}.
+
+Peripatetically, this manuscript approaches spinor analysis
+with various algebraic structures, most generally with modules and lie algebra.
+Algebraic structures of module, field and lie algebra are variously used
+in the following mathematical developments although generalizations are
+introduced to adjust to specific interpretations in physics and
+computational application.
+
+Fundamental algebraic structures used are monoid, ring and module,
+\cite{rotman1998},\cite{lang2002}.
+
+
+\section{Composite Algebra}
+
+Composite algebras provides an accessible approach to engage the reader
+with Lie theory and spinor concepts. Division algebras
+embraces the mathematical development of modular spaces
+from the beginings of the 19\textsuperscript{th} and
+even 18\textsuperscript{th} century. Basic properties of
+a division algebra, $\mathbb{A}$, are the following:
+
+\begin{itemize}
+\item \textbf{\small (Initial Base Field)} Real Numbers $\mathbb{R}$
+\item \textbf{\small (Unit)} the division algebras, $\mathbb{A}$ has
+\item \textbf{\small (Fundamental Form)} there exists a fundamental form $\Phi$
+  acting on elements $x\in\mathbb{A}$ such that:
+  \begin{itemize}
+  \item $\Phi(x)$ is a measure of the square distance of
+    x from the origin of $\mathbb{A}$
+  \item  provides a partial ordering on elements of $\mathbb{A}$
+  \end{itemize}
+\end{itemize}
+
+Division algebra construction embraces an interative process begining
+with the real field, $\mathbb{R}$ and subsequently extending
+to more complex modular structures.
+
+Exposition begins with the real number line, $\mathbb{R}$,
+as a base field. The real line, $\mathbb{R}$, is a commutative field
+as well as a simple manifold intuitively familiar to most readers.
+As a division algebra, the fundamental form of $\mathbb{R}$ is the
+square of any element, $\Phi(x)=x^2,\,\forall\, x\in\mathbb{R}$,
+$\Phi:\mathbb{R}\rightarrow\mathbb{R}_+$. $\Phi$ is a polynomial
+in $\mathbb{R}[x]$. $\Phi$ is a nonegative mapping easily
+extended to $\Phi(x)+1\in\mathbb{R}[x]$, an irreducible polynomial
+relative to $\mathbb{R}$.
+As an irreducible, the polynomial $1+x^2$ is a generator of
+the ideal $\{1+x^2\}$ over the domain $\mathbb{R}(x)$.
+The extension, eq. \ref{eq:complexfield}, sequencially yields the next
+division algebra:
+
+\begin{equation} \label{eq:complexfield}
+\mathbb{R}[x]/\{x^2+1\}
+\end{equation}
+
+The division algebra, eq. \ref{eq:complexfield}, reduces each polynomial
+of $\mathbb{R}[x]$ to coset polynomial of order 1, equivalently
+a vector in $\mathbb{R}^2$:
+
+\begin{equation} \label{eq:complexreduce}
+  p(x)\equiv a+bx \in \mathbb{R}[x]/\{x^2+1\}\, ,
+\end{equation}
+\begin{center}
+where $p(x)\in\mathbb{R}[x]$ and $a,b\in\mathbb{R}$.
+\end{center}
+
+The ring, $\mathbb{R}[x]$, splits over the irreducible polynomial,
+$x^2+1$, eq. \ref{eq:complexreduce}.
+
+Further inspection of the polynomial $x^2+1$ proves to have an symbolic
+solution historically designated as $\di{i}$, hence the moniker, imaginary
+number. A little analysis further shows the division ring, eq.
+\ref{eq:complexfield}, to be isomorphic to the complex number field, $\mathbb{C}$.
+
+\begin{equation} \label{eq:complexclosure}
+\mathbb{C}\cong\mathbb{R}(x)\equiv\mathbb{R}[x]/(x^2+1)
+\end{equation}
+
+Equation \ref{eq:complexclosure} is a well known result in algebra,
+the closure of the polynomial domain over $/mathbb{R}$,
+$\mathbb{R}(x)$, is the complex field, $\mathbb{C}$, or otherwise stated all
+roots of the polynomial domain are contained within the complex field, $/mathbb{C}$.
+
+Continuing the process with the next interation yields the quaternion non-abelian
+field, $\mathbb{Q}$, then the octonian composition algebra, $\mathbb{O}$.
+
+To develop the next level of division algebra polynomial domain, $\mathbb{C}[x]$ extended from the complex
+numbers $\mathbb{C}$. To define a fundamental form for $\mathbb{C}$ over the extension field $\mathbb{C}[x]$
+is necessary. Once again an extension element is introduced, $\di{j}$, as a solution to the polynomial $X^2+1$.
+The two imaginary extension units, $\di{i}$ and $\di{j}$ anticommute to establish a reflection operation over
+$\mathbb{C}[x]$. The reflection operator $\di{j}$ defines a partial order over $\mathbb{C}$ as
+$(xj)^2=xjxj=xx^*jj=-xx^*=-|x|^2$, the reflection operation, $*$, is complex conjugation. For
+$|x|^2=1$ with $x\in\mathbb{C}$ shows a new solution to $(xj)^2+1$. 
+
+The quaternion field derives from the extension of $\mathbb{C}[x]$ with unit operators $\di{j}$. Unit operators
+$\di{i}$ and $\di{j}$ combined to form a third unit operator $\di{k}.
+
+\begin{align} 
+  \di{k}=\di{i}\cdot\di{j}=-\di{j}\cdot\di{i} \label{eq:qunit1} \\
+  \di{i}\cdot\di{k}=\di{i}\cdot\di{i}\cdot\di{j}=-\di{j} \label{eq:qunit2} \\
+  \di{k}\cdot\di{j}=\di{i}\cdot\di{j}\cdot\di{j}=-\di{i} \label{eq:qunit3} \\
+  \di{k}^2=\di{i}\cdot\di{j}\cdot\di{i}\cdot\di{j}=-\di{i}\cdot\di{i}\cdot\di{j}\cdot\di{j}=-1 \label{eq:qunit4} \\
+  -1=\di{i}^2=\di{j}^2=\di{k}^2 \label{eq:qunit5}
+\end{align}
+
+The properties of the quaternion unit operators affords a quaternion modular form with real coefficients:
+
+\begin{equation} \label{eq:quaternion}
+  q\in\mathbb{Q}\,\,,q=r+x\di{i}+x\di{j}+x\di{k}\,\,,r,x,y,z\in\mathbb{R}
+\end{equation}
+
+The anti-commuting properties, eqs. \ref{eq:qunit1} \ref{eq:qunit2} \ref{eq:qunit3},
+of the extension units prove the quaternion field to have anti-commutative properties as well.
+
+Again a new conjugation operator for the quaternion field and a subsequently more complex division algebra is sought.
+
+This manuscript expands the formalisms of multilinear algebra and tensors
+derived from a fundamental form, $\Phi$, over a pseudo-Euclidean vector
+space, $V$. Vector spaces are defined over a field designated, $K$,
+generally assumed a closed complex field, $\mathbb{C}$, unless confined to
+the real field, $\mathbb{R}$. A general vector space, $V$,
+has a dimension, $n\in\mathbb{N}$,
+consisting of a set of vectors defined over the field, $K$,
+
+\begin{equation}
+V = \left\{v\mid\ v=\left(x_1\dots x_n\right),\,x_i\in K\right\}.
+\end{equation}
+
+\begin{itemize}
+\item \textbf{\small (Reflection Operator)} there exists a real subspace, $\Re$, and an imaginary subspace, $\Im$,
+  of the division algebra, $\mathbb{A}$
+\end{itemize}
+
+The fundamental form provides a base measure to develop a bilinear form to
+determine similarities between elements of $\mathbb{A}$
+and reflections in subspaces of $\mathbb{A}$, 
+
+\begin{itemize}
+\item \textbf{\small (Bilinear Form)} $\langle x,y\rangle={1\over 2}(\Phi (x-y)-\Phi(x)-\Phi(y)})$ 
+\end{itemize}
+
+
+
+Essentially each vector is a list of, $n$, field elements,
+indexed from the set $\left[n\right]=\left\{1,\dots,n\right\}$.
+In general the vector space, $V$, is a an algebra over a ring.
+Typically the ring is precipitated by modular structures
+to form a finite dimensional basis. 
+
+Exampli gratia, a ring is restricted to the well behaved field of
+real numbers, $\mathbb{R}$. 
+$\left\{e_i\mid e_ie_j=\delta_{ij}e_i\right\}$ where $\delta_{ij}$ is the Kronecker delta function.
+The representation of this group is the direct sum over the field, $K$.
+
+\begin{equation}
+V = \left\{v\mid\ v=\left(x_1\dots x_n\right),\,x_i\in K\right\}.
+\end{equation}
+
+
+Original terminology introduced by early authors such as Cartan and Weyl are referenced.
+The linear concepts of a Cartesian coordinate frame and Sylvester's law of inertia underly
+the field theory of general manifolds. In particular, the theorems of
+Cartan-Dieudonn\'{e} provides a natural definition of basis, reflection and rotations.
+
+\section{Appendix}
+
+The following algebraic developments are detailed in Serge Lang's text, 
+\cite{lang2002}, and Joseph Rotman's text, \cite{rotman1998}. 
+Development begins with sets and the action of a binary operator on a set.
+Greater development will be dedicated to compositional algebras that
+combine multiple structures and operators.
+
+Consider a set $G$ with a binary function, a binary operator:
+\begin{center}
+$\cdot\, {:}\, G \times G \to G$:
+\end{center}
+
+\begin{itemize}
+\item \textbf{\small (Closure)} $a\cdot b\in G$ $\forall$ $a,b\in G$
+\end{itemize}
+
+A simplifying notation for binary operator, $\cdot$ , is used:
+
+\begin{center}
+ $\cdot(a,b)\equiv a\cdot b$
+\end{center}
+
+A binary operator that is invariant to the order of the input argument pair
+is commutative:
+
+\begin{itemize}
+\item \textbf{\small (Commutative)} $a\cdot b=b\cdot a\in G$, $\forall$ $a,b\in G$
+\end{itemize}
+
+Algebraic structures with commutative algebraic operations are abelian.
+
+A semigroup is a set, $G$, with an associative binary operator, $\cdot$ :
+
+\begin{itemize}
+\item \textbf{\small (Associative)}
+  $a\cdot (b\cdot c) = (a\cdot b)\cdot c\in G$ $\forall$ $a,b,c\in G$
+\end{itemize}
+
+A semigroup, $G$, with an identity element, $e\in G$, is a monoid $(G,\cdot,e)$:
+
+\begin{itemize}
+\item \textbf{\small (Identity)} $a\cdot e=e\cdot a=a$, $\forall$ $a \in G$
+\end{itemize}
+
+Uniqueness of the identity element derives as a corollary to the monoid definition.
+The trivial monoid consists of a single identity element, $G=\{e\}$.
+
+A monoid, $(G,\cdot,e)$, is a group if for every element, $a\in G$, 
+there exists an inverse element $a^{-1}\in G$ such that:
+
+\begin{itemize}
+\item \textbf{\small (Inverse)} $\forall$ $a\in G$ $\exists$ $a^{-1}\in G$ \\
+  such that $e=a\cdot a^{-1}=a^{-1}\cdot a$
+\end{itemize}
+
+As a corollary, the inverse of any element of a group is unique.
+
+To support the development of a class of composite algebras a
+free group provides a construct.
+A free group is constructed from a set, $X$, and a unit, $e$.
+A vocabulary $W$ of words $w$ of length $\ell(w)\in\mathbb{N}$ are constructed
+by listing all combinations elements of $X$ such that $W\in X^{\ell(w)}$.
+The identity element, $e$, is the zero length word.
+The product of words is fulfiled by the non-abelian operation of 
+appending of words.
+Assume the product identity is $e$.
+The vocabulary is the set $W={\cup}_{i\in\mathbb{N}}X^i$.
+A collection of words that reduce to $e$ of length 0 determine a rule set
+to reduce the length of words in W. 
+This group structure is familiar to Coxeter groups and
+useful in developing bases for algebras
+
+A module is developed as a free group over a field. The center of the module
+is the field.
+If the generating set of the free group is abelian then the module is a polynomial ring. 
+
+Semigroups, monoids and groups are algebraic structures 
+with a single binary operator.
+A compositional algebra is a structure with more than one 
+binary operator. 
+The simplest compositional algebra is a ring.
+A ring, $(R,+,\cdot,0)$, is a composition of an 
+additive commutative group $(R,+,0)$
+and a multiplicative semigroup, $(R,\cdot)$.
+A ring with identity is a ring with a 
+multiplicative monoid $(R,\cdot,1)$.
+All rings are assumed to have a multiplicative identity 
+unless stated otherwise.
+The composition of ring operators, $+$ and $\cdot$, 
+demonstrate distributive ring, $R$, properties:
+
+\begin{itemize}
+\item \textbf{\small (Left Distributive)}
+  $a\cdot(b + c)=a\cdot b+a\cdot c\in R,$
+\item \textbf{\small (Right Distributive)}
+  $(a+b)\cdot c=a\cdot c+b\cdot c\in R,$
+\end{itemize}
+
+\begin{center}
+  $\forall$ $a,b,c\in R$.
+\end{center}
+
+The trivial ring consists of one element with one property:
+
+\begin{itemize}
+\item \textbf{(\small Trivial Ring)} $\mathfrank{Z}=\{0\}$ where $1=0$.
+\end{itemize}
+
+Unless otherwise stated all rings are assumed to be not trivial.
+
+The distributive properties of a ring assert the following corollaries:
+
+\begin{itemize}
+\item \textbf{\small (Zero)} $0\cdot a=a\cdot 0=0$, $\forall$ $a\in R$
+\item \textbf{\small (Unit Reflection)} $(-1)+1=1+(-1)=1-1=0$
+\item \textbf{\small (Element Reflection)} $(-1)\cdot a=a\cdot (-1)=-a$, 
+$(-a)+a=a+(-a)=a-a=0$ $\forall$ $a\in R$
+\end{itemize}
+
+A ring, $R$, has at least one ideal subset. All ideals, 
+$\mathfrak{I}\subset R$, have properties:
+
+\begin{itemize}
+\item \textbf{(Coset)} $a-b\in \mathfrak{I}\,\,\forall\, a,b\in\mathfrak{I}$
+\item \textbf{(Closure)} $r\cdot a\in \mathfrak{I}$ and
+  $a\cdot r\in\mathfrak{I}$ $\forall$ $a\in\mathfrak{I}$ and $r\in R$
+\end{itemize}
+
+All rings have the ideals, $\{0\}$, and $R$. If $R$ has an identity 
+then $R=\{1\}$. In general denote a set of elements, $P$,
+that generate and ideal $\mathfrak{I}$ as $\mathfrak{I}=\{P\}$ 
+In general a prime ideal $\mathfrak{P}$ is not a proper subset 
+of any ideal other than $R$. A maximal ideal is the largest 
+proper ideal subset of the ring $R$.
+
+If the multiplicative operator of a ring, $R$, is commutative then $R$ is commutative.
+
+The zero divisor subset, $ZD$, of a ring, $R$,
+consists of elements with the following property:
+
+\begin{itemize}
+\item \textbf{\small (Zero)} $0\in ZD$,
+\item \textbf{\small (Zero Divisor)} $ZD\subset R$
+  such that $\forall$ $a\in ZD$ there exists $b\in ZD$ where
+  $a\cdot b=0$ or $b\cdot a=0$
+\end{itemize}
+
+A ring with a trivial zero divisor set, $ZD=\{0\}$, is an integral domain.
+
+A nontrivial ring, $(R,+,\cdot,0,1)$, also has a nontrivial subset,
+$R^*\subset R\backslash\{0\}$, of units.
+
+\begin{itemize}
+\item \textbf{\small (Unit)} $1\in R^*$, 
+\item \textbf{\small (Closure)} $\forall$ $u\in R^*$ $\exists$ $u^{-1}\in R^*$
+  such that $u\cdot u^{-1}=u^{-1}\cdot u=1\in R^*$
+\end{itemize}
+
+A ring consisting wholely of units and the additive identity is a division ring,
+$R=\{0\}\cup R^*$. A commutative division ring is a field.
+
+A more complex compositional structure is a module.
+A left $R-module$ is a compositional algebra
+of an additive group, $(A,+,0)$ and a ring $(R,+,\cdot,0)$
+with a compositional function, $f{:}R\times A -> A$,
+denote $f(r,a)=ra\in A$ $\forall$ $r\in R$ and $a\in A$.
+Composition of ring and function operations demonstrate 
+distibutive properties:
+
+\begin{itemize}
+\item $r(a+b)=ra + rb\in A$ $\forall$ $r\in R$ and $a,b\in A$
+\item $(r+s)A=ra+sa\in A$ $\forall$ $r,s\in R$ and $a\in A$
+\item $(r\cdot s)a=r\cdot (sa)\in A$ $\forall$ $r,s\in R$ and $a\in A$
+\end{itemize}
+
+A unitary $R-module$ incorporates a ring with identity for the multiplicative unit
+of the ring with identity $R$ of the module $A$.
+
+\begin{itemize}
+\item \textbf{\small (Unit)} $1a=a$ for $1\in R$ and $\forall$ $a\in A$
+\end{itemize}
+
+A left vector space is a left $R-module$ over a division ring.
+
+A right $R-module$ transposes the operational properties of the ring $R$
+relative to the left $R-module$, $M$.
+
+A module may have different structure to discriminate 
+operations from the left and right, e.g. covarant/contravariant matrix algebra.
+If the ring of the module is commutative the left and right module
+operations are identical. A module with a commutative base ring centralizer
+is a bimodule.
+
+Modules may be constructed, extended or derived from the dependent ring. For instance
+a module may be a basis of ideals, multivectors, derivations, matrices or tensors.
+
+\begin{center}
+$\alpha\cdot\prod_{x\in X}x^{i_x},\,i_x\in\mathbb{N},\,\alpha\in R$
+\end{center}
+
+A free group over a variable set may defines a module over
+a division ring or a field. An abelian free group over a filed
+is a polynomial.
+
+Polynomial modules are rings. Hence, if the base ring is a domain
+then the polynomial ring is also a domain.
+
+polynomial domains have irreducuble elements.
+
+\begin{itemize}
+\item \textbf{\small (Irreducible)} $p\in M$ is irreducuble
+  if $p=q\cdot r\,\Rightarrow$ either $q$ or $r$ is a unit of $M$.
+\end{itemize}
+
+A further journey in compositional structure is an algebra over a
+commutative ring, $K$, a $K-algebra$, $\mathbb{A}$.
+
+\begin{itemize}
+\item \textbf{\small (Unitary)} $(\mathbb{A},+)$ is a unitary left $K$ module
+\item \textbf{\small (Closure)} $k\cdot(ab)=(k\cdot a)b=a(k\cdot b)$
+  $\forall$ $k\in K$ and $a,b\in\mathbb{A}$
+\end{itemize}
+
+
+
+\bibliography{sample-paper}
+
+\bibliographystyle{prsty}
+\begin{thebibliography}{99}
+\bibitem{cartan1966}Cartan,\'{E}., ``The Theory of Spinors'', Hermann, [1966]
+\bibitem{cartan1913}Cartan,\'{E}., ``Les Groupes Projectifs qui ne laissent
+  invariante aucune multiplicit\'{e} plane'', Bull. Soc. Math. France, [1913]
+\bibitem{brauerweyl1937}Brauer,R. and Weyl,H., ``Spinors in n Dimensions'', Am. J. Math., 57, pp. 425-449, [1937]
+\bibitem{pauli1927}Pauli,W., ``Zur Quantenmechanik des Magnetischen Elektrons'', Z. Phys., 43, pp. 601-623, [1927]
+\bibitem{dirac1928}Dirac,P.A.M., ``The Quantum Theory of the Electron'', Proc. R. Soc. \(London\), [1928]
+\bibitem{lang2002}Lang,S., ``Algebra'', Springer-Verlag, NY, [2002]
+\bibitem{hungerford1974}Hungerford,T.W., ``Algebra'', Springer-Verlag, NY, [1974]
+\bibitem{rotman1998}Rotman,J., ``Galois Theory'', Springer-Verlag, NY, [1998]
+\bibitem{fultonharris2004}Fulton,W., Harris,J., ``Representation Theory: A First Course'', Springer-Verlag, NY, [2004]
+\bibitem{humphreys1972}Humphreys,J., ``Introduction to Lie Algebras and Representation Theory'', Springer-Verlag, NY, [1972]
+\bibitem{brouwer1911}Brouwer,L.E.J., ``\"Uber Abbildung von Mannigfaltigkeiten'', Math. Ann., 71, pp. 97-115, [1911]
+\bibitem{birkhoff1913}Birkhoff,G.D., ``Proof of Poincar\'e's Geometric Theorem'', Trans. Amer. Math. Soc., 14, pp. 14-22, [1913]
+\bibitem{birkhoff1925}Birkhoff,G.D., ``An Extension of Poincar\'e's Last Geometric Theorem'', Acta Math., 47, pp. 297-311, [1925]
+\bibitem{poincare1912}Poincar\'e,H., ``Sur un Theor\`eme de G\'eom\'etrie'', Rend. Circ. Mat. Palermo, 33, pp. 375-407, [1912]
+\bibitem{brownnwumann977}Brown,H.,NeumannD., ``Proof of the Poincar\'e-Birkhoff Fixed-Point Theorem'', Michigan Math. J., 24, pp. 21-31, [1977]
+
+\end{thebibliography}
+
+\end{document}
