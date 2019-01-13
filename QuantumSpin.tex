@@ -1610,6 +1610,29 @@ between manifolds lends utility accordingly.
         }\label{fig:arrowalgebra}
 \end{figure}
 
+\begin{figure}[section]
+     \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+        \node[] (A) {$\cat{M}$};
+        \node[] (B) [right of=A] {$\cat{E}$};
+        \node[] (C) [below of=B,right of=D] {$\cat{F}$};
+        \node[] (D) [below of=A] {$\cat{N}$};
+        
+        \path[->] (A) edge node {$\atlas{H}$} (D);
+        \path[->] (A) edge node {$\atlas{F}$} (B);
+        \path[->] (B) edge node {$\atlas{g}$} (C);
+        \path[->] (D) edge node {$\atlas{G}$} (C);
+      \end{tikzpicture}
+      \caption {Arrow identity, composition and assosiative law
+        }\label{fig:arrowalgebra}
+\end{figure}
+
 Functorially related 
 
 Cosider a special functor, $\funct{\cat{F}\digamma\stigma\Stigma\varsigma}$,
