@@ -348,6 +348,7 @@ reflexive right/.style={->,loop,looseness=7,in=30,out=330}
 \newcommand{\largecat}{\mathbf{\mathpzc{CAT}}}
 \newcommand{\largecatobj}{\wrpobj{\largecat}}
 \newcommand{\largecatarr}{\wrparr{\largecat}}
+\newcommand{\olargecatarr}[1]{\owraparr{#1}{\largecat}}
 \newcommand{\smallcat}{\parsecat{Cat}}
 \newcommand{\smallcatobj}{\wrpobj{\smallcat}}
 \newcommand{\smallcatarr}{\wrparr{\smallcat}}
@@ -698,11 +699,11 @@ attributed by a quantifiable collection of properties.
       domain and codomain,
       a self referent arrow; (1) all collections are self
       referent subcollections (2) the identity arrow of any object
-    \item\textbf{(identity arrow, $\oarrid{n}{o}$)}, is a self referent
+    \item\textbf{(identity arrow, $\arrid{o}$)}, is a self referent
       arrow for any distinct object, $\obk{o}$:
     \begin{itemize}
       \item $\obk{o}=\obk{o}$
-      \item $\obk{o}=\oarrid{n}{o}(\obk{o})$
+      \item $\obk{o}=\arrid{o}(\obk{o})$
     \end{itemize}
     \end{itemize}
   \end{itemize}
@@ -747,9 +748,10 @@ object as a member or, "undefined" relative to a distinct collection.
 
 The compositional properties of arrows supports a variety of
 idiomatic constructs such as commuting diagrams. A diagram is the
-most general construction with arrows and objects.
-A diagram is essentially a directed graph with arrows for edges
-and a referent pair of vertices for each edge. Isolated edges
+most general construction with arrows and objects
+as edges and vertices respectively.
+A diagram is essentially a directed graph with edges indocated by a
+referent pair of vertices. Isolated vertices
 are associated with self referent arrows or or no arrows.
 
 \begin{definition}{Diagram, $\diag{D}$},\label{def:diagram}
@@ -757,8 +759,8 @@ are associated with self referent arrows or or no arrows.
   The diagram object collection,
   $\diagobj{D}$, consists of the domain and codomain object for each arrow
   in the collection $\diagarr{D}$.
-  Isololated objects in the collection, $\diagobj{D}$, are not equivalent to
-  any collection arrow domain or codomain objects.
+  Objects in the collection, $\diagobj{D}$, not referenced by the
+  any collection arrow domain or codomain objects are isolated.
 \end{definition}
 
 \begin{definition}{Path, $\diag{P}$,}\label{def:path}
@@ -1033,39 +1035,44 @@ domain/codomain attributes.
 \end{definition}
 
 \begin{definition}{Composition Algebra}\label{def:composition},
-  each arrow, $\oarr{n}{r}\in\ccarr{n}{C}$, of a collection, $\parsecat{C}$,
+  each arrow, $\oarr{n}{r}\in\occarr{n}{C}$, of a collection, $\parsecat{C}$,
   where $n$ is a positive integer, directs an association from a
   domain object to a codomain object of $\occarr{n}{C}$.
   The domain and codomain objects are a referent pair of the  arrow,
   $\oarr{n}{r}$; designated by properties,
   $\oper{dom}$ and $\oper{cod}$, respectively:
   \begin{itemize}
-    \item\textbf{(Domain)}, $\oarrdom{n}{r}\in\catobj{C}$, domain object
-    \item\textbf{(Codomain)}, $\oarrcod{n}{r}\in\catobj{C}$, codomain object
+    \item\textbf{(Domain)}, $\oarrdom{n}{r}\in\occarr{n-1}{C}$, domain object
+    \item\textbf{(Codomain)},
+      $\oarrcod{n}{r}\in\occarr{n-1}{C}$, codomain object
     \item\textbf{(Relation)}, $\oarrrel{n}{r}\in\mathcal{R}$,
       arrow characteristic
     \item\textbf{(Map Notation)},
       $\oarr{n}{r}:\,\oarrdom{n}{r}\rightarrow\oarrcod{n}{r}$ \\
       $\qquad$ or $\quad\oarrdom{n}{r}\xrightarrow{\;\obk{r}\;}\oarrcod{n}{r}$
     \item\textbf{(Composition Algebra)},\\ given arrows,
-      $\oarr{n}{r}$,$\oarr{n}{s}$,$\oarr{n}{t}\in\catarr{C}$, where\\
+      $\oarr{n}{r}$,$\oarr{n}{s}$,$\oarr{n}{t}\in\occarr{n}{C}$, where\\
        $\oarrcod{n}{r}=\oarrdom{n}{s}$ and $\oarrcod{n}{s}=\oarrdom{n}{t}$
       \begin{itemize}
       \item\textbf{(Binary operator, $\circ$)}
         $\oarr{n}{s}\circ\oarr{n}{r}=\oarr{n}{s\circ r}$,\\
-        $\qquad\oarrdom{n}{r}\xrightarrow{\;\obk{s}\circ\obk{r}\;}\oarrcod{n}{s}$
+      $\qquad\oarrdom{n}{r}\xrightarrow{\;\obk{s}\circ\obk{r}\;}\oarrcod{n}{s}$
       \item\textbf{(Associative)}
-        $(\oarr{n}{t}\circ\oarr{n}{s})\circ\oarr{n}{r}=\oarr{n}{t}\circ(\oarr{n}{s}\circ\oarr{n}{r})$
-      \item\textbf{(Identity)} $\oarrid{n}{o}\in\catarr{C}\quad\forall\;
-       \obk{o}\in\catobj{C}$. Identity generalizes to higher orders,
+        $(\oarr{n}{t}\circ\oarr{n}{s})\circ\oarr{n}{r}=
+        \oarr{n}{t}\circ(\oarr{n}{s}\circ\oarr{n}{r})$
+      \item\textbf{(Identity)} $\oarrid{n}{o}\in\occarr{n}{C}\quad\forall\;
+       \obk{o}\in\occarr{n-1}{C}$. Identity generalizes to higher orders,
        $\forall\oarr{n}{o}\in\occarr{n}{C}$, there exists an $n+1^{st}$,
        identity arrow, $\oarrid{n+1}{\oarr{n}{o}}\in\occarr{n+1}{C}$
        The following properties generalize to higher order arrows and
        identities:
       \begin{itemize}
-        \item\textbf{(Idempotency)} $\oarrid{n}{o}\circ\oarrid{n}{o}=\oarrid{n}{o}$
-        \item\textbf{(Composition Identity)} $\forall\;\oarr{n}{r}\in\catarr{C}$ \\
-        $\oarr{n}{r}=\oarr{n}{r}\circ\oarrid{n}{\oarrdom{n}{r}}=\oarrid{n}{\oarrcod{n}{r}}\circ\oarr{n}{r}$
+        \item\textbf{(Idempotency)}
+          $\oarrid{n}{o}\circ\oarrid{n}{o}=\oarrid{n}{o}$
+        \item\textbf{(Composition Identity)}
+          $\forall\;\oarr{n}{r}\in\occarr{n}{C}$ \\
+        $\oarr{n}{r}=\oarr{n}{r}\circ\oarrid{n}{\oarrdom{n}{r}}=
+        \oarrid{n}{\oarrcod{n}{r}}\circ\oarr{n}{r}$
       \end{itemize}
       \end{itemize}
   \end{itemize}  
@@ -1161,7 +1168,7 @@ The identity arrow acts existentially to maps the
 associated domain object identically to itself. 
 An identity arrow applied to a collection yields
 the contained object of the identity arrow,
-$o=\oarrid{n}{o}(\catobj{C})$ when $\obk{o}\in\catobj{C}$,
+$o=\arrid{o}(\catobj{C})$ when $\obk{o}\in\catobj{C}$,
 otherwise the object is not a member of the collection
 and the operation is undefined.
 Identity behavior is used extensively
@@ -1170,7 +1177,7 @@ The large category, $\largecat$,
 cosists of a large object collection, $\largecatobj$,
 and a large arrow collection, $\largecatarr$.
 Each object, $\obk{o}\in\largecatobj$, has a unique
-identity arrow, $\oarrid{n}{o}\in\largecatarr$,
+identity arrow, $\arrid{o}\in\largecatarr$,
 Identity is a special relation of self associated
 with each object in $\largecatobj$.
 
@@ -1217,12 +1224,12 @@ Arrow relations of monomorphism, epimorphism and isomorphism
 respond with distinct compositional properties.
 
 \begin{definition}{Monomorphism, $\oper{mono}$}\label{prop:monomorphism},
-  $\oarr{n}{f}\in\catarr{C}$, of category $\parsecat{C}$,
+  $\oarr{n}{f}\in\occarr{n}{C}$, of category $\parsecat{C}$,
   is a monomorphism, $\oper{monic}$, \\
-  for any $\oarr{n}{g}$,$\oarr{n}{h}\in\catarr{C}$, 
-  $\obk{a}=\oarrdom{n}{g}=\oarrdom{n}{h}$ \\
+  for any $\oarr{n}{g}$,$\oarr{n}{h}\in\occarr{n}{C}$, 
+  $\oarrdom{n}{g}=\oarrdom{n}{h}$ \\
   and $\quad\oarrcod{n}{g}=\oarrcod{n}{h}=\oarrdom{n}{f}$ \\
-  $\qquad\Longrightarrow\oarr{n}{f\circ g}=
+  $\qquad\Longrightarrow\arr{f\circ g}=
   \oarr{n}{f\circ h}\Rightarrow\,\oarr{n}{g}=\oarr{n}{h}$
 \end{definition}
 
@@ -1235,23 +1242,23 @@ respond with distinct compositional properties.
             semithick % line style
         ]
 
-        \node[] (a) {$\obk{a}$};
+        \node[] (a) {$\oarr{n-1}{a}$};
         \node[] (d) [right of=a] {$\oarrdom{n}{f}$};
         \node[] (c) [right of=d] {$\oarrcod{n}{f}$};
 
         \path[->] ([yshift=1ex]a.east) edge node[above]
-                  {$\obk{g}$} ([yshift=1ex]d.west);
+                  {$\oarr{n-1}{g}$} ([yshift=1ex]d.west);
                   \path[->] ([yshift=-1ex]a.east) edge node[below]
-                  {$\obk{h}$} ([yshift=-1ex]d.west);
-        \path[->] (d) edge node {$\obk{f}$} (c);
+                  {$\oarr{n-1}{h}$} ([yshift=-1ex]d.west);
+        \path[->] (d) edge node {$\oarr{n-1}{f}$} (c);
       \end{tikzpicture}
 \end{center}
 
 \begin{definition}{Epimorphism, $\oper{epi}$}\label{prop:epimorphism},
-  $\oarr{n}{f}\in\catarr{C}$, of category $\cat{C}$,
+  $\oarr{n}{f}\in\occarr{n}{C}$, of category $\cat{C}$,
   is a epimorphism, $\oper{epic}$,
-  for any $\oarr{n}{g}$,$\oarr{n}{h}\in\catarr{C}$ \\
-  $\obk{b}=\oarrcod{n}{g}=\oarrcod{n}{h}$ \\
+  for any $\oarr{n}{g}$,$\oarr{n}{h}\in\occarr{n}{C}$ \\
+  $\oarr{n-1}{b}=\oarrcod{n}{g}=\oarrcod{n}{h}$ \\
   and $\quad\oarrdom{n}{g}=\oarrdom{n}{h}=\oarrcod{n}{f}$ \\
   $\qquad\Longrightarrow\oarr{n}{g\circ f}=
   \oarr{n}{h\circ f}\Rightarrow\,\oarr{n}{g}=\oarr{n}{h}$
@@ -1268,29 +1275,32 @@ respond with distinct compositional properties.
 
         \node[] (d) {$\oarrdom{n}{f}$};
         \node[] (c) [right of=d] {$\oarrcod{n}{f}$};
-        \node[] (b) [right of=c] {$\obk{b}$};
+        \node[] (b) [right of=c] {$\oarr{n}{b}$};
 
-        \path[->] (d) edge node {$\obk{f}$} (c);
+        \path[->] (d) edge node {$\oarr{n}{f}$} (c);
         \path[->] ([yshift=1ex]c.east) edge node[above]
-                  {$\obk{g}$} ([yshift=1ex]b.west);
+                  {$\oarr{n}{g}$} ([yshift=1ex]b.west);
         \path[->] ([yshift=-1ex]c.east) edge node[below]
-                  {$\obk{h}$} ([yshift=-1ex]b.west);
+                  {$\oarr{n}{h}$} ([yshift=-1ex]b.west);
 \label{dig:epimorphism}
 \end{tikzpicture}
 \end{center}
 
 \begin{definition}{Isomorphism, $\oper{iso}$}
-  is a reflexive property of a pair of arrows $\pair{\oarr{n}{r}}{\oarr{n}{r}^{-1}}$
+  is a reflexive property of a pair of arrows
+  $\pair{\oarr{n}{r}}{\oarr{n}{r}^{-1}}$
   such that, $\oarr{n}{r^{-1}}=\oarr{n}{r}^{-1}$:
   \begin{itemize}
-    \item$\oarrdom{n}{r}=\oarrcod{n}{r^{-1}}$ and $\oarrdom{n}{r^{-1}}=\oarrcod{n}{r}$
+    \item$\oarrdom{n}{r}=\oarrcod{n}{r^{-1}}$ and
+      $\oarrdom{n}{r^{-1}}=\oarrcod{n}{r}$
     \item$\oarr{n}{r}\circ\oarr{n}{r^{-1}}=\oarrid{n}{\oarrdom{n}{r}}$
     \item$\oarr{n}{r^{-1}}\circ\oarr{n}{r}=\oarrid{n}{\oarrcod{n}{r}}$
   \end{itemize}
 \end{definition}
 
 A pair of isomorphic objects,
-$\cpair{a}{b}$ are denoted as $\obk{a}\cong\obk{b}$.
+$\pair{\oarr{n-1}{a}}{\oarr{n-1}{b}}$ are denoted as
+$\oarr{n-1}{a}\cong\oarr{n-1}{b}$.
 
 \begin{center}
      \begin{tikzpicture}[
@@ -1342,7 +1352,7 @@ or even automorphisms to develop complex algebras.
   The identity arrow is an unique automorphism for a designated
   domain/codomain object, acting as a self inverse:
 \begin{equation*}
-\oarrid{n}{o}\circ\oarrid{n}{o}=\oarrid{n}{o}\quad\forall\obk{o}\in\largecatobj
+\oarrid{n}{o}\circ\oarrid{n}{o}=\oarrid{n}{o}
 \end{equation*}
 \end{definition}
 
@@ -1355,18 +1365,19 @@ the axiom of choice. Identity arrow provides the ability to
 select a specific object from a general collection.
 
 \begin{definition}{Existential Identity Property}\label{def:identitymap},
-  the identity arrow, $\oarrid{n}{o}$, of a particular object, $\obk{o}$,
+  the identity arrow, $\arrid{o}$, of a particular object, $\obk{o}$,
   supports the selection of a particular object from a general
   collection. If the object is not found the identity returns undefined.
-  in general if, $\obk{a}\neq\obk{b}$, then, $\oarrid{n}{a}\neq\oarrid{n}{b}$.
-  Hence $\oarrid{n}{a}(\obk{a})=\obk{a}$ and $\oarrid{n}{a}(\obk{b})=undefined$.
-  Likewise a complementary result follows for the idenity arrow $\oarrid{n}{b}$.
+  in general if, $\obk{a}\neq\obk{b}$, then, $\arrid{a}\neq\arrid{b}$.
+  Hence $\arrid{a}(\obk{a})=\obk{a}$ and $\arrid{a}(\obk{b})=undefined$.
+  Likewise a complementary result follows for the idenity arrow $\arrid{b}$.
   Outlining a specific identity definition, $\oarrid{n}{o}\in\largecatarr$,
-  for categories, $\parsecat{C}\in\largecatobj$:
+  for categories, $\parsecat{C}\in\largecat$:
 \begin{equation*}
-    \oarrid{n}{o}(\parsecat{C})=\left\{
+    \arrid{o}(\parsecat{C})=\left\{
                  \begin{array}{ll}
-                   \obk{o}=\oarrid{n}{\obk{o}}(\obk{o})&\obk{o}\in\ccobj{C} \\[3pt]
+                   \obk{o}=\oarrid{n}{\obk{o}}(\obk{o})&
+                                         \obk{o}\in\occarr{n}{C} \\[3pt]
                    undefined& otherwise
                   \end{array}
 \end{equation*}
@@ -1385,8 +1396,8 @@ category. A functor acts as a generalized arrow to map categories
 with an additional fulfillment to map underlying composition
 properties from a domain category to a codomain category.
 In greater detail, a functor, $\funct{f}$, is a specialized category,
-consisting of collections of first and second order arrows
-with an arrow collection, $\functobj{f}$, consisting of arrows
+consisting of collections of first and higher order arrows
+formost with an arrow collection, $\functobj{f}$, consisting of arrows
 that map domain category objects, $\wrapobj{\functdom{f}}$, to
 codomain objects, $\wrapobj{\functcod{f}}$,
 likewise a functor has a second order arrow collection,
@@ -1473,14 +1484,14 @@ has an unique identity functor acting as specialized identity arrow.
   \begin{equation*}
  \begin{array}{llll}
   \quad\bullet\textbf{(Object)}&\wrapobj{\functcod{F}}&=&
-                             \{\oarr{n}{f}(\obk{o})\hspace{6pt}\mid
-                             \oarr{n}{f}\in\functobj{F}, \\[3pt]
-   &\hspace{16pt}\oarrdom{n}{f}&=&\obk{o}\in\wrapobj{\functdom{F}}\} \\[3pt]
+                             \{\arr{f}(\obk{o})\hspace{6pt}\mid
+                             \arr{f}\in\functobj{F}, \\[3pt]
+   &\hspace{16pt}\arrdom{f}&=&\obk{o}\in\wrapobj{\functdom{F}}\} \\[3pt]
   \quad\bullet\textbf{(Arrow)}&\wraparr{\functcod{F}}&=& \\[3pt]
-   &\{\oarr{2}{f}(\oarr{n}{o})&\mid&\oarr{2}{f}\in\functarr{F}, \\[3pt]
-   &\hspace{16pt}\oarrdom{2}{f}&=&\oarr{n}{o}\in\wraparr{\functdom{F}}\} \\[3pt]
+   &\{\oarr{2}{f}(\arr{o})&\mid&\oarr{2}{f}\in\functarr{F}, \\[3pt]
+   &\hspace{16pt}\oarrdom{2}{f}&=&\arr{o}\in\wraparr{\functdom{F}}\} \\[3pt]
   \quad\bullet\textbf{(Identity)}&\hspace{24pt}\{\oarrid{2}{f}&\mid& \\[3pt]
-      &\oarrid{2}{f}(\oarr{n}{f})&=&\oarr{n}{f}\,\forall\oarr{n}{f}\infunctobj{F}, \\[3pt]
+      &\oarrid{2}{f}(\arr{f})&=&\arr{f}\,\forall\arr{f}\infunctobj{F}, \\[3pt]
                             &&&\oarrid{2}{f}\in\functarr{F}\,\}
  \end{array}
  \end{equation*}
@@ -1495,19 +1506,19 @@ has an unique identity functor acting as specialized identity arrow.
   collection. A mapping than translates algebraic properties
   from a domain to a codomain is a homomorphism.
   $\forall$ $\obk{a}$, $\obk{b}\in\wrapobj{\functdom{F}}$ and
-  $\oarr{n}{g}$, $\oarr{n}{f}\in\wraparr{\functdom{F}}$:
+  $\arr{g}$, $\arr{f}\in\wraparr{\functdom{F}}$:
   \begin{equation*}
  \begin{array}{llll}
   \quad\bullet\;\: & \funct{F}(\mapaob{a}{f}{b}}) &=&
     \functV{F}{a}\xrightarrow{\;\functV{F}{f}\;}\functV{F}{b} \\[3pt]
-  \quad\bullet\;\: & \funct{F}(\oarrid{n}{a}) &=& \oarrid{n}{\functV{F}{a}} \\[3pt]
-  \quad\bullet\;\: & \funct{F}(\oarr{n}{\obk{g}\circ\obk{f}}) &=&
-    \oarr{n}{\functV{F}{g}}\circ\oarr{n}{\functV{F}{f}}
-    =\oarr{n}{\functV{F}{g}\circ\functV{F}{f}}
+  \quad\bullet\;\: & \funct{F}(\arrid{a}) &=& \arrid{\functV{F}{a}} \\[3pt]
+  \quad\bullet\;\: & \funct{F}(\arr{\obk{g}\circ\obk{f}}) &=&
+    \arr{\functV{F}{g}}\circ\arr{\functV{F}{f}}
+    =\arr{\functV{F}{g}\circ\functV{F}{f}}
  \end{array}
  \end{equation*}
 Where, $\functV{F}{a},\,\functV{F}{b}\in\wrapobj{\functcod{F}}$ and \\
-       $\functV{F}{f},\,\functV{F}{g},\,\oarr{n}{\functV{F}{g}\circ\functV{F}{f}}\in\wraparr{\functcod{F}}$
+       $\functV{F}{f},\,\functV{F}{g},\,\arr{\functV{F}{g}\circ\functV{F}{f}}\in\wraparr{\functcod{F}}$
 \end{definition}
 
 The identity functor of a category exhibits a collections of
@@ -1526,11 +1537,11 @@ first and second order identity arrows useful for later developments.
 \begin{equation*}
  \begin{array}{llll}
   \quad\bullet\;\: & \owraparr{1}{\functid{C}} &=&
-                    \{\oarrid{n}{o}\mid\obk{o}\in\ccobj{C}\,\}=\ccid{C} \\[3pt]
+                    \{\arrid{o}\mid\obk{o}\in\ccobj{C}\,\}=\ccid{C} \\[3pt]
   \quad\bullet\;\: & \owraparr{2}{\functid{C}} &=&
-                    \{\oarrid{2}{f}\mid\oarr{n}{f}=\oarrid{n}{o}\in\ccarr{C} \\[3pt]
+                    \{\oarrid{2}{f}\mid\arr{f}=\arrid{o}\in\ccarr{C} \\[3pt]
                     &\text{or}&&
-                       \oarr{n}{f}\in\wrapobj{\functid{C}}\,\}
+                       \arr{f}\in\wrapobj{\functid{C}}\,\}
  \end{array}
 \end{equation*}
 \end{definition}
@@ -1796,16 +1807,16 @@ of the domain category.
 \begin{array}{rlll}
   \carrarr{C}=\{&\farr{f}{g}&\mid& \\[3pt]
   &&&\apair{f}{g}=\farrid{\oarrdom{n}{h}}{\oarrcod{n}{h}}, \\[3pt]
-  &&&\quad\oarr{n}{h}\in\carrobj{C} \\[3pt]  
+  &&&\quad\arr{h}\in\carrobj{C} \\[3pt]  
   &\text{or}&&\oarrdom{n}{f}=\oarrdom{n}{h},\,\oarrdom{n}{g}=\oarrcod{n}{h},\, \\[3pt]
   &&&\oarrcod{n}{f}=\oarrdom{n}{r},\,\oarrcod{n}{g}=\oarrcod{n}{r},\, \\[3pt]
-   &\text{where}&&\oarr{n}{h},\,\oarr{n}{r}\in\carrobj{C} \}
+   &\text{where}&&\arr{h},\,\arr{r}\in\carrobj{C} \}
 \end{array}
 \end{equation*}
 \end{definition}
 
 The special arrow consists of a pair, $\farr{f}{g}\in\carrarr{C}$,
-where $\oarr{n}{f},\,\oarr{n}{g}\in\ccarr{C}$. A special lowering operator
+where $\arr{f},\,\arr{g}\in\ccarr{C}$. A special lowering operator
 generalized from the $\oper{dom}$ and $\oper{cod}$ provide a direct
 reduction and interpretation of the internal structure of an arrow,
 $\farr{f}{g}$.
@@ -1824,7 +1835,7 @@ are equivalently expressed:
 
 The lowering operator acting on an arrow renders a domain/codomain
 pair of objects, or $0^{th}$ order arrows.
-Hence for any arrow, $\oarr{n}{f}\in\pazocal{C}$,
+Hence for any arrow, $\arr{f}\in\ccarr{C}$,
 
 \begin{equation*}
   \nprojection{1}(\oarr{n}{f})=(\nprojdown{i}{dom}(\oarr{n}{f}),\,
@@ -1851,7 +1862,7 @@ are equivalently expressed:
   \oper{dom}=\nprojdown{1}{dom}\quad\text{and}\quad\oper{cod}=\nprojdown{1}{cod}
 \end{equation*}
 
-likewise for any arrow, $\oarr{n}{f}\in\pazocal{C}$,
+likewise for any arrow, $\arr{f}\in\ccarr{C}$,
 
 \begin{equation*}
 \begin{array}{rll}
@@ -1885,7 +1896,7 @@ are equivalently expressed:
   \oper{dom}=\nprojdown{1}{dom}\quad\text{and}\quad\oper{cod}=\nprojdown{1}{cod}
 \end{equation*}
 
-likewise for any arrow, $\oarr{n}{f}\in\pazocal{C}$,
+likewise for any arrow, $\arr{f}\in\ccarr{C}$,
 
 \begin{equation*}
 \begin{array}{rll}
@@ -1901,7 +1912,7 @@ the definition of Hom Index
 
 \begin{definition}{Hom Index}\label{def:arrowindex}
 \begin{equation*}
-  \wrpobj{\ccpair{C}}=\{\nprojection{1}(\oarr{n}{f})\mid\oarr{n}{f}\in\catarr{C}\}
+  \wrpobj{\ccpair{C}}=\{\nprojection{1}(\arr{f})\mid\arr{f}\in\catarr{C}\}
 \end{equation*}
 \end{definition}
 
@@ -1932,9 +1943,9 @@ relative to a category, $\parsecat{C}$, is the collection:
   $\carrobj{C}\cpair{a}{b}$, each indexed by $\cpair{a}{b}\in\ccpair{C}$:
 \begin{equation*}
   \begin{array}{rl}
-    \carrobj{C}\cpair{a}{b}=\{\oarr{n}{f}\mid&
-                          \oarr{n}{f}\in\catarr{C}\quad\text{and} \\[3pt]
-    \quad&\cpair{a}{b}=\nprojection{1}\,\oarr{n}{f}\}
+    \carrobj{C}\cpair{a}{b}=\{\arr{f}\mid&
+                          \arr{f}\in\catarr{C}\quad\text{and} \\[3pt]
+    \quad&\cpair{a}{b}=\nprojection{1}\,\arr{f}\}
   \end{array}
 \end{equation*}
 \end{definition}
@@ -1947,14 +1958,14 @@ constructs to arrow pairs, each of which map a domain object pair to a codomain
 object pair, $\wrp{\ccpair{C}}$.
 The simplest construct corresponds to pair identity.
 Each pair, $\cpair{a}{b}\in\wrpobj{\ccpair{C}}$, qualifies an identity arrow,
-$\oarrid{n}{\cpair{a}{b}}$, to identify objects of the collection, $\carrobj{C}$,
+$\arrid{\cpair{a}{b}}$, to identify objects of the collection, $\carrobj{C}$,
 
 \begin{equation*}
 \begin{gathered}
   \forall\;\cpair{a}{b}\in\wrpobj{\ccpair{C}}\quad
-  \oarrid{n}{\cpair{a}{b}}=\fpair{\oarrid{n}{a}}{\oarrid{n}{b}}\in\wrparr{\ccpair{C}}\\[3pt]
+  \arrid{\cpair{a}{b}}=\fpair{\arrid{a}}{\arrid{b}}\in\wrparr{\ccpair{C}}\\[3pt]
    \text{where},\quad\obk{a},\,\obk{b}\in\ccobj{C}\quad\Rightarrow\quad
-   \oarrid{n}{a},\,\oarrid{n}{b}\in\ccarr{C}
+   \arrid{a},\,\arrid{b}\in\ccarr{C}
 \end{gathered}
 \end{equation*}
 
@@ -1963,12 +1974,12 @@ All arrows in the collection, $\wrparr{\ccpair{C}}$, construct as follows:
 \begin{equation*}
 \begin{array}{rll}
   \farr{f}{g}=\apair{f}{g}&\in&\wrparr{\ccpair{C}},\,\text{if}\,\,
-  \oarr{n}{f},\,\oarr{n}{g}\in\ccarr{C}, \\[3pt]
+  \arr{f},\,\arr{g}\in\ccarr{C}, \\[3pt]
 \text{where}\quad&& \\[3pt]
   \farrdom{f}{g}&=&\cpair{\oarrdom{n}{f}}{\oarrdom{n}{g}}\in\wrpobj{\ccpair{C}},\\[3pt]
   \farrcod{f}{g}&=&\cpair{\oarrcod{n}{f}}{\oarrcod{n}{g}}\in\wrpobj{\ccpair{C}},\\[3pt]
-  \oarr{n}{f}=\oarrpiop{1}{fst}{\farr{f}{g}},&&
-  \oarr{n}{g}=\oarrpiop{1}{snd}{\farr{f}{g}}
+  \arr{f}=\oarrpiop{1}{fst}{\farr{f}{g}},&&
+  \arr{g}=\oarrpiop{1}{snd}{\farr{f}{g}}
 \end{array}
 \end{equation*}
 
@@ -1988,23 +1999,23 @@ second members of the function pair, $\apair{f}{g}$:
 
 \begin{equation}\label{eq:firstsecondindex}
   \begin{array}{rll}
-  \oarr{n}{f}&=&\oarrpiop{1}{fst}{\farr{f}{g}} \\[3pt]
-  \oarr{n}{g}&=&\oarrpiop{1}{snd}{\farr{f}{g}}
+  \arr{f}&=&\oarrpiop{1}{fst}{\farr{f}{g}} \\[3pt]
+  \arr{g}&=&\oarrpiop{1}{snd}{\farr{f}{g}}
   \end{array}
 \end{equation}
 
-The identities, $\oarrid{n}{\cpair{a}{b}}$, are indexed by the collection,
+The identities, $\arrid{\cpair{a}{b}}$, are indexed by the collection,
 $\wrpobj{\ccpair{C}}$, each instantiates a unique Hom object collection,
 $\carrobj{C}$, from the category, $\pazocal{C}$:
 
 \begin{equation*}
-  \carrobj{C}\cpair{a}{b}=\oarrid{n}{\cpair{a}{b}}(\pazocal{C})
+  \carrobj{C}\cpair{a}{b}=\arrid{\cpair{a}{b}}(\pazocal{C})
   \Longleftrightarrow\cpair{a}{b}
   \in\ccpair{C}
 \end{equation*}
 \begin{equation*}
-  \carrobj{C}=\{\oarrid{n}{\cpair{a}{b}}(\pazocal{C})\mid
-  \oarrid{n}{\cpair{a}{b}}\in\wrparr{\ccpair{C}}\}
+  \carrobj{C}=\{\arrid{\cpair{a}{b}}(\pazocal{C})\mid
+  \arrid{\cpair{a}{b}}\in\wrparr{\ccpair{C}}\}
 \end{equation*}
 
 Equivalently, the arrow collection, $\wrparr{\ccpair{C}}$, acts on the
@@ -2020,7 +2031,7 @@ Hom object collection, $\carrobj{C}$:
 The arrow collection, $\carrarr{C}$, of the category, $\carr{C}$, 
 minimally consists of the aformentioned identity arrows,
 \begin{equation*}
-  \oarrid{n}{\cpair{a}{b}}=\farrid{a}{b}\;
+  \arrid{\cpair{a}{b}}=\farrid{a}{b}\;
   \forall\,\cpair{a}{b}\in\ccpair{C}
 \end{equation*}
 
@@ -2035,11 +2046,11 @@ object collection, $\carrobj{C}$:
   &&&\quad\cpair{a}{b}\in\wrpobj{\ccpair{C}} \\[3pt]  
   &\text{or}&&\farrpidom{f}{g},\, \\[3pt]
   &&&\quad\farrpicod{f}{g}\in\wrpobj{\ccpair{C}} \\[3pt]
-  &\text{and}&&\oarr{n}{f},\,\oarr{n}{g}\in\catarr{C} \}
+  &\text{and}&&\arr{f},\,\arr{g}\in\catarr{C} \}
 \end{array}
 \end{equation*}
 \begin{equation*}
-\forall\quad\oarr{n}{\mu}\in\carrarr{C}\quad
+\forall\quad\arr{\mu}\in\carrarr{C}\quad
        \arrpidom{\mu},\,\arrpicod{\mu}\in\carrobj{C}
 \end{equation*}
 \end{definition}
@@ -2047,8 +2058,8 @@ object collection, $\carrobj{C}$:
 Each object, $\carrobj{C}\cpair{a}{b}$, is a collection of arrows
 uniquely sharing the domain $\obk{a}$ and codomain $\obk{b}$.
 By definition of arrows, an arrow,
-$\oarr{n}{f}\in\carrobj{C}\cpair{a}{b}$, cannot be a member,
-$\oarr{n}{f}\notin\carrobj{C}\cpair{a^{\prime}}{b^{\prime}}$,
+$\arr{f}\in\carrobj{C}\cpair{a}{b}$, cannot be a member,
+$\arr{f}\notin\carrobj{C}\cpair{a^{\prime}}{b^{\prime}}$,
 for unmatched domain and codomain pairs, $a\neq a^{\prime}$ or
 $b\neq b^{\prime}$. Hence each object,
 $\carrobj{C}\cpair{a}{b}\in\carrobj{C}$, is an equivalence
@@ -2083,7 +2094,7 @@ a second order Hom index:
               \pair{\farrpidomn{2}{f}{g}}{\farrpicodn{2}{f}{g}}\mid \\[3pt]
   \quad & \;\,\farrpidomn{2}{f}{g},\farrpicodn{2}{f}{g}\in\ccpair{C} \\[3pt]
     \quad & \qquad\qquad\text{and}\quad
-            \oarr{n}{f},\,\oarr{n}{g}\in\catarr{C} \}
+            \arr{f},\,\arr{g}\in\catarr{C} \}
   \end{array}
 \end{equation}
 \end{definition}
@@ -2438,8 +2449,8 @@ $\oarr{2}{\theta}\in\owrparr{,2}{\nfunct{\Theta}}$
   with pair of arrows, 
 \begin{equation}
 \begin{array}{rll}
-\oarr{2}{\mu}&=&\ofarr{2}{\oarrid{n}{a}}{\arr{\mu}}, \\[3pt]
-\oarrid{n}{a}&=&\oarrpiop{1}{fst}{\oarr{2}{\mu}}, \\[3pt]
+\oarr{2}{\mu}&=&\ofarr{2}{\arrid{a}}{\arr{\mu}}, \\[3pt]
+\arrid{a}&=&\oarrpiop{1}{fst}{\oarr{2}{\mu}}, \\[3pt]
 \arr{\mu}&=&\oarrpiop{1}{snd}{\oarr{2}{\mu}}, \\[3pt]
 \text{where}\quad&& \\[3pt]
 \obk{a}&=&\oarrdom{n}{f}=\oarrdom{n}{g} \\[3pt]
@@ -2451,7 +2462,7 @@ $\oarr{2}{\theta}\in\owrparr{,2}{\nfunct{\Theta}}$
 \begin{equation}
 \begin{gathered}
 \mapaob{\arr{f}}{\obk{2},\mu}{\arr{g}} \\
-\arr{g}=\arr{g}\circ\oarrid{n}{a}=\arr{\mu}\circ\arr{f}
+\arr{g}=\arr{g}\circ\arrid{a}=\arr{\mu}\circ\arr{f}
 \end{gathered}
 \end{equation}
 \end{theorem}
@@ -2468,9 +2479,9 @@ $\oarr{2}{\theta}\in\owrparr{,2}{\nfunct{\Theta}}$
   with pair of arrows, 
 \begin{equation}
 \begin{array}{rll}
-\oarr{2}{\mu}&=&\ofarr{2}{\arr{\mu}}{\oarrid{n}{a}}, \\[3pt]
+\oarr{2}{\mu}&=&\ofarr{2}{\arr{\mu}}{\arrid{a}}, \\[3pt]
 \arr{\mu}&=&\oarrpiop{1}{fst}{\oarr{2}{\mu}}, \\[3pt]
-\oarrid{n}{a}&=&\oarrpiop{1}{snd}{\oarr{2}{\mu}}, \\[3pt]
+\arrid{a}&=&\oarrpiop{1}{snd}{\oarr{2}{\mu}}, \\[3pt]
 \text{where}\quad&& \\[3pt]
 \obk{a}&=&\oarrcod{n}{f}=\oarrcod{n}{g} \\[3pt]
 \oarrdom{n}{\mu}=\oarrdom{n}{f}&,&\oarrcod{n}{\mu}=\oarrdom{n}{g}
@@ -2483,7 +2494,7 @@ $\oarr{2}{\theta}\in\owrparr{,2}{\nfunct{\Theta}}$
 \end{equation}
 reduces to,
 \begin{equation}
-\arr{f}\circ\arr{\mu}=\oarrid{n}{a}\circ\arr{g}=\arr{g}
+\arr{f}\circ\arr{\mu}=\arrid{a}\circ\arr{g}=\arr{g}
 \end{equation}
 \end{corollary}
 
@@ -2803,18 +2814,18 @@ Slicing acts trivially on the empty category.
 
 Slice categories are a subclass of the collection $\functcatcat$.
 An essential object of the category, $\parsecat{C/c}$, is the
-identity arrow, $\oarrid{n}{c}$. Of more consequence is that the identity
+identity arrow, $\arrid{c}$. Of more consequence is that the identity
 arrow validates all objects of the collection, $\catobj{C/c}$, as valid arrows
 of the same category, $\catobj{C/c}\lessdot\catarr{C/c}$ with
 the final result that the domain of every arrow in the collecton,
-$\catobj{C/c}$ is the identity arrow $\oarrid{n}{c}$.
+$\catobj{C/c}$ is the identity arrow $\arrid{c}$.
     
 \begin{equation*}
-   \arr{f}=\oarrid{n}{c}\circ\arr{f}\;
-   \text{where}\;\oarrid{n}{c},\,\arr{f}\in\catobj{C/c}\lessdot\catarr{C/c}
+   \arr{f}=\arrid{c}\circ\arr{f}\;
+   \text{where}\;\arrid{c},\,\arr{f}\in\catobj{C/c}\lessdot\catarr{C/c}
 \end{equation*}
 
-Interestingly, this propery establishes $\oarrid{n}{c}$ as the domain object
+Interestingly, this propery establishes $\arrid{c}$ as the domain object
 of the collection of arrows with the same collection of codomains,
 $\catobj{C/c}$. Hence the slice of any category renders an special object
 with the folowwing initial object property.
@@ -2893,18 +2904,18 @@ Coslice categories are a subclass of the collection $\functcatcat$.
 As the dual of the slice category, the coslice category UMP
 intrudes interesting dual properties.
 Again an essential object of the category, $\parsecat{c/C}$, is the
-identity arrow, $\oarrid{n}{c}$. Of more consequence is that the identity
+identity arrow, $\arrid{c}$. Of more consequence is that the identity
 arrow validates all objects of $\catobj{c/C}$ as valid arrows
 of the same category, $\catobj{c/C}\lessdot\catarr{c/C}$ with
 the final result that the codomain of every arrow in the collecton,
-$\catobj{c/C}$ is the identity arrow $\oarrid{n}{c}$.
+$\catobj{c/C}$ is the identity arrow $\arrid{c}$.
     
 \begin{equation*}
-   \arr{f}=\arr{f}\circ\oarrid{n}{c}\;
-   \text{where}\;\oarrid{n}{c},\,\arr{f}\in\catobj{c/C}\lessdot\catarr{c/C}
+   \arr{f}=\arr{f}\circ\arrid{c}\;
+   \text{where}\;\arrid{c},\,\arr{f}\in\catobj{c/C}\lessdot\catarr{c/C}
 \end{equation*}
 
-Interestingly, this propery establishes $\oarrid{n}{c}$ as the codomain object
+Interestingly, this propery establishes $\arrid{c}$ as the codomain object
 of the collection of arrows with the same collection of domains, the entirety
 $\catarr{c/C}$. Hence the coslice of any category renders an special object
 with the terminal object property. 
@@ -2938,7 +2949,7 @@ category, $\singletoncat{c}$.
 \begin{equation*}
 \begin{array}{llll}
 \quad\bullet\quad&\wrpcobj{\singletoncat{c}}&=&\{\obk{c}\} \\[3pt]
-\quad\bullet\quad&\wrpcarr{\singletoncat{c}}&=&\{\oarrid{n}{c}\}
+\quad\bullet\quad&\wrpcarr{\singletoncat{c}}&=&\{\arrid{c}\}
 \end{array}
 \end{equation*}
 \end{definition}
@@ -3049,14 +3060,14 @@ into a subcollection of the $\homcat$ object $\carrobj{C}\cpair{a}{b}$.
          \end{array}
        \end{equation*}
     in general each relation $R\in\mathcal{R}\;$ partitions
-    $\ccpair{C}$ into a compatable and not relatable subcollection
-    for any category $\parsecat{C}\in\largecatobj$
+    $\ccpair{C}$ into a relatable and not relatable subcollection
+    for any category $\parsecat{C}\in\largecatobj$.
   \item\textbf{(Strict)} \\[3pt]
     $\funct{R}(\carrobj{C}\cpair{a}{b})=\left\{\begin{array}{ll}
                                  \varnothing &\text{not relatable} \\[3pt]
-                                 \{\oarr{n}{R}\} &\text{relatable}
+                                 \{\arr{R}\} &\text{relatable}
                                  \end{array}$ \\[3pt]
-    where $\{\oarr{n}{R}\}$ is a singleton set.  \\[3pt]
+    where $\{\arr{R}\}$ is a singleton consisting of one arrow.  \\[3pt]
     In shorthand
        \begin{equation*}
                  R\cpair{a}{b}=\left\{\begin{array}{ll}
@@ -3116,9 +3127,9 @@ functor that uniformly consist of singleton Hom objects.
   $\obk{R}\in\mathcal{R}$, over a category, $\parsecat{C}$, is a
   subcategory, $\parsecat{C}_{\obk{R}}\lessdot\parsecat{C}$, such that
   each homomorphic object is a singleton arrow collection,
-  $\{\oarr{n}{k}\}\in\parsecat{C}_{\obk{R},\rightarrow,\subp{0}}$,
+  $\{\arr{k}\}\in\parsecat{C}_{\obk{R},\rightarrow,\subp{0}}$,
 \begin{equation*}
-  \{\oarr{n}{k}\}\cong\catN{1}\,,\quad\oarrdom{n}{k},\,\oarrcod{n}{k}\in\ccobj{C}
+  \{\arr{k}\}\cong\catN{1}\,,\quad\arrdom{k},\,\arrcod{k}\in\ccobj{C}
 \end{equation*}
 \end{definition}
 
@@ -3143,9 +3154,9 @@ $\parsecat{C}\in\wrapobj{\largepo}$:
   \item\textbf{(Arrows)} 
   \begin{equation*}
   \begin{array}{rl}  
-    \hspace{34pt}\wraparr{\ccrel{C}{\leq}}=\{\oarr{n}{\leq}\mid
-    &\oarrdom{n}{\leq}=\obk{a}
-           ,\,\oarrcod{n}{\leq}=\obk{b}, \\[3pt]
+    \hspace{34pt}\wraparr{\ccrel{C}{\leq}}=\{\arr{\leq}\mid
+    &\arrdom{\leq}=\obk{a}
+           ,\,\arrcod{\leq}=\obk{b}, \\[3pt]
     \quad&\text{for any}\;\obk{a}\leq\obk{b} \\[3pt]
     \quad&\text{and}\;\cpair{a}{b}\in\ccpair{C}\} 
   \end{array}
@@ -3199,8 +3210,8 @@ of the Hom category demonstrate the equivalence coset
 partition of the Hom category, $\carr{C}$.
 
 \begin{align*}
-  \oarr{n}{r}\in\carrobj{C}\cpair{a}{b}\;\text{and}\;
-  \oarr{n}{r}\in\carrobj{C}\cpair{a^{\prime}}{b^{\prime}} \\[3pt]
+  \arr{r}\in\carrobj{C}\cpair{a}{b}\;\text{and}\;
+  \arr{r}\in\carrobj{C}\cpair{a^{\prime}}{b^{\prime}} \\[3pt]
   \Longleftrightarrow\obk{a}=\obk{a^{\prime}}\;\text{and}\;
   \obk{b}=\obk{b^{\prime}}\;
   \cpair{a}{b},\,\cpair{a^{\prime}}{b^{\prime}}\in\ccpair{C}
@@ -3278,13 +3289,19 @@ $\ofunct{\pazocal{J}/{\obk{z}}}$. Each constant functor is
 discrimitated by a cone or cocone object designated as,
 $\obk{z}\in\pazocal{Z}$.
 
-A common diagram functor acts as a cone codomain or a cocone domain.
+Consider an index category, $\pazocal{J}$, as a diagram for a model
+relationship of objects within a target category, $\pazocal{Z}$. 
+Objects and arrows stand as the simplest models however more
+complicated diagrams are conceivable.
+a diagram functor maps, $\pazocal{J}$, into similar diagrams within
+the target category, $\pazocal{Z}$.
+Eventually a diagram functor acts as a cone codomain or a cocone domain.
 The index category, $\pazocal{J}$, extablishes a diagram subcategory,
 $\ofunct{\mathsf{D}}(\pazocal{J})$, in the analysis category, $\pazocal{Z}$.
 
 \begin{definition}{Cone/Cocone, Diagram Functor, $\ofunct{\mathsf{D}}$},
-  \label{def:co-coconediagram} embeds a domain index category, $\pazocal{J}$,
-  into a codomain category, $\pazocal{Z}$.
+  \label{def:co-coconediagram} embeds an index category, $\pazocal{J}$,
+  into a category, $\pazocal{Z}$.
 \begin{equation*}
 \begin{array}{rll}
   \pazocal{J}&=&\ofunctdom{\mathsf{D}} \\[3pt]
@@ -3298,13 +3315,13 @@ $\ofunct{\mathsf{D}}(\pazocal{J})$, in the analysis category, $\pazocal{Z}$.
 
 Each index, $\obk{i}\in\ccobj{J}$, uniquely identifies a codomain object in,
 $\pazocal{Z}$. Relations extend as
-well from arrows, $\oarr{n}{h_{ij}}\in\ccarr{J}$, to arrows,
-$\ofunct{\mathsf{D}}(\oarr{n}{h_{ij}})\in\ccarr{Z}$:
+well from arrows, $\arr{h_{ij}}\in\ccarr{J}$, to arrows,
+$\ofunct{\mathsf{D}}(\arr{h_{ij}})\in\ccarr{Z}$:
 
 \begin{equation*}
 \begin{array}{rll}
   \obk{i},\,\obk{j}&\in&\pazocal{J}, \\[3pt]
-  \oarr{n}{h_{ij}}&\in&\carrobj{J}\cpair{i}{j}
+  \arr{h_{ij}}&\in&\carrobj{J}\cpair{i}{j}
 \end{array}
 \end{equation*}
 \begin{equation*}
@@ -3326,12 +3343,12 @@ arrows:
 \begin{equation*}
 \begin{array}{rll}
   \obk{i},\,\obk{j}&\in&\pazocal{J}, \\[3pt]
-  \oarr{n}{h_{ij}}&\in&\carrobj{J}\cpair{i}{j} \\[3pt]
-  \oarr{n}{d_i},\,\oarr{n}{d_j}&\in&\wrparr{\funct{\mathsf{D},}}, \\[3pt]
+  \arr{h_{ij}}&\in&\carrobj{J}\cpair{i}{j} \\[3pt]
+  \arr{d_i},\,\arr{d_j}&\in&\wrparr{\funct{\mathsf{D},}}, \\[3pt]
   \oarr{2}{d_{ij}}&\in&\owrparr{2}{\funct{\mathsf{D},}} \\[3pt]
-  \oarr{n}{d_i}(\obk{i}),\,\oarr{n}{d_j}(\obk{j})&\in&
+  \arr{d_i}(\obk{i}),\,\arr{d_j}(\obk{j})&\in&
            \wrpobj{\ofunct{\mathsf{D}}(\pazocal{J})}\lessdot\ccobj{Z}, \\[3pt]
-  \oarr{2}{d_{ij}}(\oarr{n}{h_{ij}})&\in&\wrparr{\ofunct{\mathsf{D}}(\pazocal{J})}
+  \oarr{2}{d_{ij}}(\arr{h_{ij}})&\in&\wrparr{\ofunct{\mathsf{D}}(\pazocal{J})}
                                       \lessdot\ccarr{Z}
 \end{array}
 \end{equation*}
@@ -3366,12 +3383,12 @@ first and second order arrows:
 \begin{equation*}
 \begin{array}{rll}
   \obk{i},\,\obk{j}&\in&\pazocal{J}, \\[3pt]
-  \oarr{n}{h_{ij}}&\in&\carrobj{J}\cpair{i}{j} \\[3pt]
-  \oarr{n}{u_i},\,\oarr{n}{u_j}&\in&\wrparr{\ofunct{\pazocal{J}/{\obk{z}},}}, \\[3pt]
+  \arr{h_{ij}}&\in&\carrobj{J}\cpair{i}{j} \\[3pt]
+  \arr{u_i},\,\arr{u_j}&\in&\wrparr{\ofunct{\pazocal{J}/{\obk{z}},}}, \\[3pt]
   \oarr{2}{u_{ij}}&\in&\owrparr{2}{\ofunct{\pazocal{J}/{\obk{z}},}} \\[3pt]
-  \oarr{n}{u_i}(\obk{i}),\,\oarr{n}{u_j}(\obk{j})&=&\obk{z}\in
+  \arr{u_i}(\obk{i}),\,\arr{u_j}(\obk{j})&=&\obk{z}\in
                        \wrpobj{\singletoncat{z,}}\lessdot\ccobj{Z}, \\[3pt]
-  \oarr{2}{u_{ij}}(\oarr{n}{h_{ij}})&=&\oarrid{n}{z}\in
+  \oarr{2}{u_{ij}}(\arr{h_{ij}})&=&\arrid{z}\in
                    \wrparr{\singletoncat{z,}}\lessdot\ccarr{Z}
 \end{array}
 \end{equation*}
@@ -3410,41 +3427,41 @@ maps a domain constant functor to a codomain diagram functor:
 \end{equation*}
 
 In detail, a second order arrow, $\oarr{2}{\lambda_i}$, of the cone transform,
-maps an domain arrow, $\oarr{n}{u_i}$, to a codomain arrow, $\oarr{n}{d_i}$:
+maps an domain arrow, $\arr{u_i}$, to a codomain arrow, $\arr{d_i}$:
 
 \begin{equation*}
 \begin{array}{rll}
   \oarr{2}{\lambda_i}&\in&\nfunct{\lambda_{z}}_{,\obk{2}} \\[3pt]
-  \oarr{n}{u_i}&=&\oarrdom{2}{\lambda_i}\in
+  \arr{u_i}&=&\oarrdom{2}{\lambda_i}\in
                \wrparr{\ofunct{\parsecat{J}/\obk{z}}} \\[3pt]
-  \oarr{n}{d_i}&=&\oarrcod{2}{\lambda_i}\in\wrparr{\ofunct{\mathsf{D}}} \\[3pt]
+  \arr{d_i}&=&\oarrcod{2}{\lambda_i}\in\wrparr{\ofunct{\mathsf{D}}} \\[3pt]
 \text{where},\quad&& \\[3pt]
   \obk{i}&=&\oarrdom{n}{u_i}=\oarrdom{n}{d_i}
 \end{array}
 \end{equation*}
 
-Each arrow, $\oarr{n}{u_i}\in\wrparr{\ofunct{\parsecat{J}/\obk{z},}}$,
+Each arrow, $\arr{u_i}\in\wrparr{\ofunct{\parsecat{J}/\obk{z},}}$,
  share a common codomain object, $\obk{z}\in\pazocal{Z}$
 
 \begin{equation*}
 \begin{gathered}
-  \oarr{n}{u_i}\in\wrparr{\ofunct{\parsecat{J}/\obk{z},}} \\[3pt]
+  \arr{u_i}\in\wrparr{\ofunct{\parsecat{J}/\obk{z},}} \\[3pt]
   \mapaob{\obk{i}}{\obk{u_i}}{\obk{z}}
 \end{gathered}
 \end{equation*}
 
-Each arrow, $\oarr{n}{d_i}\in\wrparr{\ofunct{\mathsf{D},}}$, embeds a diagram
+Each arrow, $\arr{d_i}\in\wrparr{\ofunct{\mathsf{D},}}$, embeds a diagram
 object into the target category, $\pazocal{Z}$:
 
 \begin{equation*}
 \begin{gathered}
-  \oarr{n}{d_i}\in\wrparr{\funct{\mathsf{D}}_,} \\[3pt]
+  \arr{d_i}\in\wrparr{\funct{\mathsf{D}}_,} \\[3pt]
   \mapaob{\obk{i}}{\obk{d_i}}{\mathsf{D}(\obk{i})}
 \end{gathered}
 \end{equation*}
 
 Overall, each second order arrow, $\oarr{2}{\lambda_i}$ relates,
-domain arrow, $\oarr{n}{u_i}$, to a codomain arrow, $\oarr{n}{d_i}$:
+domain arrow, $\arr{u_i}$, to a codomain arrow, $\arr{d_i}$:
 
 \begin{equation*}
   \mapaob{\obk{u_i}}{\obk{2},\lambda_i}{\obk{d_i}}
@@ -3522,7 +3539,7 @@ execute at end picture={
 The diagram, \ref{eq:conenatural}, delineates the mapping of a second order
 arrow, $\oarr{2}{\lambda_i}\in\nfunct{\lambda_{\obk{z}},}_{\obk{2}}$.
 
-The domain/codomain pair, $\oarr{n}{u_i}$ and $\oarr{n}{d_i}$, of the second order
+The domain/codomain pair, $\arr{u_i}$ and $\arr{d_i}$, of the second order
 arrow, $\oarr{2}{\lambda_i}$, with definition, \ref{def:arrowarrowindex},
 support parameterization as a second order Hom index:
 
@@ -3536,20 +3553,20 @@ the second order arrow is expressable as two first order arrows,
 
 \begin{equation*}
 \oarr{2}{\lambda_i}=
-\fpair{\oarr{n}{\lambda_{\oper{fst},i}}}{\oarr{n}{\lambda_{\oper{snd},i}}}
+\fpair{\arr{\lambda_{\oper{fst},i}}}{\arr{\lambda_{\oper{snd},i}}}
 \end{equation*}
 
 The condition for a pivot projection, Theorem \ref{thm:pivotprojection},
 qualifies the reduction of the
 second order arrow, $\oarr{2}{\lambda_i}$, to a first order arrow,
-$\oarr{n}{\lambda_i}$.
+$\arr{\lambda_i}$.
 For convenience the projections, $\oprojection{\shortleftarrow}{1}$ and,
 $\oprojection{\shortrightarrow}{1}$ elaborate the pivot projection action:
 
 \begin{equation*}
 \begin{array}{rll}
-\oarr{n}{\lambda_{\oper{fst},i}}&=&\nprojfst{1}{\oarr{2}{\lambda_i}} \\[3pt]
-\oarr{n}{\lambda_{\oper{snd},i}}&=&\nprojsnd{1}{\oarr{2}{\lambda_i}} \\[3pt]
+\arr{\lambda_{\oper{fst},i}}&=&\nprojfst{1}{\oarr{2}{\lambda_i}} \\[3pt]
+\arr{\lambda_{\oper{snd},i}}&=&\nprojsnd{1}{\oarr{2}{\lambda_i}} \\[3pt]
 \obk{i}=\oarrcod{n}{\lambda_{\oper{fst},i}}&&
 \obk{i}=\oarrcod{n}{\lambda_{\oper{fst},i}} \\[3pt]
 \obk{z}=\oarrdom{n}{\lambda_{\oper{snd},i}}&&
@@ -3557,20 +3574,20 @@ $\oprojection{\shortrightarrow}{1}$ elaborate the pivot projection action:
 \end{array}
 \end{equation*}
 
-The first arrow, $\oarr{n}{\lambda_{\oper{fst},i}}$, having identical domain/codomain,
-$\obk{i}$, is equivalently and essentially the identity arrow, $\oarrid{n}{i}$,
+The first arrow, $\arr{\lambda_{\oper{fst},i}}$, having identical domain/codomain,
+$\obk{i}$, is equivalently and essentially the identity arrow, $\arrid{i}$,
 in the construction, otherwise the theorem cannot be applied.
 
 \begin{equation*}
-\oarrid{n}{i}=\oarr{n}{\lambda_{\oper{fst},i}}
+\arrid{i}=\arr{\lambda_{\oper{fst},i}}
 \end{equation*}
 
-The second arrow, $\oarr{n}{\lambda_{\oper{snd},i}}$, with domain/codomain,
+The second arrow, $\arr{\lambda_{\oper{snd},i}}$, with domain/codomain,
 $\obk{z}$ and $\mathsf{D}(\obk{i})$ respectively, holds singular significance.
 
 \begin{equation*}
 \oarr{2}{\lambda_i}=
-\fpair{\oarrid{n}{i}}{\oarr{n}{\lambda_{\oper{snd},i}}}
+\fpair{\arrid{i}}{\arr{\lambda_{\oper{snd},i}}}
 \end{equation*}
 
 Subsequently, the action of natural transform, $\nfunct{\lambda_{\obk{z}}}$,
@@ -3586,7 +3603,7 @@ with an initial functor mapping from domain, $\obk{z}$:
 \mapaob{\singletoncat{z}}{\lambda_{\obk{z}}}{\mathsf{D}(\pazocal{J})}
 \end{equation*}
 \begin{equation*}
-\forall\oarr{n}{\lambda_i}\in\funct{\lambda_{\obk{z}}}\quad
+\forall\arr{\lambda_i}\in\funct{\lambda_{\obk{z}}}\quad
 \mapaob{\obk{z}}{\lambda_i}{\mathsf{D}(\obk{i})}
 \end{equation*}
 
@@ -3698,7 +3715,7 @@ which fulfills a mapping:
 \end{equation}
 
 The domain and codomain second order arrows, $\oarr{2}{\lambda^{\prime}_i}$ and
-$\oarr{2}{\lambda_i}$, share a common codomain, $\oarr{n}{d_i}$, diagram arrow,
+$\oarr{2}{\lambda_i}$, share a common codomain, $\arr{d_i}$, diagram arrow,
 figure \ref{eq:conelimitnatural}, are reduced to second order arrows  with
 the copivot projection, diagram \ref{eq:pairkappalimit}.
 
@@ -3720,7 +3737,7 @@ execute at end picture={
 \end{equation}
 
 As required by the corollary, \ref{cor:copivotprojection}, the
-common codomain, diagram arrows, $\oarr{n}{d_i}\in\wrparr{\ofunct{\mathsf{D},}}$,
+common codomain, diagram arrows, $\arr{d_i}\in\wrparr{\ofunct{\mathsf{D},}}$,
 eq. \ref{eq:conelimitnatural}, reduces the mapping of a third order arrow to a
 composition of second order arrows:
 
@@ -3746,7 +3763,7 @@ by a common object, $\obk{i}\in\pazocal{J}$.
 Expression with first order arrows follows:
 
 \begin{equation}\label{eq:conelimittrans}
-  \oarr{n}{\lambda^{\prime}_i}=\oarr{n}{\lambda_i}\circ\oarr{n}{\kappa^{\prime}_i}
+  \arr{\lambda^{\prime}_i}=\arr{\lambda_i}\circ\arr{\kappa^{\prime}_i}
 \end{equation}
 
 where,
@@ -3790,42 +3807,42 @@ maps a domain constant functor to a codomain diagram functor:
 \end{equation*}
 
 In detail, a second order arrow, $\oarr{2}{\lambda_i}$, of the cocone transform,
-maps an domain arrow, $\oarr{n}{d_i}$, to a codomain arrow, $\oarr{n}{u_i}$:
+maps an domain arrow, $\arr{d_i}$, to a codomain arrow, $\arr{u_i}$:
 
 \begin{equation*}
 \begin{array}{rll}
   \oarr{2}{\lambda_i}&\in&\nfunct{\lambda_{z}}_{,\obk{2}} \\[3pt]
-  \oarr{n}{d_i}&=&\oarrdom{2}{\lambda_i}\in
+  \arr{d_i}&=&\oarrdom{2}{\lambda_i}\in
                \wrparr{\ofunct{\mathsf{D},}} \\[3pt]
-  \oarr{n}{u_i}&=&\oarrcod{2}{\lambda_i}
+  \arr{u_i}&=&\oarrcod{2}{\lambda_i}
                \in\wrparr{\ofunct{\parsecat{J}/\obk{z},}} \\[3pt]
 \text{where},\quad&& \\[3pt]
   \obk{i}&=&\oarrdom{n}{u_i}=\oarrdom{n}{d_i}
 \end{array}
 \end{equation*}
 
-Each arrow, $\oarr{n}{u_i}\in\wrparr{\ofunct{\parsecat{J}/\obk{z},}}$,
+Each arrow, $\arr{u_i}\in\wrparr{\ofunct{\parsecat{J}/\obk{z},}}$,
 share a common codomain object, $\obk{z}\in\pazocal{Z}$
 
 \begin{equation*}
 \begin{gathered}
-  \oarr{n}{u_i}\in\wrparr{\ofunct{\parsecat{J}/\obk{z},}} \\[3pt]
+  \arr{u_i}\in\wrparr{\ofunct{\parsecat{J}/\obk{z},}} \\[3pt]
   \mapaob{\obk{i}}{\obk{u_i}}{\obk{z}}
 \end{gathered}
 \end{equation*}
 
-Each arrow, $\oarr{n}{d_i}\in\wrparr{\ofunct{\mathsf{D},}}$, embeds a diagram
+Each arrow, $\arr{d_i}\in\wrparr{\ofunct{\mathsf{D},}}$, embeds a diagram
 object into the target category, $\pazocal{Z}$:
 
 \begin{equation*}
 \begin{gathered}
-  \oarr{n}{d_i}\in\wrparr{\funct{\mathsf{D}}_,} \\[3pt]
+  \arr{d_i}\in\wrparr{\funct{\mathsf{D}}_,} \\[3pt]
   \mapaob{\obk{i}}{\obk{d_i}}{\mathsf{D}(\obk{i})}
 \end{gathered}
 \end{equation*}
 
 Overall, each second order arrow, $\oarr{2}{\lambda_i}$ relates,
-domain arrow, $\oarr{n}{d_i}$, to a codomain arrow, $\oarr{n}{u_i}$:
+domain arrow, $\arr{d_i}$, to a codomain arrow, $\arr{u_i}$:
 
 \begin{equation*}
   \mapaob{\obk{d_i}}{\obk{2},\lambda_i}{\obk{u_i}}
@@ -3903,7 +3920,7 @@ Considering the dual of the diagram, \ref{eq:coconenatural},
 delineates an example of the second order
 arrow, $\oarr{2}{\lambda_i}\in\nfunct{\lambda_{\obk{z}},}_{\obk{2}}$.
 
-The domain/codomain pair, $\oarr{n}{d_i}$ and $\oarr{n}{u_i}$, of the second order
+The domain/codomain pair, $\arr{d_i}$ and $\arr{u_i}$, of the second order
 arrow, $\oarr{2}{\lambda_i}$, is parameterized as a second order Hom index,
 recall definition \ref{def:arrowarrowindex}:
 
@@ -3918,20 +3935,20 @@ the second order arrow is expressable as two first order arrows,
 
 \begin{equation*}
 \oarr{2}{\lambda_i}=
-\fpair{\oarr{n}{\lambda_{\oper{dom},i}}}{\oarr{n}{\lambda_{\oper{cod},i}}}
+\fpair{\arr{\lambda_{\oper{dom},i}}}{\arr{\lambda_{\oper{cod},i}}}
 \end{equation*}
 
 The condition for a pivot projection, theorem \ref{thm:pivotprojection},
 qualifies the reduction of the
 second order arrow, $\oarr{2}{\lambda_i}$, to a first order arrow,
-$\oarr{n}{\lambda_i}$.
+$\arr{\lambda_i}$.
 For convenience the natural transforms, $\nfunct{\pi_1}$ and,
 $\nfunct{\pi_2}$ elaborate the pivot projection action:
 
 \begin{equation*}
 \begin{array}{rll}
-\oarr{n}{\lambda_{\oper{dom},i}}&=&\nfunct{\pi_1}(\oarr{2}{\lambda_i}) \\[3pt]
-\oarr{n}{\lambda_{\oper{cod},i}}&=&\nfunct{\pi_2}(\oarr{2}{\lambda_i}) \\[3pt]
+\arr{\lambda_{\oper{dom},i}}&=&\nfunct{\pi_1}(\oarr{2}{\lambda_i}) \\[3pt]
+\arr{\lambda_{\oper{cod},i}}&=&\nfunct{\pi_2}(\oarr{2}{\lambda_i}) \\[3pt]
 \obk{i}=\oarrdom{n}{\lambda_{\oper{dom},i}}&&
 \obk{i}=\oarrcod{n}{\lambda_{\oper{dom},i}} \\[3pt]
 \mathsf{D}(\obk{i})=\oarrdom{n}{\lambda_{\oper{cod},i}}&&
@@ -3939,27 +3956,27 @@ $\nfunct{\pi_2}$ elaborate the pivot projection action:
 \end{array}
 \end{equation*}
 
-The first arrow, $\oarr{n}{\lambda_{\oper{dom},i}}$, with identical domain/codomain,
-$\obk{i}$, is equivalently and essentially the identity arrow, $\oarrid{n}{i}$,
+The first arrow, $\arr{\lambda_{\oper{dom},i}}$, with identical domain/codomain,
+$\obk{i}$, is equivalently and essentially the identity arrow, $\arrid{i}$,
 in the construction, otherwise the theorem cannot be applied.
 
 \begin{equation*}
-\oarrid{n}{i}=\oarr{n}{\lambda_{\oper{dom},i}}
+\arrid{n}{i}=\arr{\lambda_{\oper{dom},i}}
 \end{equation*}
 
-The second arrow, $\oarr{n}{\lambda_{\oper{cod},i}}$, with domain/codomain,
+The second arrow, $\arr{\lambda_{\oper{cod},i}}$, with domain/codomain,
 $\mathsf{D}(\obk{i})$ and $\obk{z}$ respectively, holds singular significance.
 
 \begin{equation*}
 \oarr{2}{\lambda_i}=
-\fpair{\oarrid{n}{i}}{\oarr{n}{\lambda_{\oper{cod},i}}}
+\fpair{\arrid{i}}{\arr{\lambda_{\oper{cod},i}}}
 \end{equation*}
 
 Subsequently, the action of natural transform, $\nfunct{\lambda_{\obk{z}}}$,
 projects to a functor, $\funct{\lambda_{\obk{z}}}$:
 
 \begin{equation*}
-\oarr{n}{\lambda_i}=\nfunct{\pi_2}(\oarr{2}{\lambda_i})
+\arr{\lambda_i}=\nfunct{\pi_2}(\oarr{2}{\lambda_i})
 \end{equation*}
 
 with an initial functor mapping from domain, $\mathsf{D}(\pazocal{J})$:
@@ -3968,7 +3985,7 @@ with an initial functor mapping from domain, $\mathsf{D}(\pazocal{J})$:
 \mapaob{\mathsf{D}(\pazocal{J})}{\lambda_{\obk{z}}}{\singletoncat{z}}
 \end{equation*}
 \begin{equation*}
-\forall\;\obk{i}\in\ccobj{J},\,\oarr{n}{\lambda_i}\in\funct{\lambda_{\obk{z}}}
+\forall\;\obk{i}\in\ccobj{J},\,\arr{\lambda_i}\in\funct{\lambda_{\obk{z}}}
 \quad\mapaob{\mathsf{D}(\obk{i})}{\lambda_i}{\obk{z}}
 \end{equation*}
 
@@ -4066,7 +4083,7 @@ which fulfills a mapping:
 \end{equation}
 
 The domain and codomain second order arrows, $\oarr{2}{\lambda_i}$ and
-$\oarr{2}{\lambda^{\prime}_i}$, share a common domain, $\oarr{n}{d_i}$,
+$\oarr{2}{\lambda^{\prime}_i}$, share a common domain, $\arr{d_i}$,
 diagram arrow,
 figure \ref{eq:coconecolimitnatural}, are reduced to second order arrows  with
 the pivot projection, diagram \ref{eq:kappacolimit}.
@@ -4089,7 +4106,7 @@ execute at end picture={
 \end{equation}
 
 As required by the theorem, \ref{thm:pivotprojection}, the
-common domain, diagram arrows, $\oarr{n}{d_i}\in\wrparr{\ofunct{\mathsf{D},}}$,
+common domain, diagram arrows, $\arr{d_i}\in\wrparr{\ofunct{\mathsf{D},}}$,
 eq. \ref{eq:coconecolimitnatural}, reduces the mapping of a
 third order arrow to a composition of second order arrows:
 
@@ -4115,7 +4132,7 @@ by a common object, $\obk{i}\in\pazocal{J}$.
 Expression with first order arrows follows:
 
 \begin{equation}\label{eq:arrowcoconecolimitcompose}
-  \oarr{n}{\lambda^{\prime}_i}=\oarr{n}{\kappa^{\prime}_i}\circ\oarr{n}{\lambda_i}
+  \arr{\lambda^{\prime}_i}=\arr{\kappa^{\prime}_i}\circ\arr{\lambda_i}
 \end{equation}
 
 where,
@@ -4516,7 +4533,7 @@ This section begins by outlining the concept of an equalizer
 that shapes the idea of a category characterized by monomorphic arrows.
 
 An equalizer extends on diagram \ref{eq:equalizercollection}
-with the property, $\oarr{n}{f}\circ\oarr{n}{e^{\prime}}=\oarr{n}{g}\circ\oarr{n}{e^{\prime}}$:
+with the property, $\arr{f}\circ\arr{e^{\prime}}=\arr{g}\circ\arr{e^{\prime}}$:
 
 \begin{figure}
 \begin{tikzcd}[row sep=2em, column sep=2em,
@@ -4544,18 +4561,18 @@ execute at end picture={
 Extending the diagram, \ref{eq:equalizercollection}, to
 figure, \ref{eq:equalizer}, develops a more general construct of a
 category, $\parsecat{P}$, with a terminal object, $\obk{z}$,
-as the codomain of a collection arrows, $\oarr{n}{k^{\prime}}$,
+as the codomain of a collection arrows, $\arr{k^{\prime}}$,
 each with a unique domain object, $\obk{z^{\prime}}\in\ccobj{P}$,
 
 \begin{definition}{Equalizer},
-  is an arrow, $\oarr{n}{e}$, identifying an equivalence subdomain for
+  is an arrow, $\arr{e}$, identifying an equivalence subdomain for
   a pair of arrows, $\apair{f}{g}$, sharing
   the same domain and codomain objects, $\obk{a}$ and $\obk{b}$ respectively.
   \begin{equation*}
      \begin{gathered}
      \mapaob{z}{e}{a} \\
-     \oarr{n}{e}(z)\lessdot\obk{a}=\oarrdom{n}{\fpair{f}{g}} \\
-     \oarr{n}{f}\circ\oarr{n}{e}=\oarr{n}{g}\circ\oarr{n}{e}
+     \arr{e}(z)\lessdot\obk{a}=\oarrdom{n}{\fpair{f}{g}} \\
+     \arr{f}\circ\arr{e}=\arr{g}\circ\arr{e}
     \end{gathered}
   \end{equation*}
   The equalizer is further a limit of a category $\parsecat{P}$
@@ -4563,11 +4580,11 @@ each with a unique domain object, $\obk{z^{\prime}}\in\ccobj{P}$,
   \begin{equation*}
      \begin{gathered}
      \forall\,\obk{z^{\prime}}\in\ccobj{P}\quad
-     !\exists\oarr{n}{k^{\prime}}\in\ccarr{P} \\
+     !\exists\arr{k^{\prime}}\in\ccarr{P} \\
      \obk{z^{\prime}}=\oarrdom{n}{k^{\prime}}\;\text{and}\;
      \obk{z}=\oarrcod{n}{k^{\prime}} \\
-     \text{where}\;\oarr{n}{e^{\prime}}=\oarr{n}{e}\circ\oarr{n}{k^{\prime}}, \\
-     \text{and}\;\oarr{n}{f}\circ\oarr{n}{e^{\prime}}=\oarr{n}{g}\circ\oarr{n}{e^{\prime}}
+     \text{where}\;\arr{e^{\prime}}=\arr{e}\circ\arr{k^{\prime}}, \\
+     \text{and}\;\arr{f}\circ\arr{e^{\prime}}=\arr{g}\circ\arr{e^{\prime}}
     \end{gathered}
   \end{equation*}
 \end{definition}
@@ -4579,7 +4596,7 @@ $\parsecat{Z}$.
 
 Equalizer category, $\parsecat{P}$, of figure \ref{eq:equalizer},
 has a terminal object, $\obk{z}$, with unique arrows,
-$\oarr{n}{k^{\prime}}\in\ccarr{P}$, directed from domain objects in,
+$\arr{k^{\prime}}\in\ccarr{P}$, directed from domain objects in,
 $\ccobj{P}$ to codomain, $\obk{z}$.
 The arrows of the collection, $\ccarr{P}$ are exclusively monic arrows.
 Categories exclusively characterized by monic arrows are and a terminal
@@ -4594,13 +4611,13 @@ mutually associated by dual monic arrows are isomorphic.
   category contains a terminal object $\obk{c}$
   \begin{equation*}
     \begin{array}{llll}
-    \wrpobj{\subcat{C/c}}&=\{\oarrdom{n}{r}&\mid&\oarr{n}{r}\in\catobj{C/c}\} \\[3pt]
-    \wrparr{\subcat{C/c}}&=\{\oarr{n}{r}&\mid&!\exists\,\oarr{n}{k^{\prime}},\,
-                          \oarr{n}{k^{\prime}}=\oarrid{n}{o},\,\obk{o}\in\ccobj{P}\\[3pt]
-      &\text{or}&&\oarr{n}{e^{\prime}}=\oarr{n}{e}\circ\oarr{n}{k^{\prime}}, \\[3pt]
-      &&&\oarrcod{n}{e}=\oarrcod{n}{e^{\prime}}=\obk{a},\, \\[3pt]
-      &&&\oarrcod{n}{k^{\prime}}=\oarrdom{n}{e}, \\[3pt]
-      &&&\oarrdom{n}{k^{\prime}}=\oarrdom{n}{e^{\prime}}\}
+    \wrpobj{\subcat{C/c}}&=\{\oarrdom{n}{r}&\mid&\arr{r}\in\catobj{C/c}\} \\[3pt]
+    \wrparr{\subcat{C/c}}&=\{\arr{r}&\mid&!\exists\,\arr{k^{\prime}},\,
+                          \arr{k^{\prime}}=\arrid{o},\,\obk{o}\in\ccobj{P}\\[3pt]
+      &\text{or}&&\arr{e^{\prime}}=\arr{e}\circ\arr{k^{\prime}}, \\[3pt]
+      &&&\arrcod{e}=\arrcod{e^{\prime}}=\obk{a},\, \\[3pt]
+      &&&\arrcod{k^{\prime}}=\arrdom{e}, \\[3pt]
+      &&&\arrdom{k^{\prime}}=\arrdom{e^{\prime}}\}
   \end{array}
   \end{equation*}
   Given a slice category, $\parsecat{C/c}$, denote the subcategory mapping as,
@@ -4611,9 +4628,9 @@ mutually associated by dual monic arrows are isomorphic.
   with a domain object subcollection from $\ccobj{C}$.
   \begin{equation*}
   \begin{array}{lll}
-    \wrpaobj{\subcat{C/c}}&=&\{\oarr{n}{r}\mid\oarrcod{n}{r}=\obk{c}\}\;
+    \wrpaobj{\subcat{C/c}}&=&\{\arr{r}\mid\arrcod{r}=\obk{c}\}\;
     \obk{c}\in\parsecat{c} \\[3pt]
-           &&\{\oarrdom{n}{r}\mid\oarr{n}{r}\in\wrpobj{\subcat{C/c}}
+           &&\{\arrdom{r}\mid\arr{r}\in\wrpobj{\subcat{C/c}}
   \end{array}
   \end{equation*}
   The subobject
@@ -4694,20 +4711,20 @@ $\forall\obk{d}\in\ccobj{D}$ there exists a mapping
 $\mapaob{\obk{c}}{\mu_{\obk{d}}}{\functV{F}{d}}$.
 \end{definition}
 
-The unique domains of preorder arrows, $\oarr{n}{r}\in\parsecat{C/c}$,
-$\oarrdom{n}{r}$, provide a collection of objects f
+The unique domains of preorder arrows, $\arr{r}\in\parsecat{C/c}$,
+$\arrdom{r}$, provide a collection of objects f
 
 The existential ablility to selectively identify an object from a category
 with each sample independent of others supports the development of
 new constructs in category theory with eventual formulation of the
 axiom of determinancy.
-To begin two objects, $\oarr{n}{f}$ and $\oarr{n}{g}$, are identified as
+To begin two objects, $\arr{f}$ and $\arr{g}$, are identified as
 independent samples from a preorder, $\parsecat{P}$ with terminal
-object, $\oarrid{n}{c}$, the identity arrow of $\obk{c}$.
-Denote, $\obk{a}$ and $\obk{b}$, as the domains of arrows, $\oarr{n}{f}$ and
-$\oarr{n}{g}$, respectively.
+object, $\arrid{c}$, the identity arrow of $\obk{c}$.
+Denote, $\obk{a}$ and $\obk{b}$, as the domains of arrows, $\arr{f}$ and
+$\arr{g}$, respectively.
 Independence is upheald by the application of arrows,
-$\oarr{n}{f}$ and $\oarr{n}{g}$, enforciing the sample process.
+$\arr{f}$ and $\arr{g}$, enforciing the sample process.
 
 The concept of independent object samples provisions
 the dual constructs of intersection union of $\obk{a}$ and $\obk{b}$.
@@ -4724,26 +4741,26 @@ A pulback is a construct acting on this scenario.
 Independence of samples is discriminated by the pair $\cpair{a}{b}$.
 Without set theory the concept
 of independence supports the discrimination of,
-$\oarr{n}{f}$ and $\oarr{n}{g}$.
+$\arr{f}$ and $\arr{g}$.
 
 A pullback and an equalizer act on objects, $\obk{a}$ and $\obk{b}$
 to construct a product 
 figure \ref{fig:universalproduct}.
 A pullback consists of a domain object, $\obk{p}$, with
-projection arrows, $\oarr{n}{g_p}$ and  $\oarr{n}{f_p}$, to objects,
+projection arrows, $\arr{g_p}$ and  $\arr{f_p}$, to objects,
 $\obk{a}$ and $\obk{b}$, respectively,
 To establish surjectivity an equalizer emmanating as a contained
 object $\obj{z}$ of $\obk{p}$, $\obk{z}\lessdot\obk{p}$, relative
-to arrow, $\oarr{n}{e_{zp}}$ and projections, $\oarr{n}{z_1}$ and $\oarr{n}{z_2}$, 
+to arrow, $\arr{e_{zp}}$ and projections, $\arr{z_1}$ and $\arr{z_2}$, 
 to objects, $\obk{a}$ and $\obk{b}$, respectively.
 
 \begin{equation*}
 \begin{array}{rll}
 \obk{z}&\;\lessdot&\obk{p} \\[3pt]
-\oarr{n}{z_1}=\oarr{n}{g_p}\circ\oarr{n}{e_{zp}}&\text{and}&
-\oarr{n}{z_2}=\oarr{n}{f_p}\circ\oarr{n}{e_{zp}} \\[3pt]
-\oarr{n}{z_1}(\obk{z})\lessdot\obk{a}&\text{and}&
-\oarr{n}{z_2}(\obk{z})\lessdot\obk{b} \\[3pt]
+\arr{z_1}=\arr{g_p}\circ\arr{e_{zp}}&\text{and}&
+\arr{z_2}=\arr{f_p}\circ\arr{e_{zp}} \\[3pt]
+\arr{z_1}(\obk{z})\lessdot\obk{a}&\text{and}&
+\arr{z_2}(\obk{z})\lessdot\obk{b} \\[3pt]
 \obk{a}\lessdot\obk{c}&\text{and}&\obk{b}\lessdot{c}
 \end{array}
 \end{equation*}
@@ -4751,19 +4768,19 @@ to objects, $\obk{a}$ and $\obk{b}$, respectively.
 Since $\obk{z}$ is an arbitrary subobject of $\obk{p}$
 a preorder category, $\parsecat{Y}$, consists of category objects,
 $\obk{z}$, with a terminal object, $\obk{p}$ relative to the
-collection of arrows, $\oarr{n}{e_{zp}}$. The preorder arrow
+collection of arrows, $\arr{e_{zp}}$. The preorder arrow
 is constructed as a pair of arrows to $\obk{p}$ as $\apair{z_1}{z_2}$.
 Projecting from, objects of $\parsecat{Y}$, are arrows to
 objects, $\obk{a}$ and $\obk{b}$, respectively.
 
 The equilizer is constructed with arrow,
-$\oarr{n}{e_{zp}}=\apair{z_1}{z_2}$,
+$\arr{e_{zp}}=\apair{z_1}{z_2}$,
 implies that the terminal object, $\obk{p}$,
 is in fact the the independent intersection of objects,
 $\obk{a}$ and $\obk{b}$, alternately denoted as a product,
 $\obk{p}=\cpair{a}{b}$, with projection arrows,
-$\oarr{n}{\pi_1}=\oarr{n}{g_p}$
-and $\oarr{n}{\pi_1}=\oarr{n}{g_p}$ projecting to objects,
+$\arr{\pi_1}=\arr{g_p}$
+and $\arr{\pi_1}=\arr{g_p}$ projecting to objects,
 $\obk{a}$ and $\obk{b}$, respectively. The sample independence of 
 , $\obk{a}$ and $\obk{b}$, upholds the that the object $\obk{p}$
 is an intersection consistent with the identities rather than the
@@ -4800,15 +4817,15 @@ constituents of, $\obk{a}$ and $\obk{b}$.
       \caption{dashed arrow denotes the inference of an initial object,
         $\obk{a}\times\obk{b}$, from category,
         $\pazocal{Y}$ with objects $\obk{z}$
-        and arrows $\oarr{n}{e_{zp}}=\apair{z_1}{z_2}$ with 
-        $\oarrcod{n}{e_{zp}}=\obk{a}\times\obk{b}$ and
-        $\oarrdom{n}{e_{zp}}=\obk{z}$.}
+        and arrows $\arr{e_{zp}}=\apair{z_1}{z_2}$ with 
+        $\arrcod{e_{zp}}=\obk{a}\times\obk{b}$ and
+        $\arrdom{e_{zp}}=\obk{z}$.}
         \label{fig:universalproduct}
 \end{figure}
 
 The distinct functor mapping of the triple,
 
-$(\obk{a}\times\obk{b},\,\oarr{n}{\pi_1},\,\oarr{n}{\pi_2})$
+$(\obk{a}\times\obk{b},\,\arr{\pi_1},\,\arr{\pi_2})$
 
 reflects the projection behavior of a pair or $2-tuple$.
 Subsequently, internal to the product category, objects are constructed with
@@ -4816,15 +4833,15 @@ the object pairs:
 
 \begin{definition}{Pair Projection}\label{def:pair},
   $\cpair{a}{b}$,
-  $\obk{a}$, $\obk{b}$ are objects, $\oarr{n}{\pi_1}$. $\oarr{n}{\pi_2}$, are arrows:
+  $\obk{a}$, $\obk{b}$ are objects, $\arr{\pi_1}$. $\arr{\pi_2}$, are arrows:
 \begin{equation*}
-    \obk{a}=\oarr{n}{\pi_1}\cpair{a}{b}\quad\text{and}
-    \quad\obk{b}=\oarr{n}{\pi_2}\cpair{a}{b}.
+    \obk{a}=\arr{\pi_1}\cpair{a}{b}\quad\text{and}
+    \quad\obk{b}=\arr{\pi_2}\cpair{a}{b}.
 \end{equation*}
 \end{definition}
 
 Recalling the pair definition from $n-tuple$ functional designations,
-$\oarr{n}{\pi_1}$ and $\oarr{n}{\pi_2}$,
+$\arr{\pi_1}$ and $\arr{\pi_2}$,
 are alternately replaced by, $\oper{fst}$ and $\oper{snd}$ acting on pair.
 
 \begin{equation*}
@@ -4836,9 +4853,9 @@ Applying projection functors to the commuting
 arrow collection of, $\catarr{Y}$:
 
 \begin{center}
-  $\oarr{n}{e_{zp}}=\apair{z_1}{z_2}$, \\[3pt]
-  $\oarr{n}{z_1}=\oarr{n}{\g_p}\circ\oarr{n}{e_{zp}}\quad$ and
-  $\quad\oarr{n}{z_2}=\oarr{n}{\f_p}\circ\funct{e_{zp}}$ \\[3pt]
+  $\arr{e_{zp}}=\apair{z_1}{z_2}$, \\[3pt]
+  $\arr{z_1}=\arr{\g_p}\circ\arr{e_{zp}}\quad$ and
+  $\quad\arr{z_2}=\arr{\f_p}\circ\funct{e_{zp}}$ \\[3pt]
   $\forall\quad\obk{z}\in\catobj{Y}$
 \end{center}
 \end{definition}
@@ -4853,19 +4870,19 @@ closure to the pairwise construction of the product category:
 \item$\wrpobj{\parsecat{C}\times\parsecat{D}}=
   \cpair{a}{b}\mid\,
   \obk{a}\in\catobj{C}\quad\text{and}\quad\obk{b}\in\catobj{D}\}$
-  \item$\wrparr{\parsecat{C}\times\parsecat{D}}=\{(\oarr{n}{f},\oarr{n}{h})\mid
-    \oarr{n}{f}\in\catarr{C}\,\text{and}\,\oarr{n}{h}\in\catarr{D}\}$
+  \item$\wrparr{\parsecat{C}\times\parsecat{D}}=\{(\arr{f},\arr{h})\mid
+    \arr{f}\in\catarr{C}\,\text{and}\,\arr{h}\in\catarr{D}\}$
   \begin{itemize}
   \item\textbf{(Domain)} \\
-    $\qquad\qquad\qquad\oarrdom{n}{\fpair{f}{h}}=\cpair{\oarrdom{n}{f}}{\oarrdom{n}{g}}$
-  \item\textbf{(Codomain)} $\oarrcod{n}{\fpair{f}{h}}=
-    \cpair{\oarrcod{n}{f}}{\oarrcod{n}{g}}$
+    $\qquad\qquad\qquad\arrdom{\fpair{f}{h}}=\cpair{\arrdom{f}}{\oarrdom{n}{g}}$
+  \item\textbf{(Codomain)} $\arrcod{\fpair{f}{h}}=
+    \cpair{\arrcod{f}}{\arrcod{g}}$
   \item\textbf{(Composition)} \\[3pt]
-    $(\oarr{n}{f},\oarr{n}{h})\circ(\oarr{n}{f^\prime},
-    \oarr{n}{h^\prime})=(\oarr{n}{f\circ f^\prime},\oarr{n}{h\circ h^\prime})$
-  \item$\oarrid{n}{(\obk{a},\obk{b})}=(\oarrid{n}{a},\oarrid{n}{b})$
-    $\forall\,(\obk{a},\obk{b})\in\wrpobj{\parsecat{C}\times\parsecat{D}}\quad$ \\[3pt]
-  where $\oarrid{n}{a}\in\catarr{C}\quad\text{and}\quad\oarrid{n}{b}\in\catarr{D}$
+    $(\arr{f},\arr{h})\circ(\arr{f^\prime},
+    \arr{h^\prime})=(\arr{f\circ f^\prime},\arr{h\circ h^\prime})$
+  \item$\arrid{(\obk{a},\obk{b})}=(\arrid{a},\arrid{b})$
+$\forall\,(\obk{a},\obk{b})\in\wrpobj{\parsecat{C}\times\parsecat{D}}\quad$ \\[3pt]
+  where $\arrid{a}\in\catarr{C}\quad\text{and}\quad\arrid{b}\in\catarr{D}$
   \end{itemize}
 \end{itemize}
 \end{definition}
@@ -5225,15 +5242,15 @@ of epimorphism is more restrictive than pointwise surjective.
 \end{figure}
 
 The concept of the fixed point commutative exposition of sets
-and arrows depends of the definition of arrows, $\oarr{n}{\delta}$,
-$\oarr{n}{\alpha}$, $\oarr{n}{f}$ and $\oarr{n}{g}$. The arrow, $\oarr{n}{\delta}$,
+and arrows depends of the definition of arrows, $\arr{\delta}$,
+$\arr{\alpha}$, $\arr{f}$ and $\arr{g}$. The arrow, $\arr{\delta}$,
 maps a domain set to a the diagonal pairs subset of $\obk{T}\times\obk{T}$.
-The arrow, $\oarr{n}{f}$, characterizes a parameterized function
+The arrow, $\arr{f}$, characterizes a parameterized function
 that parameterizes a collection of functions with the set $\obk{T}$,
 $\mapaob{\obk{T}\times\obk{T}}{\obk{f}}{\obk{Y}}$ is isomorphic
 with the mapping, $\mapaob{\obk{T}}{\obk{f}\cpair{-}{t}}{\obk{Y}^{\obk{T}}}$,
 where $\obk{t}\in\obk{T}$. To find is a singular parameter,
-$\obk{t}\in\obk{T}$, such that $\oarr{n}{g}=\oarr{n}{f}\right_{\obk{t}}$.
+$\obk{t}\in\obk{T}$, such that $\arr{g}=\arr{f}\right_{\obk{t}}$.
 
 \subsection{Categories as Sets}
 
@@ -5328,7 +5345,7 @@ arrow functor defines a locally small class of categories, $\cathom$:
 \begin{equation*}\array{llll}
   \wrpobj{\homcat}=\{&\parsecat{C}&\mid&\carr{C}=\forgetful{\carr{C}},
   \;\parsecat{C}\in\largecatobj\} \\[3pt]
-  \wrparr{\homcat}=\{&\oarr{n}{f}&\mid&\oarr{n}{f}\in\largecatarr \\[3pt]
+  \wrparr{\homcat}=\{&\arr{f}&\mid&\arr{f}\in\largecatarr \\[3pt]
   &\text{and}&&\oarrdom{n}{f},\,\oarrcod{n}{f}\in\wrpobj{\homcat}\}
 \end{array}
 \end{equation*}
@@ -5686,8 +5703,8 @@ or status as sets.
   $\graphv{G}$, and a collection of edges,
   $\graphe{G}$, such that each edge
   has a source vertex and target vertex in, $\graphv{G}$.
-  Equivalently, there is a source arrow, $\oarr{n}{s}$,
-  and a target arrow, $\oarr{n}{t}$, both originating
+  Equivalently, there is a source arrow, $\arr{s}$,
+  and a target arrow, $\arr{t}$, both originating
   from the domain arrow collection, $\graphv{G}$, and
   ending upon the vertex collection, $\graphe{G}$.
   \begin{equation*}
@@ -5741,11 +5758,11 @@ the walking quiver as a category.
   $\wquiver{G}$, is a category consisting of two objects
   and four arrows relative to a graph, $\graph{G}$.
   $\wrapobj{\wquiver{G}}=\{\graphv{G},\,\graphe{G}\}$
-  and $\wraparr{\wquiver{G}}=\{\oarr{n}{s},\,\oarr{n}{t},\,
+  and $\wraparr{\wquiver{G}}=\{\arr{s},\,\arr{t},\,
   \obk{id}_{\graphv{G}},\,\obk{id}_{\graphe{G}}\}$,
   where $\obk{id}_{\graphv{G}}$ and $\obk{id}_{\graphe{G}}$
   are the identity arrows for the objects, $\graphv{G}$
-  and $\graphe{G}$, respectively. $\oarr{n}{s}$ and $\oarr{n}{t}$
+  and $\graphe{G}$, respectively. $\arr{s}$ and $\arr{t}$
   are the source and target arrows from edge object,
   $\graphe{G}$, to vertex object, $\graphv{G}$.
 \end{definition}
@@ -5805,13 +5822,13 @@ to complete the definition of a walking quiver from a general category.
 \begin{array}{rl}
 \parsecat{G}\thicksim&\text{Walking quiver}\thicksim\wquiver{G} \\[3pt]
 \graphv{G}=&\wrapobj{\forgetgrf{\parsecat{C}}}
-               =\{\oarrid{n}{o}\mid\obk{o}\in\ccobj{C}\} \\[3pt]
+               =\{\arrid{o}\mid\obk{o}\in\ccobj{C}\} \\[3pt]
   \graphe{G}=&\wraparr{\forgetgrf{\parsecat{C}}}=
                \wrapobj{\forgetgrf{\hat{\parsecat{C}}^{\rightarrow}}} \\[3pt]
   \text{where}\hspace{30pt}&\quad \\[3pt]
   \wrapobj{\hat{\parsecat{C}}^{\rightarrow}}\cpair{a}{b}=&
-  \{\oarr{n}{r}\mid\oarrdom{n}{r}=\obk{a},\;\oarrcod{n}{r}=\obk{b} \\[3pt]
-  \quad&\hspace{24pt}\text{and}\;\oarr{n}{r}\neq\oarrid{n}{a}\} \\[3pt]
+  \{\arr{r}\mid\oarrdom{n}{r}=\obk{a},\;\oarrcod{n}{r}=\obk{b} \\[3pt]
+  \quad&\hspace{24pt}\text{and}\;\arr{r}\neq\arrid{a}\} \\[3pt]
   \graphe{G}=&\{{id}_{\wrapobj{\hat{\parsecat{C}}^{\rightarrow}}\cpair{a}{b}}
                \mid\wrapobj{\hat{\parsecat{C}}^{\rightarrow}}\cpair{a}{b}\in
                \wrapobj{\hat{\parsecat{C}}^{\rightarrow}}\}
@@ -5833,18 +5850,18 @@ is detailed as follows:
   \quad&\quad&\text{reduces residual arrows to edges} \\[3pt]
   \ccobj{G}&=&\{\graphv{G},\,\graphe{G}\} \\[3pt]
   \ccarr{G}&=&
-        \{\oarr{n}{s},\,\oarr{n}{t},\,\obk{id}_{\graphv{G}},\,\obk{id}_{\graphe{G}}\}
+        \{\arr{s},\,\arr{t},\,\obk{id}_{\graphv{G}},\,\obk{id}_{\graphe{G}}\}
 \end{array}
 \end{equation*}
 \begin{equation*}
     \begin{array}{ll}
-      \quad\bullet\quad\textbf{(Source)}\quad\oarr{n}{s}(\graphe{G})=&
+      \quad\bullet\quad\textbf{(Source)}\quad\arr{s}(\graphe{G})=&
        \{\obk{v}\mid\obk{v}=\oarrdom{n}{f}, \\[3pt]
         \quad&\;\,\qquad\obk{v}\in\graphv{G},\,
-         \oarr{n}{f}\in\graphe{G}\}\quad \\[3pt]
-      \quad\bullet\quad\textbf{(Target)}\quad\oarr{n}{t}(\graphe{G})=&
+         \arr{f}\in\graphe{G}\}\quad \\[3pt]
+      \quad\bullet\quad\textbf{(Target)}\quad\arr{t}(\graphe{G})=&
        \{\obk{v}\mid\ovk{v}=\oarrcod{n}{f}, \\[3pt]
-        \quad&\;\,\qquad\obk{v}\in\graphv{G},\,\oarr{n}{f}\in\graphe{G}\}
+        \quad&\;\,\qquad\obk{v}\in\graphv{G},\,\arr{f}\in\graphe{G}\}
    \end{array}
 \end{equation*}
 
@@ -5915,7 +5932,7 @@ subcollection of identity edges within the edge object.
 \parsecat{G}\thicksim&\text{Reflexive quiver}\thicksim\wquiver{G} \\[3pt]
 \graph{G}\thicksim&\text{reflexive graph} \\[3pt]
 \graphv{G}=&\wrapobj{\rforgetgrf{\parsecat{C}}}
-               =\{\oarrid{n}{o}\mid\obk{o}\in\ccobj{C}\} \\[3pt]
+               =\{\arrid{o}\mid\obk{o}\in\ccobj{C}\} \\[3pt]
   \graphe{G}=&\wraparr{\rforgetgrf{\parsecat{C}}}=
                \wrapobj{\rforgetgrf{\carrobj{C}}} \\[3pt]
   \text{where}\hspace{30pt}&\quad \\[3pt]
@@ -5939,25 +5956,25 @@ is detailed as follows:
            \text{reduces residual arrows to edges} \\[3pt]
   \ccobj{G}&=&\{\graphv{G},\,\graphe{G}\} \\[3pt]
   \ccarr{G}&=&
-  \{\arr{s},\,\oarr{n}{t},\,\oarr{n}{i},\,
+  \{\arr{s},\,\arr{t},\,\arr{i},\,
                \obk{id}_{\graphv{G}},\,\obk{id}_{\graphe{G}}\} \\[3pt]
-  \oarr{n}{i}&\thicksim&\text{arrow mapping from}\;\graphv{G}\; \\[3pt]
+  \arr{i}&\thicksim&\text{arrow mapping from}\;\graphv{G}\; \\[3pt]
   \quad&\quad&\text{to identity arrow subcollection}\;
-               \{\oarrid{n}{v}\mid\obk{v}\in\graphv{G}\}
+               \{\arrid{v}\mid\obk{v}\in\graphv{G}\}
 \end{array}
 \end{equation*}
 \begin{equation*}
     \begin{array}{ll}
-      \quad\bullet\quad\textbf{(Source)}\quad\oarr{n}{s}(\graphe{G})=&
+      \quad\bullet\quad\textbf{(Source)}\quad\arr{s}(\graphe{G})=&
        \{\obk{v}\mid\obk{v}=\oarrdom{n}{f}, \\[3pt]
         \quad&\;\,\qquad\obk{v}\in\graphv{G},\,
-         \oarr{n}{f}\in\graphe{G}\}\quad \\[3pt]
-      \quad\bullet\quad\textbf{(Target)}\quad\oarr{n}{t}(\graphe{G})=&
+         \arr{f}\in\graphe{G}\}\quad \\[3pt]
+      \quad\bullet\quad\textbf{(Target)}\quad\arr{t}(\graphe{G})=&
        \{\obk{v}\mid\ovk{v}=\oarrcod{n}{f}, \\[3pt]
-        \quad&\;\,\qquad\obk{v}\in\graphv{G},\,\oarr{n}{f}\in\graphe{G}\} \\[3pt]
-      \quad\bullet\quad\textbf{(Reflex)}\quad\oarr{n}{i}(\graphv{G})=&
-       \{\oarrid{n}{v}\mid
-        \,\obk{v}\in\graphv{G},\,\oarrid{n}{v}\in\graphe{G}\}
+        \quad&\;\,\qquad\obk{v}\in\graphv{G},\,\arr{f}\in\graphe{G}\} \\[3pt]
+      \quad\bullet\quad\textbf{(Reflex)}\quad\arr{i}(\graphv{G})=&
+       \{\arrid{v}\mid
+        \,\obk{v}\in\graphv{G},\,\arrid{v}\in\graphe{G}\}
    \end{array}
 \end{equation*}
 
